@@ -4,9 +4,9 @@ title: "about"
 date: 2012-12-19 15:45
 comments: false
 sharing: false
-footer: true
+footer: false
 ---
-Hi there! I'm alex.Software engineer and Msc student of Computer Science. In this blog I share my experiences in the tech field in the hope that somebody else can benefit from it as I benefit from the many other tech blogs out there.
++{% img right http://www.gravatar.com/avatar/0ebb9e4a763c8416dda5e02529ea0157.png?s=250 %}Hi there! I'm alex.Software engineer and Msc student of Computer Science. In this blog I share my experiences in the tech field in the hope that somebody else can benefit from it as I benefit from the many other tech blogs out there.
 
 I also love cooking and blog about what I cook from time to time.
 
