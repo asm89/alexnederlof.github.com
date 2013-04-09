@@ -8,7 +8,7 @@ categories: [ Hardware, Tech]
 I finally decided to install a SSD in my 27″ iMac. The iMac is a late 2009 model and it’s very fast. However, most of the time it’s just waiting for the hard disk and not using it’s full potential. After experiencing the speed of a SSD on my MacBook Air I was convinced my iMac should have that power as well.
 
 I’m typing this with the new SSD installed and everything is working blazingly fast! Boot-up time went from 92 seconds to 21. All apps start so fast you can’t even see the loading screen. I love this speed!
-
+<!--more-->
 ## So how did I do it?
 First of all I found these three great articles: [one from Tobias Müller](http://www.twam.info/hardware/apple/installing-additional-ssd-in-mid-2010-27-imac), [one from ChargedPc](http://blog.chargedpc.com/2011/05/2011-imac-ssd-install-guide.html) and [one from ssd.youds.com](http://ssd.youds.com/). These articles were a great start.
 

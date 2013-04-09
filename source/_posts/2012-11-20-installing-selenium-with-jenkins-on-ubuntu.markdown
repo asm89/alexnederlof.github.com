@@ -11,6 +11,8 @@ Now that I’ve created some great test suites I wanted to hook the tests to my 
 
 **This will install Jenkins, Selenium standalone, Chrome and FireFox on a headless Ubuntu server.**
 
+<!--more-->
+
 I’m running Ubuntu 12.04. I assume you have Jenkins installed. If not, the Jenkins installation documentation is an excellent resource.
 
 To download Chrome we need to add the Google key to for apt:

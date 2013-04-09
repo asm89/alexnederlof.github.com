@@ -22,6 +22,8 @@ The downside here is that you have to specify all the tests in the test suite. A
 public class FastTests {}
 ```
 
+<!--more-->
+
 This will run every test that doesn’t implement the SlowTest inferface. The slow test suite needs a tearing up of the server, and once the suite is done the server should be shut down. It could also be that you need to set up a database connection or connect to another server. In my case, the suite should only run subtypes of MultiBrowserTest. Here’s how that looks:
 
 ```java

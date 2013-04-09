@@ -11,6 +11,8 @@ When building a web application I like to have an integration test suite that re
 
 To see what this example app does run the server by running the main method in `com.alexnederlof.inttesting.MyWebServer.java` and brows to [http://localhost:9090](). You can do this from your favorite IDE.
 
+<!--more-->
+
 ### Installing Selenium server
 Before we get started we need to install Selenium as a service on the build server. [In a previous post I wrote](/blog/2012/11/19/installing-selenium-with-jenkins-on-ubuntu/) how to install Selenium on a headless Ubuntu server. To install Selenium for this example, follow that post until the part where you hook it onto Jenkins. We don’t need that here because we will use JUnit instead of the HTML scripts I used in that post. To start and stop Selenium we need a script to wrap the jar. You can find my version of this script [here](https://gist.github.com/4120566). Adopt the script to your settings and install it in `/etc/init.d/selenium`. Make sure the display port matches the one you defined in `/etc/init.d/xvfb`. Now start Selenium and check the log to see if it went without any errors.
 

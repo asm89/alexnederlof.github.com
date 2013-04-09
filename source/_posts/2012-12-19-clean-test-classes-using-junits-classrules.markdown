@@ -48,7 +48,11 @@ public static class HasExpectedException {
  }
 ```
 
-The great thing is, it's super easy to extend one of these rules. In [Crawljax](https://github.com/crawljax/crawljax), another project I'm currently working on, I wanted a Jetty server to start before I the tests run, and to shut it down afterwards. I could do this using a `@BeforeClass` method and then clean it up in the `@AfterClass` method but that doesn't make it reusable in other classes. To make it reusable I could put it in an abstract class that just has the setup and teardown methods and inherit that class in the classes where I need the server. However, that can lead to weird class hierarchies that don't make any sense. Again, JUnit's rules come to the rescue. There's the [`ExternalResource`](http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/ExternalResource.html) that allows you to setup resources before tests, and tear them down afterwards. I inherited this class to provide my Jetty server.
+The great thing is, it's super easy to extend one of these rules. 
+
+<!--more-->
+
+In [Crawljax](https://github.com/crawljax/crawljax), another project I'm currently working on, I wanted a Jetty server to start before I the tests run, and to shut it down afterwards. I could do this using a `@BeforeClass` method and then clean it up in the `@AfterClass` method but that doesn't make it reusable in other classes. To make it reusable I could put it in an abstract class that just has the setup and teardown methods and inherit that class in the classes where I need the server. However, that can lead to weird class hierarchies that don't make any sense. Again, JUnit's rules come to the rescue. There's the [`ExternalResource`](http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/ExternalResource.html) that allows you to setup resources before tests, and tear them down afterwards. I inherited this class to provide my Jetty server.
 
 ```java Rule to start a Jetty Server https://github.com/crawljax/crawljax/blob/4b3a3f44c946b32c1dee5fa14960764c90393666/src/test/java/com/crawljax/demo/RunWithWebServer.java View on GitHub
 public class RunWithWebServer extends ExternalResource {

@@ -18,6 +18,8 @@ The end result is nice and simple listing of the PDF, diff and log in a folder t
 
 {% img [End result] /images/latex-build.png End result %}
 
+<!--more-->
+
 ### Setting it up
 I host my own Git server so I hooked the script as a `post-receive` script in the Git hooks directory. If you are running elsewhere you could also do it via a WebHook I guess. You need a workspace folder to checkout the project and a web folder to dump the results in. Here is the script: 
 
