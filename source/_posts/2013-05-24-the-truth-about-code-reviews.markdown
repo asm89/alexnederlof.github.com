@@ -28,20 +28,21 @@ By observing developers doing code reviews, research has found quite a different
 
 1. __Code improvements:__ Taking up 29% of the comments are things like better code practices, removing unnecessary code, and improving readability.
 2. __Understanding:__ Discussions about what the code does take up a little over 20%
-3. __Social communication:__ This concerns code ownership /* uitzoeken */
+3. __Social communication:__
 4. __Defects:__ In contrast to what developers believe is the most important reason, defect finding comes fourth with 14% of the comments. These include logical issues, high-level issues, security issues and exception handling.
 
-### Code Review is Understanding
+### Code Reviewing Is Understanding
 
 So why is finding defects in fourth place instead of the first? The problem is that most pieces of code delivered in a review are hard to understand. The study reports that most defects found weren't complicated errors:
 
 >  …most of the comments on “defects” regard uncomplicated logical errors, e.g., corner cases, common configuration values, or operator precedence.
 
-From interviews they conclude that:
+To this extend, the researchers asked the developers and testers what activities require most understanding when giving a code review. The majority votes for a _complete_ or _high_ understanding to find defects or offer alternative solutions. Sharing code ownership and knowledge require _low_ or _high_ understanding of the code.
 
-1. Logical issues often concern cases the original author didn't take into account
-2. Authors complain that the quality is low because reviewers only look for styling or easy errors.
-3. Reviewers admit that when the code is not in the reviewer's codebase, only obvious bugs are checked.
+### Can we improve the way we review?
+Most of the code reviews I do go via GitHub pull requests. Although they give an excellent textual presentation of the diff, the code is ordered alphabetically and it isn't interactive. There are a couple of ways this could be improved in my opinion:
 
+* By showing something like a class/module/file diagram diff. This would make it easier for a developer to see in which modules most changes occurred and how those propagate through the code.
+* Allow method jumping in a diff. Especially in a large diff you quickly lose the overview of where methods lead to or come from. Being able to jump from the method you're reading to the method that is being called would be a huge improvement in code diff navigation.
 
 *N.B. All data and graphs used in this post are from the [original paper](http://www.inf.usi.ch/phd/bacchelli/publications/icse2013.pdf).*
