@@ -7,13 +7,13 @@ categories: Research
 ---
 During the [International Conference of Software Engineering 2013 ](http://2013.icse-conferences.org/) I visited a great talk by [Alberto Baccheli](https://twitter.com/sback_) on modern code reviews. It resonated with my experience with code reviews and I'd like to share the highlights of [his research](http://www.inf.usi.ch/phd/bacchelli/publications/icse2013.pdf) conducted among 17 developers from 16 different teams at Microsoft.
 
-Most developers have to do some kind of code reviewing at some point. When you use GitHub for example, every pull request can be seen as a code review. At some companies like Microsoft, Google and Facebook, code reviews are part of the job. To make it easy for their developers they work with specialized tools like [Google's Rietveld](https://developers.google.com/appengine/articles/rietveld), [Facebook's Phabricator](http://phabricator.org/) or the Open Source tool [Gerrit](https://code.google.com/p/gerrit/). We do code reviews because it is well known that [code reviews offer many advantages](http://www.youtube.com/watch?v=CKjRt48rZGk). When I have to explain to someone why code reviews are important, I come up with the same arguments most developers come up with (in order of importance):
+Most developers have to do some kind of code reviewing at some point. When you use GitHub for example, every pull request can be seen as a code review. At some companies like Microsoft, Google and Facebook, code reviews are part of the job. To make it easy for developers they work with specialized tools like [Google's Rietveld](https://developers.google.com/appengine/articles/rietveld), [Facebook's Phabricator](http://phabricator.org/) or the Open Source tool [Gerrit](https://code.google.com/p/gerrit/). We do code reviews because it is well known that [code reviews offer many advantages](http://www.youtube.com/watch?v=CKjRt48rZGk). When I have to explain to someone why code reviews are important, I come up with the same arguments most developers come up with (in order of importance):
 
-1. Finding defects
-2. Code quality improvement
-3. Alternative Solutions
-4. Knowledge Transfer
-5. Shared code ownership
+1. finding defects
+2. code quality improvement
+3. alternative Solutions
+4. knowledge Transfer
+5. shared code ownership
 
 However, research shows a different result:
 
@@ -25,7 +25,7 @@ So what does research show us? Here's the overview of what developers indicate i
 
 {% img  /images/code-reviews-motivations.png 500 'Motivations' 'Source: ' %}
 
-By observing developers doing code reviews, research has found quite a different outcome. In order of preference, the actual use of code reviews turns out to be:
+By observing developers doing code reviews, Baccheli has found quite a different outcome. In order of preference, the actual use of code reviews turns out to be:
 
 1. __Code improvements:__ Taking up 29% of the comments are things like better code practices, removing unnecessary code, and improving readability.
 2. __Understanding:__ Discussions about what the code does take up a little over 20%
@@ -34,7 +34,7 @@ By observing developers doing code reviews, research has found quite a different
 
 ### Code Reviewing Is Understanding
 
-So why is finding defects in fourth place instead of first? The problem is that most of the code delivered in a review is hard to understand if you are not the author. The study reports that most defects found in a review were not complicated errors:
+So why is finding defects in fourth place instead of first? The problem is that most of the code in a review is hard to understand if you are not the author. The study reports that most defects found in a review were not complicated errors:
 
 >  …most of the comments on “defects” regard uncomplicated logical errors, e.g., corner cases, common configuration values, or operator precedence.
 
