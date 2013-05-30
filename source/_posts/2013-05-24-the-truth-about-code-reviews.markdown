@@ -5,7 +5,7 @@ date: 2013-05-24 16:31
 comments: true
 categories: Research
 ---
-During the [International Conference of Software Engineering 2013 ](http://2013.icse-conferences.org/) I visited a great talk by [Alberto Baccheli](https://twitter.com/sback_) on modern code reviews. It resonated with my experience with code reviews and I'd like to share the highlights of [his research](http://www.inf.usi.ch/phd/bacchelli/publications/icse2013.pdf) conducted among 17 developers from 16 different teams at Microsoft.
+During the [International Conference of Software Engineering 2013 ](http://2013.icse-conferences.org/) I visited a great talk by [Alberto Bacchelli](https://twitter.com/sback_) on modern code reviews. It resonated with my experience with code reviews and I'd like to share the highlights of [his research](http://www.inf.usi.ch/phd/bacchelli/publications/icse2013.pdf) conducted among 17 developers from 16 different teams at Microsoft.
 
 Most developers have to do some kind of code reviewing at some point. When you use GitHub for example, every pull request can be seen as a code review. At some companies like Microsoft, Google and Facebook, code reviews are part of the job. To make it easy for developers they work with specialized tools like [Google's Rietveld](https://developers.google.com/appengine/articles/rietveld), [Facebook's Phabricator](http://phabricator.org/) or the Open Source tool [Gerrit](https://code.google.com/p/gerrit/). We do code reviews because it is well known that [code reviews offer many advantages](http://www.youtube.com/watch?v=CKjRt48rZGk). When I have to explain to someone why code reviews are important, I come up with the same arguments most developers come up with (in order of importance):
 
@@ -25,7 +25,7 @@ So what does research show us? Here's the overview of what developers indicate i
 
 {% img  /images/code-reviews-motivations.png 500 'Motivations' 'Source: ' %}
 
-By observing developers doing code reviews, Baccheli has found quite a different outcome. In order of preference, the actual use of code reviews turns out to be:
+By observing developers doing code reviews, Bacchelli has found quite a different outcome. In order of preference, the actual use of code reviews turns out to be:
 
 1. __Code improvements:__ Taking up 29% of the comments are things like better code practices, removing unnecessary code, and improving readability.
 2. __Understanding:__ Discussions about what the code does take up a little over 20%
