@@ -7,7 +7,7 @@ categories: Research
 ---
 During the [International Conference of Software Engineering 2013 ](http://2013.icse-conferences.org/) I visited a great talk by [Alberto Baccheli](https://twitter.com/sback_) on modern code reviews. It resonated with my experience with code reviews and I'd like to share the highlights of [his research](http://www.inf.usi.ch/phd/bacchelli/publications/icse2013.pdf) conducted among 17 developers from 16 different teams at Microsoft.
 
-Most developers at some point have to do some kind of code reviewing. When you use GitHub for example, every pull request can be seen as a code review. At some companies like Microsoft, Google and Facebook, code reviews are part of the job. They work with specialized tools like [Google's Rietveld](https://developers.google.com/appengine/articles/rietveld), [Facebook's Phabricator](http://phabricator.org/) or the Open Source tool [Gerrit](https://code.google.com/p/gerrit/). We do code reviews because it is well known that code reviews offer many advantages. When I have to explain to someone why code reviews are important, I come up with the same arguments most developers come up with (in order of importance):
+Most developers have to do some kind of code reviewing at some point. When you use GitHub for example, every pull request can be seen as a code review. At some companies like Microsoft, Google and Facebook, code reviews are part of the job. To make it easy for their developers they work with specialized tools like [Google's Rietveld](https://developers.google.com/appengine/articles/rietveld), [Facebook's Phabricator](http://phabricator.org/) or the Open Source tool [Gerrit](https://code.google.com/p/gerrit/). We do code reviews because it is well known that [code reviews offer many advantages](http://www.youtube.com/watch?v=CKjRt48rZGk). When I have to explain to someone why code reviews are important, I come up with the same arguments most developers come up with (in order of importance):
 
 1. Finding defects
 2. Code quality improvement
@@ -34,16 +34,20 @@ By observing developers doing code reviews, research has found quite a different
 
 ### Code Reviewing Is Understanding
 
-So why is finding defects in fourth place instead of first? The problem is that most pieces of code delivered in a review are hard to understand. The study reports that most defects found were not complicated errors:
+So why is finding defects in fourth place instead of first? The problem is that most of the code delivered in a review is hard to understand if you are not the author. The study reports that most defects found in a review were not complicated errors:
 
 >  …most of the comments on “defects” regard uncomplicated logical errors, e.g., corner cases, common configuration values, or operator precedence.
 
-To this extend, the researchers asked the developers and testers what activities require most understanding when giving a code review. The majority votes for a _complete_ or _high_ understanding to find defects or offer alternative solutions. Sharing code ownership and knowledge require _low_ or _high_ understanding of the code.
+To this extend, the researchers asked the developers and testers what activities require most understanding when giving a code review. The majority votes for a _complete_ or _high_ understanding to find defects or offer alternative solutions. Sharing code ownership and knowledge require _low_ or _high_ understanding of the code. The lesson here is that when you ask for a code review, (1) make sure you ask the right person, and (2) don't assume the reviewer will find any bugs.
 
 ### Can we improve the way we review?
 Most of the code reviews I do go via GitHub pull requests. Although they give an excellent textual presentation of the diff, the code is ordered alphabetically and it isn't interactive. As far as I know, the same goes for the other review tools mentioned before. There are a couple of ways this could be improved in my opinion:
 
 * By showing something like a class/module/file diagram diff. This would make it easier for a developer to see in which modules most changes occurred and how those propagate through the code.
 * Allow method jumping in a diff. Especially in a large diff you quickly lose the overview of where methods lead to or come from. Being able to jump from the method you're reading to the method that is being called would be a huge improvement in code diff navigation.
+* As mentioned in the research, it is best the review is performed by another author of the given file. It would be great if the review tool would choose the best reviewer for a given changeset based on the code history.
+
+### Conclusions
+Code reviews are still very helpful however we should understand that their are not as useful for finding bugs as we might have thought. The tools we use for reviewing can still be improved. Until they do, make sure you appoint your reviews to the right person.
 
 *N.B. Copyright notice: All data and graphs used in this post are from the [original paper](http://www.inf.usi.ch/phd/bacchelli/publications/icse2013.pdf).*
