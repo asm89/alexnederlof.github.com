@@ -1,1 +1,691 @@
-My Octopress Page is coming soon &hellip;
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>LexTech</title>
+  <meta name="author" content="Alex Nederlof">
+
+  
+  <meta name="description" content="During the International Conference of Software Engineering 2013 I visited a great talk by Alberto Bacchelli on modern code reviews. It resonated &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://alexnederlof.github.io/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="LexTech" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-19911045-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">LexTech</a></h1>
+  
+    <h2>Coding and Crawling</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:alexnederlof.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/about/">About</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/24/the-truth-about-code-reviews/">The Truth About Code Reviews</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-24T16:31:00+02:00" pubdate data-updated="true">May 24<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>During the <a href="http://2013.icse-conferences.org/">International Conference of Software Engineering 2013 </a> I visited a great talk by <a href="https://twitter.com/sback_">Alberto Bacchelli</a> on modern code reviews. It resonated with my experience with code reviews and I&rsquo;d like to share the highlights of <a href="http://www.inf.usi.ch/phd/bacchelli/publications/icse2013.pdf">his research</a> conducted among 17 developers from 16 different teams at Microsoft.</p>
+
+<p>Most developers have to do some kind of code reviewing at some point. When you use GitHub for example, every pull request can be seen as a code review. At some companies like Microsoft, Google and Facebook, code reviews are part of the job. To make it easy for developers they work with specialized tools like <a href="https://developers.google.com/appengine/articles/rietveld">Google&rsquo;s Rietveld</a>, <a href="http://phabricator.org/">Facebook&rsquo;s Phabricator</a> or the Open Source tool <a href="https://code.google.com/p/gerrit/">Gerrit</a>. We do code reviews because it is well known that <a href="http://www.youtube.com/watch?v=CKjRt48rZGk">code reviews offer many advantages</a>. When I have to explain to someone why code reviews are important, I come up with the same arguments most developers come up with (in order of importance):</p>
+
+<ol>
+<li>finding defects</li>
+<li>code quality improvement</li>
+<li>alternative Solutions</li>
+<li>knowledge Transfer</li>
+<li>shared code ownership</li>
+</ol>
+
+
+<p>However, research shows a different result:</p>
+
+<blockquote><p>Although the top motivation driving code reviews is still finding defects, the practice and the actual outcomes are less about finding errors than expected: Defect related comments comprise a small proportion and mainly cover small logical low-level issues</p></blockquote>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/05/24/the-truth-about-code-reviews/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/18/visiting-github/">Visiting GitHub</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-18T17:22:00+02:00" pubdate data-updated="true">May 18<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>After Tweeting some of the employees GitHub, the most popular online code hosting platform allowed us to visit one of their offices in San Francisco. GitHub was launched in 2008 and is truly a unique company. It has over 170 employees of which 60% work outside the office all over the world. Employees are encouraged to travel as much as they like. <img class="right" src="/images/github/table.jpg" width="300" title="Employee finder" > They have a big interactive table (photo) that shows where the employees are on a 3D map. Besides having complete freedom with your workplace and schedule, GitHub also doesn’t have any managers. Employees are expected to pick up work themselves and form their own teams. Everything happens distributively using online tools to form discussions and to arrange votes. From hiring new employees to choosing what kind of coffee mugs should be available in the kitchen; everything is democratic. Half the company looks like a Starbucks cafe for people who don’t care for a desk.</p>
+
+<p>Visiting a company like GitHub, with a radically different management style was inspiring and it was awesome to see the people behind such a great company.</p>
+
+<p><img class="right" src="/images/github/cafe.jpg" width="1000" title="Cafe" ></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/22/latex-build-server/">LaTeX Build Server</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-22T10:58:00+01:00" pubdate data-updated="true">Feb 22<span>nd</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I recently had to work with <a href="http://www.LaTeX-project.org/">LaTeX</a> again. Although LaTeX has its perks like a proper equation editor and BibTex I don&rsquo;t like working with it for several reasons:</p>
+
+<ol>
+<li>there is no proper <a href="http://en.wikipedia.org/wiki/WYSIWYG">WYSIWYG</a> editor that compiles while you type for OS X and the source files are hard to read by themselves</li>
+<li>you have to manually configure that it compiles LaTeX, then bibtex, and then LaTeX twice</li>
+<li>the horrors of positioning and loading images with all the different compilers, bounding boxes, etc.</li>
+<li>the fact that they have their own <a href="http://tex.stackexchange.com/">Stack exchange Q&amp;A</a> is an indication of how arcane it is.</li>
+</ol>
+
+
+<p>Because the source files are so unpleasant to read, you always have to make sure you send the compiled latest version of your document to the right people. What I like about some MarkDown related projects like <a href="https://github.com/mojombo/jekyll">Jekyll</a> and <a href="octopress.org">Octopress</a> is the way you can push the source to for example GitHub, and they build the site for you. I wanted that for LaTeX as well. Using a simple script I now have my own LaTeX build server. This way my colleagues and I can always see the latest version of the document in any browser so I don&rsquo;t have to think about distributing the latest version to the right people or devices.</p>
+
+<p>The end result is nice and simple listing of the PDF, diff and log in a folder that indicates the build date:</p>
+
+<p><img class="[End result]" src="/images/latex-build.png" title="End result" ></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/02/22/latex-build-server/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/12/19/clean-test-classes-using-junits-classrules/">Clean Test Classes Using JUnit&#8217;s Rules</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-19T21:23:00+01:00" pubdate data-updated="true">Dec 19<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>A couple of days ago I discovered the beauty of JUnit&rsquo;s <a href="http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/TestRule.html">TestRules</a> while searching for an easy way to set a time-out on all tests in a testcase. JUnit has a built-in rule for this called <a href="http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/Timeout.html"><code>Timeout</code></a>. You can set this rule for every test in your class by setting the timeout in a field like this:</p>
+
+<figure class='code'><figcaption><span>Setting a Timeout Rule</span><a href='http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/Timeout.html'>View the Javadoc</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyTest</span> <span class="o">{</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="nd">@Rule</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="n">MethodRule</span> <span class="n">globalTimeout</span><span class="o">=</span> <span class="k">new</span> <span class="n">Timeout</span><span class="o">(</span><span class="mi">20</span><span class="o">);</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="nd">@Test</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">someTest</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="o">...</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Another gem is the <code>ExpectedException</code> rule, which allows you to inspect a thrown exception in several ways.</p>
+
+<figure class='code'><figcaption><span>Inspecting excptions</span><a href='http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/ExpectedException.html'>View the Javadoc</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">HasExpectedException</span> <span class="o">{</span>
+</span><span class='line'>  <span class="nd">@Rule</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="n">ExpectedException</span> <span class="n">thrown</span><span class="o">=</span> <span class="n">ExpectedException</span><span class="o">.</span><span class="na">none</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nd">@Test</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">throwsNothing</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="c1">// no exception expected, none thrown: passes.</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nd">@Test</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">throwsNullPointerException</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">thrown</span><span class="o">.</span><span class="na">expect</span><span class="o">(</span><span class="n">NullPointerException</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span><span class='line'>      <span class="k">throw</span> <span class="k">new</span> <span class="nf">NullPointerException</span><span class="o">();</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nd">@Test</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">throwsNullPointerExceptionWithMessage</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">thrown</span><span class="o">.</span><span class="na">expect</span><span class="o">(</span><span class="n">NullPointerException</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span><span class='line'>      <span class="n">thrown</span><span class="o">.</span><span class="na">expectMessage</span><span class="o">(</span><span class="s">&quot;happened?&quot;</span><span class="o">);</span>
+</span><span class='line'>      <span class="n">thrown</span><span class="o">.</span><span class="na">expectMessage</span><span class="o">(</span><span class="n">startsWith</span><span class="o">(</span><span class="s">&quot;What&quot;</span><span class="o">));</span>
+</span><span class='line'>      <span class="k">throw</span> <span class="k">new</span> <span class="nf">NullPointerException</span><span class="o">(</span><span class="s">&quot;What happened?&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'> <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The great thing is, it&rsquo;s super easy to extend one of these rules.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/12/19/clean-test-classes-using-junits-classrules/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/21/integration-testing-with-jetty/">Integration Testing With Jetty</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-21T16:23:00+01:00" pubdate data-updated="true">Nov 21<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is a followup after <a href="/blog/2012/11/21/separating-the-fast-from-the-slow-junit-tests/">my previous post about separating JUnit tests into fast tests and integration tests</a>. The sample code is <a href="https://github.com/alexnederlof/integration-testing-example">available on GitHub</a>.</p>
+
+<p>When building a web application I like to have an integration test suite that resembles the real life situation as best as possible. The code should be able to run without too much effort from a build server like <a href="http://jenkins-ci.org/">Jenkins</a> and it should be fairly easy to maintain. In this post I will explain how I achieved these goals.</p>
+
+<p>To see what this example app does run the server by running the main method in <code>com.alexnederlof.inttesting.MyWebServer.java</code> and brows to <a href="">http://localhost:9090</a>. You can do this from your favorite IDE.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/21/integration-testing-with-jetty/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/21/separating-the-fast-from-the-slow-junit-tests/">Separating the Fast From the Slow JUnit Tests</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-21T16:16:00+01:00" pubdate data-updated="true">Nov 21<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>For some time now I was looking for a good way to do real integration testing with JUnit. These tests tests tend to be slow because the whole stack has to be build up and shut down. Furthermore, some tests also need a specific environment like a database connection which is not available to any developer. That’s why you probably want to split up your test suite in fast and slow (or dependent) tests. JUnit has a technique to split up these tests using <a href="http://kentbeck.github.com/junit/javadoc/4.10/org/junit/experimental/categories/Categories.html">Categories</a>. This allows you to specify the category your tests belongs to and then skip those tests in your Suite like so:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@RunWith</span><span class="o">(</span><span class="n">Categories</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span><span class='line'><span class="nd">@IncludeCategory</span><span class="o">(</span><span class="n">SlowTests</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span><span class='line'><span class="nd">@SuiteClasses</span><span class="o">(</span> <span class="o">{</span> <span class="n">A</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">B</span><span class="o">.</span><span class="na">class</span> <span class="o">})</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">SlowTestSuite</span> <span class="o">{</span> <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The downside here is that you have to specify all the tests in the test suite. As far as I know, JUnit has no mechanism to do this for this for you. You can work with the <a href="http://maven.apache.org/plugins/maven-surefire-plugin/examples/junit.html#Using_JUnit_Categories">Maven Surefire plugin</a> to filter stuff in and out, but I think there’s a better way. A man by the name of <a href="http://www.johanneslink.net/">Johannes Link</a> built a <a href="http://www.johanneslink.net/projects/cpsuite.jsp">great little library</a> which does just what I want. I allows us to specify in a Suite to run all JUnit tests it can find. It can also exclude and include certain tests. Unfortunately  it doesn’t work with JUnit’s Categories system but it uses type inheritance. This makes it easy to filter out types of tests. For example I define all the fast tests like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@RunWith</span><span class="o">(</span><span class="n">ClasspathSuite</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <span class="c1">// Loads all unit tests it finds on the classpath</span>
+</span><span class='line'><span class="nd">@ExcludeBaseTypeFilter</span><span class="o">(</span><span class="n">SlowTest</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <span class="c1">// Excludes tests that inherit SlowTest</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FastTests</span> <span class="o">{}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/21/separating-the-fast-from-the-slow-junit-tests/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/19/installing-selenium-with-jenkins-on-ubuntu/">Installing Selenium With Jenkins on Ubuntu</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-19T16:01:00+01:00" pubdate data-updated="true">Nov 19<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Last week I fell in love with <a href="http://seleniumhq.org/">Selenium</a> and started to create some tests using the <a href="http://seleniumhq.org/projects/ide/">Firefox Selenium IDE</a>. If you’ve never done this I highly recommend trying it out. It’s really easy and great fun.</p>
+
+<p>Now that I’ve created some great test suites I wanted to hook the tests to my Jenkins build server. There was no tutorial that covered everything online so here’s what I did:</p>
+
+<p><strong>This will install Jenkins, Selenium standalone, Chrome and FireFox on a headless Ubuntu server.</strong></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/19/installing-selenium-with-jenkins-on-ubuntu/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/09/11/a-10x-faster-jasper-maven-plugin/">A 10x Faster Jasper Maven Plugin</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-11T15:57:00+02:00" pubdate data-updated="true">Sep 11<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>For some months now I had to work with Java projects that use <a href="http://jasperforge.org/projects/jasperreports">Jasper</a> to generate PDF files. These reports have to be compiled from a kind xml-like document to a compiled ‘.jasper’ file. The <a href="http://mojo.codehaus.org/jasperreports-maven-plugin/">Jasperreports-maven-plug-in</a> does this for me whenever I make a release of the software or when I’m working on the reports. However, the plug-in takes considerable time to compile these reports. Compiling 52 reports takes about 49 seconds. That’s a bit too long for me if I have to make several builds. Since I wanted to learn how to make my own Maven plug-ins anyway I decided to try to make a faster plug-in on my own.</p>
+
+<p>The original plug-in is created in Java 4, works single-threaded and the last time any committed to the repo was (at time of writing) 31st of August, 2009. Not really an active project it seems. For that reason I decided to just create a new project on Github.</p>
+
+<p>I created the plug-in using Java 6, presuming most people will have Java 6 installed by now. Because the compiler has to read and write to a disk, doing so concurrently should make it faster. Finally, the code looks a better because the collections now have generics.</p>
+
+<p>It turned out my plug-in was indeed a lot faster. While the original plug-in takes 48 seconds to compile 52 files, my plug-in only takes 4.7 seconds. Almost ten times faster!</p>
+
+<p>Since it is my first Maven project there’s probably more work to be done. However it seems to work fine on Maven 2 and 3 on my Mac using Java 6.</p>
+
+<p>You can try it yourself and download the source from <a href="https://github.com/alexnederlof/Jasper-report-maven-plugin">the Github repo</a> I created. Issues can be filed there as well.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/08/28/installing-ssd-in-my-27-inch-imac/">Installing SSD in My 27&#8221; iMac</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-28T13:16:00+02:00" pubdate data-updated="true">Aug 28<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I finally decided to install a SSD in my 27″ iMac. The iMac is a late 2009 model and it’s very fast. However, most of the time it’s just waiting for the hard disk and not using it’s full potential. After experiencing the speed of a SSD on my MacBook Air I was convinced my iMac should have that power as well.</p>
+
+<p>I’m typing this with the new SSD installed and everything is working blazingly fast! Boot-up time went from 92 seconds to 21. All apps start so fast you can’t even see the loading screen. I love this speed!</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2011/08/28/installing-ssd-in-my-27-inch-imac/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/05/24/the-truth-about-code-reviews/">The truth about code reviews</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/18/visiting-github/">Visiting GitHub</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/22/latex-build-server/">LaTeX build server</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/19/clean-test-classes-using-junits-classrules/">Clean test classes using JUnit&#8217;s rules</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/21/integration-testing-with-jetty/">Integration testing with Jetty</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+	<div id="about">
+	<a href="https://github.com/alexnederlof" title="GitHub: @alexnederlof"><i class="icon-github icon-3x"></i></a>
+	<a href="https://twitter.com/alexnederlof" title="Twitter: @alexnederlof"><i class="icon-twitter icon-3x"></i></a>
+	<a href="http://stackoverflow.com/users/679913/alex" title="Stack Exchange: @alexnederlof"><i class="icon-stackexchange icon-3x"></i></a>
+	<a href="http://nl.linkedin.com/in/alexnederlof/" title="LinkedIn: @alexnederlof"><i class="icon-linkedin icon-3x"></i></a>
+	</div>
+</section>
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Alex Nederlof -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'lextech';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

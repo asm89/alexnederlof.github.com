@@ -1,0 +1,375 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Installing Selenium with Jenkins on Ubuntu - LexTech</title>
+  <meta name="author" content="Alex Nederlof">
+
+  
+  <meta name="description" content="Last week I fell in love with Selenium and started to create some tests using the Firefox Selenium IDE. If you’ve never done this I highly recommend &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://alexnederlof.github.io/blog/2012/11/19/installing-selenium-with-jenkins-on-ubuntu/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="LexTech" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-19911045-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">LexTech</a></h1>
+  
+    <h2>Coding and Crawling</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:alexnederlof.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/about/">About</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Installing Selenium With Jenkins on Ubuntu</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-19T16:01:00+01:00" pubdate data-updated="true">Nov 19<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Last week I fell in love with <a href="http://seleniumhq.org/">Selenium</a> and started to create some tests using the <a href="http://seleniumhq.org/projects/ide/">Firefox Selenium IDE</a>. If you’ve never done this I highly recommend trying it out. It’s really easy and great fun.</p>
+
+<p>Now that I’ve created some great test suites I wanted to hook the tests to my Jenkins build server. There was no tutorial that covered everything online so here’s what I did:</p>
+
+<p><strong>This will install Jenkins, Selenium standalone, Chrome and FireFox on a headless Ubuntu server.</strong></p>
+
+<!--more-->
+
+
+<p>I’m running Ubuntu 12.04. I assume you have Jenkins installed. If not, the Jenkins installation documentation is an excellent resource.</p>
+
+<p>To download Chrome we need to add the Google key to for apt:</p>
+
+<pre><code>wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+sudo sh -c 'echo deb http://dl.google.com/linux/chrome/deb/ stable main &gt; /etc/apt/sources.list.d/google.list'
+</code></pre>
+
+<p>Let’s install the required packages. The fonts aren’t really necessary but installing them prevents you from getting annoying warnings. <a href="http://en.wikipedia.org/wiki/Xvfb">xvfb</a> can start a virtual X window on a server where Selenium can start the browser in to run your tests.</p>
+
+<pre><code>sudo apt-get update &amp;&amp; sudo apt-get install -y xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic xvfb x11-apps  imagemagick firefox google-chrome-stable
+</code></pre>
+
+<p>Now we need to download the <a href="https://www.google.com/search?q=selenium+chrome+driver">Chrome driver</a> binary for Ubuntu and we need the latest <a href="http://seleniumhq.org/download/">Selenium Server jar</a>. I placed the Chrome driver in <code>/var/lib/chrome-driver/chrome-driver</code> and the selenium jar in <code>/var/lib/selenium/selenium.jar</code> but you can put them anywhere you like.</p>
+
+<p>To start xvfb I like to have a little start/stop script like this one:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
+</span><span class='line'><span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;$1&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">  </span><span class="nb">echo</span> <span class="s2">&quot;`basename $0` {start|stop}&quot;</span>
+</span><span class='line'>  <span class="nb">exit</span>
+</span><span class='line'><span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">case</span> <span class="s2">&quot;$1&quot;</span> in
+</span><span class='line'>start<span class="o">)</span>
+</span><span class='line'>  /usr/bin/Xvfb :99 -ac -screen 0 1024x768x8 &amp;
+</span><span class='line'>;;
+</span><span class='line'>stop<span class="o">)</span>
+</span><span class='line'>  killall Xvfb
+</span><span class='line'>;;
+</span><span class='line'><span class="k">esac</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will start a Window on display :99. This is important later on. Place the script in <code>/etc/init.d/</code>. To start it automatically on boot, run:  <code>sudo update-rc.d xvfb defaults</code>.</p>
+
+<p>Now it’s time to test if Selenium works. I presume you hava a Selenium HTML Suite plus a site you can test with.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># First lets start xvfb</span>
+</span><span class='line'>sudo /etc/init.d/xvfb start
+</span><span class='line'>
+</span><span class='line'><span class="c"># Now we have to set the DISPLAY env variable so Firefox and Chrome know where to open the browser.</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">DISPLAY</span><span class="o">=</span>:99
+</span><span class='line'>
+</span><span class='line'><span class="c"># Let&#39;s see if Selenium works for firefox:</span>
+</span><span class='line'>java -jar /var/lib/selenium/selenium-server.jar -htmlSuite *firefox http://yoursite.com <span class="s2">&quot;/path/to/your/tests/Suite.html&quot;</span> <span class="s2">&quot;/tmp/firefox-results.html&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># For chrome we also need to specify the Chrome driver location.:</span>
+</span><span class='line'>java -jar -Dwebdriver.chrome.driver<span class="o">=</span>/var/lib/chrome-driver/chromedriver /var/lib/selenium/selenium-server.jar -htmlSuite *googlechrome http://yoursite.com <span class="s2">&quot;/path/to/your/tests/Suite.html&quot;</span> <span class="s2">&quot;/tmp/chrome-results.html&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>These commands should now work without any errors and show you the results in the specified files in <code>/tmp/</code>.</p>
+
+<h2>Now let’s hook it onto Jenkins!</h2>
+
+<p>Make sure you have <a href="http://wiki.hudson-ci.org/display/HUDSON/Seleniumhq+Plugin">the SeleniumHQ plugin</a> installed for Jenkins.</p>
+
+<p>In Jenkins global configuration add the environment variable that specifies the display:</p>
+
+<p><img src="/images/installing-selenium-with-jenkins-on-ubuntu/env.png"></p>
+
+<p>Then select <em>“New Job”</em> and then select <em>“Build a free-style software project”</em> and give it a name.</p>
+
+<p>Fill in your SCM provider, assuming you have one so the workspace can be filled. I have my tests stored in a folder named tests in the repo.</p>
+
+<p>In the <em>“Build Steps”</em> section, add an entry for the Chrome test and for the Firefox test. Note that in the Chrome test you have to specify the path to your Chrome driver.</p>
+
+<p>Then as a post-build action add the selenium reports.</p>
+
+<p><img src="/images/installing-selenium-with-jenkins-on-ubuntu/config.png"></p>
+
+<p>If everything went well you should see nice test graphs in your Jenkins like this:</p>
+
+<p><img src="/images/installing-selenium-with-jenkins-on-ubuntu/test-result.png"></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Alex Nederlof</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-19T16:01:00+01:00" pubdate data-updated="true">Nov 19<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/tech/'>Tech</a>, <a class='category' href='/blog/categories/testing/'>Testing</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://alexnederlof.github.io/blog/2012/11/19/installing-selenium-with-jenkins-on-ubuntu/" data-via="alexnederlof" data-counturl="http://alexnederlof.github.io/blog/2012/11/19/installing-selenium-with-jenkins-on-ubuntu/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/09/11/a-10x-faster-jasper-maven-plugin/" title="Previous Post: A 10x faster Jasper maven plugin">&laquo; A 10x faster Jasper maven plugin</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/11/21/separating-the-fast-from-the-slow-junit-tests/" title="Next Post: Separating the fast from the slow JUnit tests">Separating the fast from the slow JUnit tests &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/05/24/the-truth-about-code-reviews/">The truth about code reviews</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/18/visiting-github/">Visiting GitHub</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/22/latex-build-server/">LaTeX build server</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/19/clean-test-classes-using-junits-classrules/">Clean test classes using JUnit's rules</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/21/integration-testing-with-jetty/">Integration testing with Jetty</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+	<div id="about">
+	<a href="https://github.com/alexnederlof" title="GitHub: @alexnederlof"><i class="icon-github icon-3x"></i></a>
+	<a href="https://twitter.com/alexnederlof" title="Twitter: @alexnederlof"><i class="icon-twitter icon-3x"></i></a>
+	<a href="http://stackoverflow.com/users/679913/alex" title="Stack Exchange: @alexnederlof"><i class="icon-stackexchange icon-3x"></i></a>
+	<a href="http://nl.linkedin.com/in/alexnederlof/" title="LinkedIn: @alexnederlof"><i class="icon-linkedin icon-3x"></i></a>
+	</div>
+</section>
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Alex Nederlof -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'lextech';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://alexnederlof.github.io/blog/2012/11/19/installing-selenium-with-jenkins-on-ubuntu/';
+        var disqus_url = 'http://alexnederlof.github.io/blog/2012/11/19/installing-selenium-with-jenkins-on-ubuntu/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

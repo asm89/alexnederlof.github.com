@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: automate everything | LexTech]]></title>
+  <link href="http://alexnederlof.github.io/blog/categories/automate-everything/atom.xml" rel="self"/>
+  <link href="http://alexnederlof.github.io/"/>
+  <updated>2013-06-27T10:07:27+02:00</updated>
+  <id>http://alexnederlof.github.io/</id>
+  <author>
+    <name><![CDATA[Alex Nederlof]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[LaTeX build server]]></title>
+    <link href="http://alexnederlof.github.io/blog/2013/02/22/latex-build-server/"/>
+    <updated>2013-02-22T10:58:00+01:00</updated>
+    <id>http://alexnederlof.github.io/blog/2013/02/22/latex-build-server</id>
+    <content type="html"><![CDATA[<p>I recently had to work with <a href="http://www.LaTeX-project.org/">LaTeX</a> again. Although LaTeX has its perks like a proper equation editor and BibTex I don&rsquo;t like working with it for several reasons:</p>
+
+<ol>
+<li>there is no proper <a href="http://en.wikipedia.org/wiki/WYSIWYG">WYSIWYG</a> editor that compiles while you type for OS X and the source files are hard to read by themselves</li>
+<li>you have to manually configure that it compiles LaTeX, then bibtex, and then LaTeX twice</li>
+<li>the horrors of positioning and loading images with all the different compilers, bounding boxes, etc.</li>
+<li>the fact that they have their own <a href="http://tex.stackexchange.com/">Stack exchange Q&amp;A</a> is an indication of how arcane it is.</li>
+</ol>
+
+
+<p>Because the source files are so unpleasant to read, you always have to make sure you send the compiled latest version of your document to the right people. What I like about some MarkDown related projects like <a href="https://github.com/mojombo/jekyll">Jekyll</a> and <a href="octopress.org">Octopress</a> is the way you can push the source to for example GitHub, and they build the site for you. I wanted that for LaTeX as well. Using a simple script I now have my own LaTeX build server. This way my colleagues and I can always see the latest version of the document in any browser so I don&rsquo;t have to think about distributing the latest version to the right people or devices.</p>
+
+<p>The end result is nice and simple listing of the PDF, diff and log in a folder that indicates the build date:</p>
+
+<p>{% img [End result] /images/latex-build.png End result %}</p>
+
+<!--more-->
+
+
+<h3>Setting it up</h3>
+
+<p>I host my own Git server so I hooked the script as a <code>post-receive</code> script in the Git hooks directory. If you are running elsewhere you could also do it via a WebHook I guess. You need a workspace folder to checkout the project and a web folder to dump the results in. Here is the script:</p>
+
+<p>{% gist 5015614  %}</p>
+
+<p>I use <a href="http://pygments.org/">Pygments</a> to format the diff file and <code>pdflatex</code> to parse the LaTeX. Make sure you have these packages installed on you system.</p>
+
+<p>I&rsquo;m running Apache which gives a nice directory listing. However, it sorts the files in the wrong order. I want the most recent to be on top. Luckily this can be configured in Apache using the <code>IndexOrderDefault Descending Date</code> in your configuration.</p>
+
+<h3>Potential improvements:</h3>
+
+<ul>
+<li>I use a static location for the work folder but you could also create a temporary folder and delete it afterwards.</li>
+<li>This script only builds the master branch, you could also create a per-branch output folder system.</li>
+<li>Adding <a href="http://kernel.org/pub/software/scm/git/docs/git-describe.html">git-discribe</a> to the output would be nice.</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,889 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[LexTech]]></title>
+  <link href="http://alexnederlof.github.io/atom.xml" rel="self"/>
+  <link href="http://alexnederlof.github.io/"/>
+  <updated>2013-06-27T10:07:26+02:00</updated>
+  <id>http://alexnederlof.github.io/</id>
+  <author>
+    <name><![CDATA[Alex Nederlof]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[The truth about code reviews]]></title>
+    <link href="http://alexnederlof.github.io/blog/2013/05/24/the-truth-about-code-reviews/"/>
+    <updated>2013-05-24T16:31:00+02:00</updated>
+    <id>http://alexnederlof.github.io/blog/2013/05/24/the-truth-about-code-reviews</id>
+    <content type="html"><![CDATA[<p>During the <a href="http://2013.icse-conferences.org/">International Conference of Software Engineering 2013 </a> I visited a great talk by <a href="https://twitter.com/sback_">Alberto Bacchelli</a> on modern code reviews. It resonated with my experience with code reviews and I&rsquo;d like to share the highlights of <a href="http://www.inf.usi.ch/phd/bacchelli/publications/icse2013.pdf">his research</a> conducted among 17 developers from 16 different teams at Microsoft.</p>
+
+<p>Most developers have to do some kind of code reviewing at some point. When you use GitHub for example, every pull request can be seen as a code review. At some companies like Microsoft, Google and Facebook, code reviews are part of the job. To make it easy for developers they work with specialized tools like <a href="https://developers.google.com/appengine/articles/rietveld">Google&rsquo;s Rietveld</a>, <a href="http://phabricator.org/">Facebook&rsquo;s Phabricator</a> or the Open Source tool <a href="https://code.google.com/p/gerrit/">Gerrit</a>. We do code reviews because it is well known that <a href="http://www.youtube.com/watch?v=CKjRt48rZGk">code reviews offer many advantages</a>. When I have to explain to someone why code reviews are important, I come up with the same arguments most developers come up with (in order of importance):</p>
+
+<ol>
+<li>finding defects</li>
+<li>code quality improvement</li>
+<li>alternative Solutions</li>
+<li>knowledge Transfer</li>
+<li>shared code ownership</li>
+</ol>
+
+
+<p>However, research shows a different result:</p>
+
+<blockquote><p>Although the top motivation driving code reviews is still finding defects, the practice and the actual outcomes are less about finding errors than expected: Defect related comments comprise a small proportion and mainly cover small logical low-level issues</p></blockquote>
+
+<!--more-->
+
+
+<p>So what does research show us? Here&rsquo;s the overview of what developers indicate is their motivation for code reviews:</p>
+
+<p><img src="http://alexnederlof.github.io/images/code-reviews-motivations.png" width="500" title="Motivations" alt="Source: "></p>
+
+<p>By observing developers doing code reviews, Bacchelli has found quite a different outcome. In order of preference, the actual use of code reviews turns out to be:</p>
+
+<ol>
+<li><strong>Code improvements:</strong> Taking up 29% of the comments are things like better code practices, removing unnecessary code, and improving readability.</li>
+<li><strong>Understanding:</strong> Discussions about what the code does take up a little over 20%</li>
+<li><strong>Social communication:</strong> Messages such as thanking reviewers for a comment, and informing them that a proposed change has been implemented.</li>
+<li><strong>Defects:</strong> In contrast to what developers believe is the most important reason, defect finding comes fourth with 14% of the comments. These include logical issues, high-level issues, security issues and exception handling.</li>
+</ol>
+
+
+<h3>Code Reviewing Is Understanding</h3>
+
+<p>So why is finding defects in fourth place instead of first? The problem is that most of the code in a review is hard to understand if you are not the author. The study reports that most defects found in a review were not complicated errors:</p>
+
+<blockquote><p> …most of the comments on “defects” regard uncomplicated logical errors, e.g., corner cases, common configuration values, or operator precedence.</p></blockquote>
+
+<p>To this extend, the researchers asked the developers and testers what activities require most understanding when giving a code review. The majority votes for a <em>complete</em> or <em>high</em> understanding to find defects or offer alternative solutions. Sharing code ownership and knowledge require <em>low</em> or <em>high</em> understanding of the code. The lesson here is that when you ask for a code review, (1) make sure you ask the right person, and (2) don&rsquo;t assume the reviewer will find any bugs.</p>
+
+<h3>Can we improve the way we review?</h3>
+
+<p>Most of the code reviews I do go via GitHub pull requests. Although they give an excellent textual presentation of the diff, the code is ordered alphabetically and it isn&rsquo;t interactive. As far as I know, the same goes for the other review tools mentioned before. There are a couple of ways this could be improved in my opinion:</p>
+
+<ul>
+<li>By showing something like a class/module/file diagram diff. This would make it easier for a developer to see in which modules most changes occurred and how those propagate through the code.</li>
+<li>Allow method jumping in a diff. Especially in a large diff you quickly lose the overview of where methods lead to or come from. Being able to jump from the method you&rsquo;re reading to the method that is being called would be a huge improvement in code diff navigation.</li>
+<li>As mentioned in the research, it is best the review is performed by another author of the given file. It would be great if the review tool would choose the best reviewer for a given changeset based on the code history.</li>
+</ul>
+
+
+<h3>Conclusions</h3>
+
+<p>Code reviews are still very helpful however we should understand that their are not as useful for finding bugs as we might have thought. The tools we use for reviewing can still be improved. Until they do, make sure you appoint your reviews to the right person.</p>
+
+<p><em>N.B. Copyright notice: All data and graphs used in this post are from the <a href="http://www.inf.usi.ch/phd/bacchelli/publications/icse2013.pdf">original paper</a>.</em></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Visiting GitHub]]></title>
+    <link href="http://alexnederlof.github.io/blog/2013/05/18/visiting-github/"/>
+    <updated>2013-05-18T17:22:00+02:00</updated>
+    <id>http://alexnederlof.github.io/blog/2013/05/18/visiting-github</id>
+    <content type="html"><![CDATA[<p>After Tweeting some of the employees GitHub, the most popular online code hosting platform allowed us to visit one of their offices in San Francisco. GitHub was launched in 2008 and is truly a unique company. It has over 170 employees of which 60% work outside the office all over the world. Employees are encouraged to travel as much as they like. <img class="right" src="http://alexnederlof.github.io/images/github/table.jpg" width="300" title="Employee finder" > They have a big interactive table (photo) that shows where the employees are on a 3D map. Besides having complete freedom with your workplace and schedule, GitHub also doesn’t have any managers. Employees are expected to pick up work themselves and form their own teams. Everything happens distributively using online tools to form discussions and to arrange votes. From hiring new employees to choosing what kind of coffee mugs should be available in the kitchen; everything is democratic. Half the company looks like a Starbucks cafe for people who don’t care for a desk.</p>
+
+<p>Visiting a company like GitHub, with a radically different management style was inspiring and it was awesome to see the people behind such a great company.</p>
+
+<p><img class="right" src="http://alexnederlof.github.io/images/github/cafe.jpg" width="1000" title="Cafe" ></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[LaTeX build server]]></title>
+    <link href="http://alexnederlof.github.io/blog/2013/02/22/latex-build-server/"/>
+    <updated>2013-02-22T10:58:00+01:00</updated>
+    <id>http://alexnederlof.github.io/blog/2013/02/22/latex-build-server</id>
+    <content type="html"><![CDATA[<p>I recently had to work with <a href="http://www.LaTeX-project.org/">LaTeX</a> again. Although LaTeX has its perks like a proper equation editor and BibTex I don&rsquo;t like working with it for several reasons:</p>
+
+<ol>
+<li>there is no proper <a href="http://en.wikipedia.org/wiki/WYSIWYG">WYSIWYG</a> editor that compiles while you type for OS X and the source files are hard to read by themselves</li>
+<li>you have to manually configure that it compiles LaTeX, then bibtex, and then LaTeX twice</li>
+<li>the horrors of positioning and loading images with all the different compilers, bounding boxes, etc.</li>
+<li>the fact that they have their own <a href="http://tex.stackexchange.com/">Stack exchange Q&amp;A</a> is an indication of how arcane it is.</li>
+</ol>
+
+
+<p>Because the source files are so unpleasant to read, you always have to make sure you send the compiled latest version of your document to the right people. What I like about some MarkDown related projects like <a href="https://github.com/mojombo/jekyll">Jekyll</a> and <a href="octopress.org">Octopress</a> is the way you can push the source to for example GitHub, and they build the site for you. I wanted that for LaTeX as well. Using a simple script I now have my own LaTeX build server. This way my colleagues and I can always see the latest version of the document in any browser so I don&rsquo;t have to think about distributing the latest version to the right people or devices.</p>
+
+<p>The end result is nice and simple listing of the PDF, diff and log in a folder that indicates the build date:</p>
+
+<p><img class="[End result]" src="http://alexnederlof.github.io/images/latex-build.png" title="End result" ></p>
+
+<!--more-->
+
+
+<h3>Setting it up</h3>
+
+<p>I host my own Git server so I hooked the script as a <code>post-receive</code> script in the Git hooks directory. If you are running elsewhere you could also do it via a WebHook I guess. You need a workspace folder to checkout the project and a web folder to dump the results in. Here is the script:</p>
+
+<div><script src='https://gist.github.com/5015614.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>I use <a href="http://pygments.org/">Pygments</a> to format the diff file and <code>pdflatex</code> to parse the LaTeX. Make sure you have these packages installed on you system.</p>
+
+<p>I&rsquo;m running Apache which gives a nice directory listing. However, it sorts the files in the wrong order. I want the most recent to be on top. Luckily this can be configured in Apache using the <code>IndexOrderDefault Descending Date</code> in your configuration.</p>
+
+<h3>Potential improvements:</h3>
+
+<ul>
+<li>I use a static location for the work folder but you could also create a temporary folder and delete it afterwards.</li>
+<li>This script only builds the master branch, you could also create a per-branch output folder system.</li>
+<li>Adding <a href="http://kernel.org/pub/software/scm/git/docs/git-describe.html">git-discribe</a> to the output would be nice.</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Clean test classes using JUnit's rules]]></title>
+    <link href="http://alexnederlof.github.io/blog/2012/12/19/clean-test-classes-using-junits-classrules/"/>
+    <updated>2012-12-19T21:23:00+01:00</updated>
+    <id>http://alexnederlof.github.io/blog/2012/12/19/clean-test-classes-using-junits-classrules</id>
+    <content type="html"><![CDATA[<p>A couple of days ago I discovered the beauty of JUnit&rsquo;s <a href="http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/TestRule.html">TestRules</a> while searching for an easy way to set a time-out on all tests in a testcase. JUnit has a built-in rule for this called <a href="http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/Timeout.html"><code>Timeout</code></a>. You can set this rule for every test in your class by setting the timeout in a field like this:</p>
+
+<figure class='code'><figcaption><span>Setting a Timeout Rule</span><a href='http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/Timeout.html'>View the Javadoc</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyTest</span> <span class="o">{</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="nd">@Rule</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="n">MethodRule</span> <span class="n">globalTimeout</span><span class="o">=</span> <span class="k">new</span> <span class="n">Timeout</span><span class="o">(</span><span class="mi">20</span><span class="o">);</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="nd">@Test</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">someTest</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="o">...</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Another gem is the <code>ExpectedException</code> rule, which allows you to inspect a thrown exception in several ways.</p>
+
+<figure class='code'><figcaption><span>Inspecting excptions</span><a href='http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/ExpectedException.html'>View the Javadoc</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">HasExpectedException</span> <span class="o">{</span>
+</span><span class='line'>  <span class="nd">@Rule</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="n">ExpectedException</span> <span class="n">thrown</span><span class="o">=</span> <span class="n">ExpectedException</span><span class="o">.</span><span class="na">none</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nd">@Test</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">throwsNothing</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="c1">// no exception expected, none thrown: passes.</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nd">@Test</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">throwsNullPointerException</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">thrown</span><span class="o">.</span><span class="na">expect</span><span class="o">(</span><span class="n">NullPointerException</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span><span class='line'>      <span class="k">throw</span> <span class="k">new</span> <span class="nf">NullPointerException</span><span class="o">();</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nd">@Test</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">throwsNullPointerExceptionWithMessage</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">thrown</span><span class="o">.</span><span class="na">expect</span><span class="o">(</span><span class="n">NullPointerException</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span><span class='line'>      <span class="n">thrown</span><span class="o">.</span><span class="na">expectMessage</span><span class="o">(</span><span class="s">&quot;happened?&quot;</span><span class="o">);</span>
+</span><span class='line'>      <span class="n">thrown</span><span class="o">.</span><span class="na">expectMessage</span><span class="o">(</span><span class="n">startsWith</span><span class="o">(</span><span class="s">&quot;What&quot;</span><span class="o">));</span>
+</span><span class='line'>      <span class="k">throw</span> <span class="k">new</span> <span class="nf">NullPointerException</span><span class="o">(</span><span class="s">&quot;What happened?&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'> <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The great thing is, it&rsquo;s super easy to extend one of these rules.</p>
+
+<!--more-->
+
+
+<p>In <a href="https://github.com/crawljax/crawljax">Crawljax</a>, another project I&rsquo;m currently working on, I wanted a Jetty server to start before I the tests run, and to shut it down afterwards. I could do this using a <code>@BeforeClass</code> method and then clean it up in the <code>@AfterClass</code> method but that doesn&rsquo;t make it reusable in other classes. To make it reusable I could put it in an abstract class that just has the setup and teardown methods and inherit that class in the classes where I need the server. However, that can lead to weird class hierarchies that don&rsquo;t make any sense. Again, JUnit&rsquo;s rules come to the rescue. There&rsquo;s the <a href="http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/ExternalResource.html"><code>ExternalResource</code></a> that allows you to setup resources before tests, and tear them down afterwards. I inherited this class to provide my Jetty server.</p>
+
+<figure class='code'><figcaption><span>Rule to start a Jetty Server</span><a href='https://github.com/crawljax/crawljax/blob/4b3a3f44c946b32c1dee5fa14960764c90393666/src/test/java/com/crawljax/demo/RunWithWebServer.java'>View on GitHub</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">RunWithWebServer</span> <span class="kd">extends</span> <span class="n">ExternalResource</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">private</span> <span class="kd">final</span> <span class="n">Resource</span> <span class="n">resource</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">private</span> <span class="kt">int</span> <span class="n">port</span><span class="o">;</span>
+</span><span class='line'>  <span class="kd">private</span> <span class="n">URL</span> <span class="n">demoSite</span><span class="o">;</span>
+</span><span class='line'>  <span class="kd">private</span> <span class="n">Server</span> <span class="n">server</span><span class="o">;</span>
+</span><span class='line'>  <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">started</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="cm">/**</span>
+</span><span class='line'><span class="cm">  * @param classPathResource</span>
+</span><span class='line'><span class="cm">  *            The name of the resource. This resource must be on the test or regular classpath.</span>
+</span><span class='line'><span class="cm">  */</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="nf">RunWithWebServer</span><span class="o">(</span><span class="n">String</span> <span class="n">classPathResource</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">resource</span> <span class="o">=</span> <span class="n">Resource</span><span class="o">.</span><span class="na">newClassPathResource</span><span class="o">(</span><span class="n">classPathResource</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nd">@Override</span>
+</span><span class='line'>  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">before</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Throwable</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">server</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Server</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+</span><span class='line'>      <span class="n">ResourceHandler</span> <span class="n">handler</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ResourceHandler</span><span class="o">();</span>
+</span><span class='line'>      <span class="n">handler</span><span class="o">.</span><span class="na">setBaseResource</span><span class="o">(</span><span class="n">resource</span><span class="o">);</span>
+</span><span class='line'>      <span class="n">server</span><span class="o">.</span><span class="na">setHandler</span><span class="o">(</span><span class="n">handler</span><span class="o">);</span>
+</span><span class='line'>      <span class="n">server</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+</span><span class='line'>      <span class="k">this</span><span class="o">.</span><span class="na">port</span> <span class="o">=</span> <span class="n">server</span><span class="o">.</span><span class="na">getConnectors</span><span class="o">()[</span><span class="mi">0</span><span class="o">].</span><span class="na">getLocalPort</span><span class="o">();</span>
+</span><span class='line'>      <span class="k">this</span><span class="o">.</span><span class="na">demoSite</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="s">&quot;http&quot;</span><span class="o">,</span> <span class="s">&quot;localhost&quot;</span><span class="o">,</span> <span class="n">port</span><span class="o">,</span> <span class="s">&quot;/&quot;</span><span class="o">);</span>
+</span><span class='line'>      <span class="k">this</span><span class="o">.</span><span class="na">started</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nd">@Override</span>
+</span><span class='line'>  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">after</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>          <span class="k">if</span> <span class="o">(</span><span class="n">server</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>              <span class="n">server</span><span class="o">.</span><span class="na">stop</span><span class="o">();</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>      <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>          <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">&quot;Could not stop the server&quot;</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Some getters for the fields</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The class starts the Jetty server using the given resource as the web folder. Tests can then use this rule to obtain a real URL to test with:</p>
+
+<figure class='code'><figcaption><span>Using the webserver.</span><a href='https://github.com/crawljax/crawljax/blob/4b3a3f44c946b32c1dee5fa14960764c90393666/src/test/java/com/crawljax/core/CandidateElementExtractorTest.java'>Usage example</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="n">SomeWebTest</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nd">@ClassRule</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">RunWithWebServer</span> <span class="n">SERVER</span> <span class="o">=</span> <span class="k">new</span> <span class="n">RunWithWebServer</span><span class="o">(</span><span class="s">&quot;/site/crawler&quot;</span><span class="o">);</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="nd">@Test</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">test</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">URL</span> <span class="n">url</span> <span class="o">=</span> <span class="n">SERVER</span><span class="o">.</span><span class="na">getSiteUrl</span><span class="o">();</span>
+</span><span class='line'>      <span class="n">testStuffUsingThe</span><span class="o">(</span><span class="n">url</span><span class="o">);</span> 
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There are more built-in rules in JUnit like:</p>
+
+<ul>
+<li>The <a href="http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/TemporaryFolder.html">TemporaryFolder</a> That creates a temporary folder for you,</li>
+<li>the <a href="http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/Verifier.html">Verifier</a> that can verify some invariant after each test method,</li>
+<li>and more! Checkout the <a href="https://github.com/KentBeck/junit/wiki/Rules">JUnit wiki</a> to learn more of them.</li>
+</ul>
+
+
+<p>Have fun!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Integration testing with Jetty]]></title>
+    <link href="http://alexnederlof.github.io/blog/2012/11/21/integration-testing-with-jetty/"/>
+    <updated>2012-11-21T16:23:00+01:00</updated>
+    <id>http://alexnederlof.github.io/blog/2012/11/21/integration-testing-with-jetty</id>
+    <content type="html"><![CDATA[<p>This is a followup after <a href="http://alexnederlof.github.io/blog/2012/11/21/separating-the-fast-from-the-slow-junit-tests/">my previous post about separating JUnit tests into fast tests and integration tests</a>. The sample code is <a href="https://github.com/alexnederlof/integration-testing-example">available on GitHub</a>.</p>
+
+<p>When building a web application I like to have an integration test suite that resembles the real life situation as best as possible. The code should be able to run without too much effort from a build server like <a href="http://jenkins-ci.org/">Jenkins</a> and it should be fairly easy to maintain. In this post I will explain how I achieved these goals.</p>
+
+<p>To see what this example app does run the server by running the main method in <code>com.alexnederlof.inttesting.MyWebServer.java</code> and brows to <a href="">http://localhost:9090</a>. You can do this from your favorite IDE.</p>
+
+<!--more-->
+
+
+<h3>Installing Selenium server</h3>
+
+<p>Before we get started we need to install Selenium as a service on the build server. <a href="http://alexnederlof.github.io/blog/2012/11/19/installing-selenium-with-jenkins-on-ubuntu/">In a previous post I wrote</a> how to install Selenium on a headless Ubuntu server. To install Selenium for this example, follow that post until the part where you hook it onto Jenkins. We don’t need that here because we will use JUnit instead of the HTML scripts I used in that post. To start and stop Selenium we need a script to wrap the jar. You can find my version of this script <a href="https://gist.github.com/4120566">here</a>. Adopt the script to your settings and install it in <code>/etc/init.d/selenium</code>. Make sure the display port matches the one you defined in <code>/etc/init.d/xvfb</code>. Now start Selenium and check the log to see if it went without any errors.</p>
+
+<h3>Creating the tests</h3>
+
+<p>I created the tests for this example using the Firefox Selenium IDE. I exported them to Java and imported them in my project. They test two very simple pages included in the sample project that refer to each other. Here’s what the test looks like:</p>
+
+<figure class='code'><figcaption><span>A simple web test</span><a href='https://github.com/alexnederlof/integration-testing-example/blob/master/src/test/java/com/alexnederlof/inttesting/SimpleSeleniumTest.java'>View on Github</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Test</span>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">testTheWebApp</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span><span class='line'>  <span class="n">Selenium</span> <span class="n">selenium</span> <span class="o">=</span> <span class="n">getSelenium</span><span class="o">();</span>
+</span><span class='line'>  <span class="n">selenium</span><span class="o">.</span><span class="na">open</span><span class="o">(</span><span class="s">&quot;/&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="n">assertThat</span><span class="o">(</span><span class="n">selenium</span><span class="o">.</span><span class="na">getText</span><span class="o">(</span><span class="s">&quot;css=h1&quot;</span><span class="o">),</span> <span class="n">is</span><span class="o">(</span><span class="s">&quot;This is the main page&quot;</span><span class="o">));</span>
+</span><span class='line'>  <span class="n">assertThat</span><span class="o">(</span><span class="n">selenium</span><span class="o">.</span><span class="na">getTitle</span><span class="o">(),</span> <span class="n">is</span><span class="o">(</span><span class="s">&quot;Welcome&quot;</span><span class="o">));</span>
+</span><span class='line'>  <span class="n">selenium</span><span class="o">.</span><span class="na">click</span><span class="o">(</span><span class="s">&quot;id=otherLink&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="n">selenium</span><span class="o">.</span><span class="na">waitForPageToLoad</span><span class="o">(</span><span class="s">&quot;30000&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="n">assertThat</span><span class="o">(</span><span class="n">selenium</span><span class="o">.</span><span class="na">getTitle</span><span class="o">(),</span> <span class="n">is</span><span class="o">(</span><span class="s">&quot;Other page&quot;</span><span class="o">));</span>
+</span><span class='line'>  <span class="n">assertThat</span><span class="o">(</span><span class="n">selenium</span><span class="o">.</span><span class="na">getText</span><span class="o">(</span><span class="s">&quot;css=h1&quot;</span><span class="o">),</span> <span class="n">is</span><span class="o">(</span><span class="s">&quot;This is the other page&quot;</span><span class="o">));</span>
+</span><span class='line'>  <span class="n">selenium</span><span class="o">.</span><span class="na">click</span><span class="o">(</span><span class="s">&quot;id=main&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="n">selenium</span><span class="o">.</span><span class="na">waitForPageToLoad</span><span class="o">(</span><span class="s">&quot;30000&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="n">assertThat</span><span class="o">(</span><span class="n">selenium</span><span class="o">.</span><span class="na">getTitle</span><span class="o">(),</span> <span class="n">is</span><span class="o">(</span><span class="s">&quot;Welcome&quot;</span><span class="o">));</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I want my tests to run on multiple browsers. To do this I use one of JUnit’s latest cool features: <a href="http://junit.sourceforge.net/javadoc/org/junit/runners/Parameterized.html">@Parameterized</a>. In the superclass of all my Selenium tests (<code>MultiBrowserTest.java</code>) the @Parameterized passes the browser as an argument to the constructor. Selenium is then started using that browser. The name parameter gives a nice name to the individual tests instances. Here’s what the test’s superclass looks like:</p>
+
+<figure class='code'><figcaption><span>MultiBrowserTest</span><a href='https://github.com/alexnederlof/integration-testing-example/blob/master/src/test/java/com/alexnederlof/inttesting/MultiBrowserTest.java'>View it on GitHub</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">MultiBrowserTest</span> <span class="kd">implements</span> <span class="n">SlowTest</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">BASE_URL</span> <span class="o">=</span> <span class="n">MyWebServer</span><span class="o">.</span><span class="na">BASE_URL</span><span class="o">;</span>
+</span><span class='line'>  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">SELENIUM_HOST</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span><span class="o">;</span>
+</span><span class='line'>  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">SELENIUM_PORT</span> <span class="o">=</span> <span class="mi">4443</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nd">@Parameters</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;browser={0}&quot;</span><span class="o">)</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">[]&gt;</span> <span class="n">data</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="k">new</span> <span class="n">Object</span><span class="o">[][]</span> <span class="o">{</span> <span class="o">{</span> <span class="s">&quot;*firefox&quot;</span> <span class="o">},</span>
+</span><span class='line'>              <span class="o">{</span> <span class="s">&quot;*googlechrome&quot;</span> <span class="o">}</span> <span class="o">});</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">browser</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">private</span> <span class="n">Selenium</span> <span class="n">selenium</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="nf">MultiBrowserTest</span><span class="o">(</span><span class="n">String</span> <span class="n">browser</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">this</span><span class="o">.</span><span class="na">browser</span> <span class="o">=</span> <span class="n">browser</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nd">@Before</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">selenium</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultSelenium</span><span class="o">(</span><span class="n">SELENIUM_HOST</span><span class="o">,</span> <span class="n">SELENIUM_PORT</span><span class="o">,</span>
+</span><span class='line'>              <span class="n">getBrowser</span><span class="o">(),</span> <span class="n">BASE_URL</span><span class="o">);</span>
+</span><span class='line'>      <span class="n">selenium</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getBrowser</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">browser</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="n">Selenium</span> <span class="nf">getSelenium</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">selenium</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nd">@After</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">tearDown</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">selenium</span><span class="o">.</span><span class="na">stop</span><span class="o">();</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now we need to setup the server to serve the pages Selenium will test. As shown in <a href="http://alexnederlof.github.io/blog/2012/11/21/separating-the-fast-from-the-slow-junit-tests/">the previous post</a>, I have a test suite that starts and stops  <code>MyServer.java</code>. This class wraps Jetty with the most basic configuration. It looks like this:</p>
+
+<figure class='code'><figcaption><span>Simple Jetty Wrapper</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">static</span> <span class="n">WebAppContext</span> <span class="nf">buildWebAppContext</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="n">WebAppContext</span> <span class="n">webAppContext</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WebAppContext</span><span class="o">();</span>
+</span><span class='line'>  <span class="n">webAppContext</span><span class="o">.</span><span class="na">setWar</span><span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&quot;src/main/webapp/&quot;</span><span class="o">).</span><span class="na">getAbsolutePath</span><span class="o">());</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">webAppContext</span><span class="o">;</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">private</span> <span class="kd">final</span> <span class="n">Server</span> <span class="n">server</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="nf">MyWebServer</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="k">this</span><span class="o">.</span><span class="na">server</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Server</span><span class="o">(</span><span class="n">PORT</span><span class="o">);</span>
+</span><span class='line'>  <span class="n">server</span><span class="o">.</span><span class="na">setHandler</span><span class="o">(</span><span class="n">buildWebAppContext</span><span class="o">());</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">start</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span><span class='line'>  <span class="n">server</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">stop</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span><span class='line'>  <span class="n">server</span><span class="o">.</span><span class="na">stop</span><span class="o">();</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>All in all this is what happens when you run <code>mvn test -P integrationtests</code>:</p>
+
+<ul>
+<li>The IntegrationTestSuit.java is run. This loads the Jetty server before it continues with the tests.</li>
+<li>SimpleSelenium test is loaded twice, once for Chrome and once for FireFox.</li>
+<li>The tests connect to the Selenium server running on localhost.</li>
+<li>After the tests have ran, either successful or not, the Suite shuts down the Jetty server.</li>
+<li>If you run this procedure from a continues integration server like Jenkins, you get nice statistics on tests. Hurray you have automated your integration tests!</li>
+</ul>
+
+
+<p>Even cooler is that if you have a pretty decent Selenium test suite, you can also check your code coverage to see how much code you reach with your integration tests.</p>
+
+<h3>Whats next?</h3>
+
+<p>I want to find out how Selenium Grid works and set it up on a Windows VM so I can also test Safari and Internet Explorer.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Separating the fast from the slow JUnit tests]]></title>
+    <link href="http://alexnederlof.github.io/blog/2012/11/21/separating-the-fast-from-the-slow-junit-tests/"/>
+    <updated>2012-11-21T16:16:00+01:00</updated>
+    <id>http://alexnederlof.github.io/blog/2012/11/21/separating-the-fast-from-the-slow-junit-tests</id>
+    <content type="html"><![CDATA[<p>For some time now I was looking for a good way to do real integration testing with JUnit. These tests tests tend to be slow because the whole stack has to be build up and shut down. Furthermore, some tests also need a specific environment like a database connection which is not available to any developer. That’s why you probably want to split up your test suite in fast and slow (or dependent) tests. JUnit has a technique to split up these tests using <a href="http://kentbeck.github.com/junit/javadoc/4.10/org/junit/experimental/categories/Categories.html">Categories</a>. This allows you to specify the category your tests belongs to and then skip those tests in your Suite like so:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@RunWith</span><span class="o">(</span><span class="n">Categories</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span><span class='line'><span class="nd">@IncludeCategory</span><span class="o">(</span><span class="n">SlowTests</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span><span class='line'><span class="nd">@SuiteClasses</span><span class="o">(</span> <span class="o">{</span> <span class="n">A</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">B</span><span class="o">.</span><span class="na">class</span> <span class="o">})</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">SlowTestSuite</span> <span class="o">{</span> <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The downside here is that you have to specify all the tests in the test suite. As far as I know, JUnit has no mechanism to do this for this for you. You can work with the <a href="http://maven.apache.org/plugins/maven-surefire-plugin/examples/junit.html#Using_JUnit_Categories">Maven Surefire plugin</a> to filter stuff in and out, but I think there’s a better way. A man by the name of <a href="http://www.johanneslink.net/">Johannes Link</a> built a <a href="http://www.johanneslink.net/projects/cpsuite.jsp">great little library</a> which does just what I want. I allows us to specify in a Suite to run all JUnit tests it can find. It can also exclude and include certain tests. Unfortunately  it doesn’t work with JUnit’s Categories system but it uses type inheritance. This makes it easy to filter out types of tests. For example I define all the fast tests like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@RunWith</span><span class="o">(</span><span class="n">ClasspathSuite</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <span class="c1">// Loads all unit tests it finds on the classpath</span>
+</span><span class='line'><span class="nd">@ExcludeBaseTypeFilter</span><span class="o">(</span><span class="n">SlowTest</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <span class="c1">// Excludes tests that inherit SlowTest</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FastTests</span> <span class="o">{}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!--more-->
+
+
+<p>This will run every test that doesn’t implement the SlowTest inferface. The slow test suite needs a tearing up of the server, and once the suite is done the server should be shut down. It could also be that you need to set up a database connection or connect to another server. In my case, the suite should only run subtypes of MultiBrowserTest. Here’s how that looks:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@RunWith</span><span class="o">(</span><span class="n">ClasspathSuite</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span><span class='line'><span class="nd">@BaseTypeFilter</span><span class="o">(</span><span class="n">MultiBrowserTest</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">IntegrationTestSuite</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">private</span> <span class="kd">static</span> <span class="n">MyWebServer</span> <span class="n">server</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nd">@BeforeClass</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">startServer</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">server</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MyWebServer</span><span class="o">();</span>
+</span><span class='line'>      <span class="n">server</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nd">@AfterClass</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">shutDownServer</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">server</span><span class="o">.</span><span class="na">stop</span><span class="o">();</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now that we’ve split up the tests we want Maven to run the fast tests always and do the integration tests only when we ask for it. This can easily be done using Maven profiles. I define two profiles default and integrationtests. They set the include property for the surefire plugin.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;profiles&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;profile&gt;</span>
+</span><span class='line'>          <span class="nt">&lt;id&gt;</span>default<span class="nt">&lt;/id&gt;</span>
+</span><span class='line'>          <span class="nt">&lt;activation&gt;</span>
+</span><span class='line'>              <span class="nt">&lt;activeByDefault&gt;</span>true<span class="nt">&lt;/activeByDefault&gt;</span>
+</span><span class='line'>          <span class="nt">&lt;/activation&gt;</span>
+</span><span class='line'>          <span class="nt">&lt;properties&gt;</span>
+</span><span class='line'>              <span class="nt">&lt;tests.include&gt;</span>com/alexnederlof/seleniumtest/suites/FastTests.java<span class="nt">&lt;/tests.include&gt;</span>
+</span><span class='line'>          <span class="nt">&lt;/properties&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;/profile&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;profile&gt;</span>
+</span><span class='line'>          <span class="nt">&lt;id&gt;</span>integrationtests<span class="nt">&lt;/id&gt;</span>
+</span><span class='line'>          <span class="nt">&lt;properties&gt;</span>
+</span><span class='line'>              <span class="nt">&lt;tests.include&gt;</span>com/alexnederlof/seleniumtest/suites/*<span class="nt">&lt;/tests.include&gt;</span>
+</span><span class='line'>          <span class="nt">&lt;/properties&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;/profile&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/profiles&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;build&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;plugins&gt;</span>
+</span><span class='line'>          <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>              <span class="nt">&lt;artifactId&gt;</span>maven-surefire-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>              <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>              <span class="nt">&lt;version&gt;</span>2.12.4<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>              <span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>                  <span class="nt">&lt;includes&gt;</span>
+</span><span class='line'>                      <span class="nt">&lt;include&gt;</span>${tests.include}<span class="nt">&lt;/include&gt;</span>
+</span><span class='line'>                  <span class="nt">&lt;/includes&gt;</span>
+</span><span class='line'>              <span class="nt">&lt;/configuration&gt;</span>
+</span><span class='line'>          <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;/plugins&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/build&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now running <code>mvn test</code> will run only the FastTests and <code>mvn test -P integrationtests</code> will run all the tests.</p>
+
+<p>You can find the code for this example <a href="https://github.com/alexnederlof/integration-testing-example/">on GitHub</a>. This post is actually part of <a href="http://alexnederlof.github.io/blog/2012/11/21/integration-testing-with-jetty/">another blog post of mine</a> where I explain how to do integration testing using Jetty and Selenium.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Installing Selenium with Jenkins on Ubuntu]]></title>
+    <link href="http://alexnederlof.github.io/blog/2012/11/19/installing-selenium-with-jenkins-on-ubuntu/"/>
+    <updated>2012-11-19T16:01:00+01:00</updated>
+    <id>http://alexnederlof.github.io/blog/2012/11/19/installing-selenium-with-jenkins-on-ubuntu</id>
+    <content type="html"><![CDATA[<p>Last week I fell in love with <a href="http://seleniumhq.org/">Selenium</a> and started to create some tests using the <a href="http://seleniumhq.org/projects/ide/">Firefox Selenium IDE</a>. If you’ve never done this I highly recommend trying it out. It’s really easy and great fun.</p>
+
+<p>Now that I’ve created some great test suites I wanted to hook the tests to my Jenkins build server. There was no tutorial that covered everything online so here’s what I did:</p>
+
+<p><strong>This will install Jenkins, Selenium standalone, Chrome and FireFox on a headless Ubuntu server.</strong></p>
+
+<!--more-->
+
+
+<p>I’m running Ubuntu 12.04. I assume you have Jenkins installed. If not, the Jenkins installation documentation is an excellent resource.</p>
+
+<p>To download Chrome we need to add the Google key to for apt:</p>
+
+<pre><code>wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+sudo sh -c 'echo deb http://dl.google.com/linux/chrome/deb/ stable main &gt; /etc/apt/sources.list.d/google.list'
+</code></pre>
+
+<p>Let’s install the required packages. The fonts aren’t really necessary but installing them prevents you from getting annoying warnings. <a href="http://en.wikipedia.org/wiki/Xvfb">xvfb</a> can start a virtual X window on a server where Selenium can start the browser in to run your tests.</p>
+
+<pre><code>sudo apt-get update &amp;&amp; sudo apt-get install -y xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic xvfb x11-apps  imagemagick firefox google-chrome-stable
+</code></pre>
+
+<p>Now we need to download the <a href="https://www.google.com/search?q=selenium+chrome+driver">Chrome driver</a> binary for Ubuntu and we need the latest <a href="http://seleniumhq.org/download/">Selenium Server jar</a>. I placed the Chrome driver in <code>/var/lib/chrome-driver/chrome-driver</code> and the selenium jar in <code>/var/lib/selenium/selenium.jar</code> but you can put them anywhere you like.</p>
+
+<p>To start xvfb I like to have a little start/stop script like this one:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
+</span><span class='line'><span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;$1&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">  </span><span class="nb">echo</span> <span class="s2">&quot;`basename $0` {start|stop}&quot;</span>
+</span><span class='line'>  <span class="nb">exit</span>
+</span><span class='line'><span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">case</span> <span class="s2">&quot;$1&quot;</span> in
+</span><span class='line'>start<span class="o">)</span>
+</span><span class='line'>  /usr/bin/Xvfb :99 -ac -screen 0 1024x768x8 &amp;
+</span><span class='line'>;;
+</span><span class='line'>stop<span class="o">)</span>
+</span><span class='line'>  killall Xvfb
+</span><span class='line'>;;
+</span><span class='line'><span class="k">esac</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will start a Window on display :99. This is important later on. Place the script in <code>/etc/init.d/</code>. To start it automatically on boot, run:  <code>sudo update-rc.d xvfb defaults</code>.</p>
+
+<p>Now it’s time to test if Selenium works. I presume you hava a Selenium HTML Suite plus a site you can test with.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># First lets start xvfb</span>
+</span><span class='line'>sudo /etc/init.d/xvfb start
+</span><span class='line'>
+</span><span class='line'><span class="c"># Now we have to set the DISPLAY env variable so Firefox and Chrome know where to open the browser.</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">DISPLAY</span><span class="o">=</span>:99
+</span><span class='line'>
+</span><span class='line'><span class="c"># Let&#39;s see if Selenium works for firefox:</span>
+</span><span class='line'>java -jar /var/lib/selenium/selenium-server.jar -htmlSuite *firefox http://yoursite.com <span class="s2">&quot;/path/to/your/tests/Suite.html&quot;</span> <span class="s2">&quot;/tmp/firefox-results.html&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># For chrome we also need to specify the Chrome driver location.:</span>
+</span><span class='line'>java -jar -Dwebdriver.chrome.driver<span class="o">=</span>/var/lib/chrome-driver/chromedriver /var/lib/selenium/selenium-server.jar -htmlSuite *googlechrome http://yoursite.com <span class="s2">&quot;/path/to/your/tests/Suite.html&quot;</span> <span class="s2">&quot;/tmp/chrome-results.html&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>These commands should now work without any errors and show you the results in the specified files in <code>/tmp/</code>.</p>
+
+<h2>Now let’s hook it onto Jenkins!</h2>
+
+<p>Make sure you have <a href="http://wiki.hudson-ci.org/display/HUDSON/Seleniumhq+Plugin">the SeleniumHQ plugin</a> installed for Jenkins.</p>
+
+<p>In Jenkins global configuration add the environment variable that specifies the display:</p>
+
+<p><img src="http://alexnederlof.github.io/images/installing-selenium-with-jenkins-on-ubuntu/env.png"></p>
+
+<p>Then select <em>“New Job”</em> and then select <em>“Build a free-style software project”</em> and give it a name.</p>
+
+<p>Fill in your SCM provider, assuming you have one so the workspace can be filled. I have my tests stored in a folder named tests in the repo.</p>
+
+<p>In the <em>“Build Steps”</em> section, add an entry for the Chrome test and for the Firefox test. Note that in the Chrome test you have to specify the path to your Chrome driver.</p>
+
+<p>Then as a post-build action add the selenium reports.</p>
+
+<p><img src="http://alexnederlof.github.io/images/installing-selenium-with-jenkins-on-ubuntu/config.png"></p>
+
+<p>If everything went well you should see nice test graphs in your Jenkins like this:</p>
+
+<p><img src="http://alexnederlof.github.io/images/installing-selenium-with-jenkins-on-ubuntu/test-result.png"></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A 10x faster Jasper maven plugin]]></title>
+    <link href="http://alexnederlof.github.io/blog/2011/09/11/a-10x-faster-jasper-maven-plugin/"/>
+    <updated>2011-09-11T15:57:00+02:00</updated>
+    <id>http://alexnederlof.github.io/blog/2011/09/11/a-10x-faster-jasper-maven-plugin</id>
+    <content type="html"><![CDATA[<p>For some months now I had to work with Java projects that use <a href="http://jasperforge.org/projects/jasperreports">Jasper</a> to generate PDF files. These reports have to be compiled from a kind xml-like document to a compiled ‘.jasper’ file. The <a href="http://mojo.codehaus.org/jasperreports-maven-plugin/">Jasperreports-maven-plug-in</a> does this for me whenever I make a release of the software or when I’m working on the reports. However, the plug-in takes considerable time to compile these reports. Compiling 52 reports takes about 49 seconds. That’s a bit too long for me if I have to make several builds. Since I wanted to learn how to make my own Maven plug-ins anyway I decided to try to make a faster plug-in on my own.</p>
+
+<p>The original plug-in is created in Java 4, works single-threaded and the last time any committed to the repo was (at time of writing) 31st of August, 2009. Not really an active project it seems. For that reason I decided to just create a new project on Github.</p>
+
+<p>I created the plug-in using Java 6, presuming most people will have Java 6 installed by now. Because the compiler has to read and write to a disk, doing so concurrently should make it faster. Finally, the code looks a better because the collections now have generics.</p>
+
+<p>It turned out my plug-in was indeed a lot faster. While the original plug-in takes 48 seconds to compile 52 files, my plug-in only takes 4.7 seconds. Almost ten times faster!</p>
+
+<p>Since it is my first Maven project there’s probably more work to be done. However it seems to work fine on Maven 2 and 3 on my Mac using Java 6.</p>
+
+<p>You can try it yourself and download the source from <a href="https://github.com/alexnederlof/Jasper-report-maven-plugin">the Github repo</a> I created. Issues can be filed there as well.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Installing SSD in my 27" iMac]]></title>
+    <link href="http://alexnederlof.github.io/blog/2011/08/28/installing-ssd-in-my-27-inch-imac/"/>
+    <updated>2011-08-28T13:16:00+02:00</updated>
+    <id>http://alexnederlof.github.io/blog/2011/08/28/installing-ssd-in-my-27-inch-imac</id>
+    <content type="html"><![CDATA[<p>I finally decided to install a SSD in my 27″ iMac. The iMac is a late 2009 model and it’s very fast. However, most of the time it’s just waiting for the hard disk and not using it’s full potential. After experiencing the speed of a SSD on my MacBook Air I was convinced my iMac should have that power as well.</p>
+
+<p>I’m typing this with the new SSD installed and everything is working blazingly fast! Boot-up time went from 92 seconds to 21. All apps start so fast you can’t even see the loading screen. I love this speed!</p>
+
+<!--more-->
+
+
+<h2>So how did I do it?</h2>
+
+<p>First of all I found these three great articles: <a href="http://www.twam.info/hardware/apple/installing-additional-ssd-in-mid-2010-27-imac">one from Tobias Müller</a>, <a href="http://blog.chargedpc.com/2011/05/2011-imac-ssd-install-guide.html">one from ChargedPc</a> and <a href="http://ssd.youds.com/">one from ssd.youds.com</a>. These articles were a great start.</p>
+
+<p>My choice of SSD was <a href="http://www.ocztechnology.com/ocz-agility-3-sata-iii-2-5-ssd.html">the Vertex 3 240GB</a>. It doesn’t matter much which one you choose, as long as you pick a Sandforce controller. I found out the my iMac has a SATA 2 controller, which offers a 3 GB/s throughput, and the iMacs after my model all have SATA 3, offering 6 GB/s throughput. I couldn’t find any benchmarks telling me what the performance loss of running a SATA 3 disk on a SATA 2 cable was so I decided to just go with a SATA-3 disk, since that offered a 550 MB/s read/write  speed which is still less then 3 GB/s.</p>
+
+<p>For the 2009 iMac model, you need a SATA Power Y-Splitter and a Left Angled SATA cable.</p>
+
+<p>Before starting the disassembly I plugged the SSD into my Ubuntu server to check if the SSD’s firmware was up-to-date. This is impossible to do on your mac. The firmware shipped was up-to-date so I had nothing to worry about.</p>
+
+<p>For the disassembly I followed the guide from ssd.youds.com. I noticed some differences because he is using the 2010 model. Some connectors are different and the not all screws are in the same place. Tip for disassembling your iMac: find a teardown blog for your specific model! I’m not going to place pictures here of my disassembly because there are enough tear-down galleries as it is.</p>
+
+<p>When the mac was disassembled it turned out my pre-investigation wasn’t as thorough as it should have been. The late 2009 model only has two SATA ports: one for the optical drive and one for the hard drive. I expected three. Since SATA doesn’t support bus-sharing I had to choose to either replace my harddisk or my superdrive. I chose to remove my superdrive since I never use it anyway and my iMac can boot from USB.</p>
+
+<p><img class="right" src="http://alexnederlof.github.io/images/ssd/SSD-holder-back.jpeg" width="400">Removing the optical drive isn’t trivial. The drive itself also functions as the cover of a shaft that transports air from the fan on side to the cooler on the other side. This is the reason why iMacs are so quiet. Their construction is extremely smart. Because the SSD is soo much smaller I had to construct a placeholder for my SSD. Here’s how it looks:</p>
+
+<p>You have to remove the optical driver and it’s cable. Then you split the power from the hard drive to use for your SSD and you use the SATA port of the optical drive for the SSD. The SATA cable I had was way too long unfortunately so I suggest getting a short one if you plan on doing it yourself.</p>
+
+<p>After re-assembling my iMac I found out my microphone wasn’t working so I had to open it up again, plug in the mic and assemble it yet again. Remind yourself to make pictures of every wire you unplug if you don’t want this to happen to you! Also remember that every socket on the motherboard needs a cable, and all sockets are labeled. After booting your mac check that the camera works, microphone works, fan sensors work, etc.</p>
+
+<p>When I started up I wanted to use the Lion’s harware test by holding the ‘D’ key. However, this didn’t work for some reason, the Mac just didn’t respond. When I released the ‘D’ key it booted up normally. I could see the SSD configured in the Disk utility and formatted it to Max OS extended journaled. According to the sensors in the iMac the temperature of the SDD was 128 degrees Celsius. I read this on other fora. It has something to do with the way Apple wires it’s hard drives. It doesn’t really seem to matter so I ignored it. If I figure out what I’m going to do with it I will update this post.</p>
+
+<h2>Moving the data.</h2>
+
+<p>My SSD is still significantly smaller then the HD I had. This means I had to move everything except from some big media folders from the HD to the SSD. As always make sure you have a back-up before going any further! I used <a href="http://www.bombich.com/">Carbon copy</a> to move all data excluding my Pictures, Movies and Downloads folder. After that I changed the start-up disk (in System preferences) to the SSD and rebooted the computer. After the blazingly fast boot I checked if everything was still working. Then I renamed the “Users” folder on my hard drive to “Extended Homedirs”. I removed everything but the Pictures, Movies and Downloads folders from old home folder. Then I deleted everything else from that hard drive except for the “Extended Homedirs” folder. In my new home folder on the SSD I saw that Lion had already created a new Movies, Downloads and Pictures folder. I deleted those and replaced them with Aliases to the “Extended Homedirs” subfolders.</p>
+
+<p>That’s it!</p>
+
+<p><img class="right" src="http://alexnederlof.github.io/images/ssd/SSD-installed.jpeg" width="700"></p>
+]]></content>
+  </entry>
+  
+</feed>
