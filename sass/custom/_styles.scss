@@ -1,2 +1,14 @@
 // This File is imported last, and will override other styles in the cascade
 // Add styles here to make changes without digging in too much
+
+#about > a {
+	text-align: center;
+	word-spacing: 15px;
+	text-decoration: none;
+	margin: 0px 5px;
+}
+
+#about {
+	margin: 50px auto;
+	width: 204px;
+}
