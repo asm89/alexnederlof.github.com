@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Research | LexTech]]></title>
   <link href="http://alexnederlof.github.io/blog/categories/research/atom.xml" rel="self"/>
   <link href="http://alexnederlof.github.io/"/>
-  <updated>2013-06-27T10:07:27+02:00</updated>
+  <updated>2013-07-08T14:45:26+02:00</updated>
   <id>http://alexnederlof.github.io/</id>
   <author>
     <name><![CDATA[Alex Nederlof]]></name>
@@ -40,7 +40,7 @@
 
 <p>So what does research show us? Here&rsquo;s the overview of what developers indicate is their motivation for code reviews:</p>
 
-<p>{% img  /images/code-reviews-motivations.png 500 &lsquo;Motivations&rsquo; &lsquo;Source: &rsquo; %}</p>
+<p><img src="/images/code-reviews-motivations.png" width="500" title="&lsquo;Motivations&rsquo; &lsquo;Source: &rsquo;" ></p>
 
 <p>By observing developers doing code reviews, Bacchelli has found quite a different outcome. In order of preference, the actual use of code reviews turns out to be:</p>
 

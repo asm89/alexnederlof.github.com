@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Testing | LexTech]]></title>
   <link href="http://alexnederlof.github.io/blog/categories/testing/atom.xml" rel="self"/>
   <link href="http://alexnederlof.github.io/"/>
-  <updated>2013-06-27T10:07:27+02:00</updated>
+  <updated>2013-07-08T14:45:26+02:00</updated>
   <id>http://alexnederlof.github.io/</id>
   <author>
     <name><![CDATA[Alex Nederlof]]></name>
@@ -464,7 +464,7 @@ java -jar -Dwebdriver.chrome.driver=/var/lib/chrome-driver/chromedriver /var/lib
 
 <p>In Jenkins global configuration add the environment variable that specifies the display:</p>
 
-<p>{% img /images/installing-selenium-with-jenkins-on-ubuntu/env.png %}</p>
+<p><img src="/images/installing-selenium-with-jenkins-on-ubuntu/env.png"></p>
 
 <p>Then select <em>“New Job”</em> and then select <em>“Build a free-style software project”</em> and give it a name.</p>
 
@@ -474,11 +474,11 @@ java -jar -Dwebdriver.chrome.driver=/var/lib/chrome-driver/chromedriver /var/lib
 
 <p>Then as a post-build action add the selenium reports.</p>
 
-<p>{% img /images/installing-selenium-with-jenkins-on-ubuntu/config.png %}</p>
+<p><img src="/images/installing-selenium-with-jenkins-on-ubuntu/config.png"></p>
 
 <p>If everything went well you should see nice test graphs in your Jenkins like this:</p>
 
-<p>{% img /images/installing-selenium-with-jenkins-on-ubuntu/test-result.png %}</p>
+<p><img src="/images/installing-selenium-with-jenkins-on-ubuntu/test-result.png"></p>
 ]]></content>
   </entry>
   

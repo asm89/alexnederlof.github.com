@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Hardware | LexTech]]></title>
   <link href="http://alexnederlof.github.io/blog/categories/hardware/atom.xml" rel="self"/>
   <link href="http://alexnederlof.github.io/"/>
-  <updated>2013-06-27T10:07:27+02:00</updated>
+  <updated>2013-07-08T14:45:26+02:00</updated>
   <id>http://alexnederlof.github.io/</id>
   <author>
     <name><![CDATA[Alex Nederlof]]></name>
@@ -39,7 +39,7 @@
 
 <p>When the mac was disassembled it turned out my pre-investigation wasn’t as thorough as it should have been. The late 2009 model only has two SATA ports: one for the optical drive and one for the hard drive. I expected three. Since SATA doesn’t support bus-sharing I had to choose to either replace my harddisk or my superdrive. I chose to remove my superdrive since I never use it anyway and my iMac can boot from USB.</p>
 
-<p>{% img right /images/ssd/SSD-holder-back.jpeg 400px &ldquo;SSD installed&rdquo; %}Removing the optical drive isn’t trivial. The drive itself also functions as the cover of a shaft that transports air from the fan on side to the cooler on the other side. This is the reason why iMacs are so quiet. Their construction is extremely smart. Because the SSD is soo much smaller I had to construct a placeholder for my SSD. Here’s how it looks:</p>
+<p><img class="right" src="/images/ssd/SSD-holder-back.jpeg" width="400">Removing the optical drive isn’t trivial. The drive itself also functions as the cover of a shaft that transports air from the fan on side to the cooler on the other side. This is the reason why iMacs are so quiet. Their construction is extremely smart. Because the SSD is soo much smaller I had to construct a placeholder for my SSD. Here’s how it looks:</p>
 
 <p>You have to remove the optical driver and it’s cable. Then you split the power from the hard drive to use for your SSD and you use the SATA port of the optical drive for the SSD. The SATA cable I had was way too long unfortunately so I suggest getting a short one if you plan on doing it yourself.</p>
 
@@ -53,7 +53,7 @@
 
 <p>That’s it!</p>
 
-<p>{% img right /images/ssd/SSD-installed.jpeg 700px &ldquo;SSD installed&rdquo; %}</p>
+<p><img class="right" src="/images/ssd/SSD-installed.jpeg" width="700"></p>
 ]]></content>
   </entry>
   

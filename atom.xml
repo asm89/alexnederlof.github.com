@@ -4,7 +4,7 @@
   <title><![CDATA[LexTech]]></title>
   <link href="http://alexnederlof.github.io/atom.xml" rel="self"/>
   <link href="http://alexnederlof.github.io/"/>
-  <updated>2013-06-27T10:07:26+02:00</updated>
+  <updated>2013-07-08T14:45:26+02:00</updated>
   <id>http://alexnederlof.github.io/</id>
   <author>
     <name><![CDATA[Alex Nederlof]]></name>
@@ -12,6 +12,124 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Using Git submodules for Maven artifacts not in central]]></title>
+    <link href="http://alexnederlof.github.io/blog/2013/07/08/using-git-submodules-for-maven-artifacts-not-in-central/"/>
+    <updated>2013-07-08T12:04:00+02:00</updated>
+    <id>http://alexnederlof.github.io/blog/2013/07/08/using-git-submodules-for-maven-artifacts-not-in-central</id>
+    <content type="html"><![CDATA[<p>Sometimes you come across a project (or a branch of a project) that you need and isn&rsquo;t in <a href="http://search.maven.org">Maven central</a>. If you own your own Maven repository that&rsquo;s no problem: you simply deploy the project to your own Maven repository and you are done. However, when you don&rsquo;t have your own Maven repository things get complicated.</p>
+
+<p>You could install the other project in you local Maven repository using <code>mvn install</code>. After that you tell other developers via the README that they need to do the same. However, this requires manual effort, which is always more error-prone. You&rsquo;d like to have Maven build that project automatically.</p>
+
+<p>An alternative is to copy/paste the code from that project into your project. This is also not the best idea: you&rsquo;ll loose track of the version you&rsquo;ve imported, you&rsquo;ll have code that doesn&rsquo;t belong to you in your repository, chances are that no one will update the code after that initial import because it might break, and finally there might be some licensing issues.</p>
+
+<p>There is a third option which is a bit more elegant (albeit not perfect). You can import the third party project as a <a href="http://git-scm.com/book/en/Git-Tools-Submodules">Git submodule</a> or using <a href="http://git-scm.com/book/ch6-7.html">Git subtree merging</a>. Here are the main differences:</p>
+
+<ul>
+<li>You can use <em>submodules</em> if you want to use the code but not import their repository in yours. This is useful if you want to contribute back to the original repository, or the original repository is very large and you don&rsquo;t want to bloat your repository. In other words: this will only link to the other repository.</li>
+<li>You can use <em>subtree merging</em> if you just want to import the code into your repository. This is useful if you just want read-only access to the other repository and you&rsquo;re not planning to contribute back to that repository.</li>
+</ul>
+
+
+<p>For more info about the differences read <a href="http://blogs.atlassian.com/2013/05/alternatives-to-git-submodule-git-subtree/">this blog</a> by Atlasssian.</p>
+
+<p>I&rsquo;m going to focus on using submodules, but you can do the same trick with Maven using subtree merging. I recommend <a href="http://nuclearsquid.com/writings/subtree-merging-and-you/">this excellent guide</a> for subtree merging if you decided to go that way. Here&rsquo;s how it works for <em>submodules</em>:</p>
+
+<!--more-->
+
+
+<h3>Setting it up</h3>
+
+<p><strong>1.</strong> You setup your Maven project to have a parent pom and your own project as a <a href="http://maven.apache.org/guides/mini/guide-multiple-modules.html">Maven module</a> of that project.</p>
+
+<p><strong>2.</strong> You import the project you want into your project. For example <a href="https://github.com/ravn/jsocks">this legacy jsocks project</a>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>git submodule add -b master git@github.com:ravn/jsocks.git
+</span><span class='line'>git submodule update --remote
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>git submodule</code> command will now have cloned the master branch of the remote repository in a folder called <em>jsocks</em>. Git will have added a <code>.gitmodule</code> file which looks like this:</p>
+
+<figure class='code'><figcaption><span>.gitmodule</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>submodule ["jsocks"]
+</span><span class='line'>        path = jsocks
+</span><span class='line'>        url = git@github.com:ravn/jsocks.git
+</span><span class='line'>        branch = master</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You directory structure should look like this</p>
+
+<figure class='code'><figcaption><span>Directory layout</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>yourParentProject
+</span><span class='line'>- pom.xml 
+</span><span class='line'>- .git
+</span><span class='line'>- .gitmodule
+</span><span class='line'>- yourproject
+</span><span class='line'>  \- pom.xml
+</span><span class='line'>- jsocks
+</span><span class='line'>  \- pom.xml</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>3.</strong> In you parent pom.xml you add the <em>jsocks</em> folder as a <a href="http://maven.apache.org/guides/mini/guide-multiple-modules.html">module</a>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;modules&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;module&gt;</span>yourproject<span class="nt">&lt;/module&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;module&gt;</span>jsocks<span class="nt">&lt;/module&gt;</span>
+</span><span class='line'><span class="nt">&lt;/modules&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And in your project, you add <em>jsocks</em> as a dependency:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;groupId&gt;</span>com.github.ravn.jsocks<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'><span class="nt">&lt;artifactId&gt;</span>jsocks<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'><span class="nt">&lt;version&gt;</span>0.0.1-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p><strong>4.</strong> Now everything is set-up. If you call <code>mvm test</code> on the parent project you will see that it first builds <em>jsocks</em> and then your project.</p>
+
+<h3>Using it</h3>
+
+<p>When other developers clone your project, they need to install the module as well using two git commands:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>git submodule init
+</span><span class='line'>git submodule update --remote
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Caveats</h3>
+
+<p>When the submodule changes everyone using the project has to manually do a <code>git submodule update --remote</code>. This means that it is not guaranteed that all developers are working with the same version of the submodule. Checking out a certain tag or commit is not possible at the moment as far as I know. This means that everyone either has to try to stay up to date, or you might have to reconsider using <em>subtree merging</em>.</p>
+
+<p><em>Inspired by <a href="http://www.vogella.com/articles/Git/article.html#submodules">this great tutorial @ vogella.com</a>. Read <a href="http://git-scm.com/book/en/Git-Tools-Submodules">the official documentation</a> for more details.</em></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The truth about code reviews]]></title>
