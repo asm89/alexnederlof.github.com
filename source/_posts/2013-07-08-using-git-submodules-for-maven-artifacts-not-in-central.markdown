@@ -3,7 +3,7 @@ layout: post
 title: "Using Git submodules for Maven artifacts not in central"
 date: 2013-07-08 12:04
 comments: true
-categories: [git, maven]
+categories: [Git, Maven, Java]
 ---
 Sometimes you come across a project (or a branch of a project) that you need and isn't in [Maven central](http://search.maven.org). If you own your own Maven repository that's no problem: you simply deploy the project to your own Maven repository and you are done. However, when you don't have your own Maven repository things get complicated. 
 

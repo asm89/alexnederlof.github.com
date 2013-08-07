@@ -3,7 +3,7 @@ layout: post
 title: "Integration testing with Jetty"
 date: 2012-11-21 16:23
 comments: true
-categories: [Tech, Testing]
+categories: [Tech, Testing, Java]
 ---
 This is a followup after [my previous post about separating JUnit tests into fast tests and integration tests](/blog/2012/11/21/separating-the-fast-from-the-slow-junit-tests/). The sample code is [available on GitHub](https://github.com/alexnederlof/integration-testing-example).
 
