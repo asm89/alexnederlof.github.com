@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: jersey | LexTech]]></title>
+  <title><![CDATA[Category: Jersey | LexTech]]></title>
   <link href="http://alexnederlof.github.io/blog/categories/jersey/atom.xml" rel="self"/>
   <link href="http://alexnederlof.github.io/"/>
-  <updated>2013-07-28T13:07:16+02:00</updated>
+  <updated>2013-08-07T11:29:20+02:00</updated>
   <id>http://alexnederlof.github.io/</id>
   <author>
     <name><![CDATA[Alex Nederlof]]></name>
