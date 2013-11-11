@@ -3,7 +3,7 @@ layout: post
 title: "Clean test classes using JUnit's rules"
 date: 2012-12-19 21:23
 comments: true
-categories: [Tech, Testing]
+categories: [Tech, Testing, Java]
 ---
 A couple of days ago I discovered the beauty of JUnit's [TestRules](http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/TestRule.html) while searching for an easy way to set a time-out on all tests in a testcase. JUnit has a built-in rule for this called [`Timeout`](http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/Timeout.html). You can set this rule for every test in your class by setting the timeout in a field like this:
 

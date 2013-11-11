@@ -3,7 +3,7 @@ layout: post
 title: "The truth about code reviews"
 date: 2013-05-24 16:31
 comments: true
-categories: Research
+categories: [Research]
 ---
 During the [International Conference of Software Engineering 2013 ](http://2013.icse-conferences.org/) I visited a great talk by [Alberto Bacchelli](https://twitter.com/sback_) on modern code reviews. It resonated with my experience with code reviews and I'd like to share the highlights of [his research](http://www.inf.usi.ch/phd/bacchelli/publications/icse2013.pdf) conducted among 17 developers from 16 different teams at Microsoft.
 
