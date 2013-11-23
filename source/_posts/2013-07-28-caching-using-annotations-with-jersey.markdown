@@ -24,7 +24,11 @@ public String returnSomethingAwesome() {
 }
 ```
 
-It turns out that's pretty easy to set-up. I mostly use either no caching at all or caching for a certain period. So first lets define those two annotations:
+It turns out that's pretty easy to set-up. I mostly use either no caching at all or caching for a certain period. 
+
+<!--more-->
+
+First lets define those two annotations:
 
 {% gist 6098121 CacheAnnotations.java %}
 
