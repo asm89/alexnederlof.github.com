@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Research | LexTech]]></title>
+  <link href="http://alex.nederlof.com/blog/categories/research/atom.xml" rel="self"/>
+  <link href="http://alex.nederlof.com/"/>
+  <updated>2013-11-24T09:36:46+08:00</updated>
+  <id>http://alex.nederlof.com/</id>
+  <author>
+    <name><![CDATA[Alex Nederlof]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[The truth about code reviews]]></title>
+    <link href="http://alex.nederlof.com/blog/2013/05/24/the-truth-about-code-reviews/"/>
+    <updated>2013-05-24T16:31:00+08:00</updated>
+    <id>http://alex.nederlof.com/blog/2013/05/24/the-truth-about-code-reviews</id>
+    <content type="html"><![CDATA[<p>During the <a href="http://2013.icse-conferences.org/">International Conference of Software Engineering 2013 </a> I visited a great talk by <a href="https://twitter.com/sback_">Alberto Bacchelli</a> on modern code reviews. It resonated with my experience with code reviews and I&rsquo;d like to share the highlights of <a href="http://www.inf.usi.ch/phd/bacchelli/publications/icse2013.pdf">his research</a> conducted among 17 developers from 16 different teams at Microsoft.</p>
+
+<p>Most developers have to do some kind of code reviewing at some point. When you use GitHub for example, every pull request can be seen as a code review. At some companies like Microsoft, Google and Facebook, code reviews are part of the job. To make it easy for developers they work with specialized tools like <a href="https://developers.google.com/appengine/articles/rietveld">Google&rsquo;s Rietveld</a>, <a href="http://phabricator.org/">Facebook&rsquo;s Phabricator</a> or the Open Source tool <a href="https://code.google.com/p/gerrit/">Gerrit</a>. We do code reviews because it is well known that <a href="http://www.youtube.com/watch?v=CKjRt48rZGk">code reviews offer many advantages</a>. When I have to explain to someone why code reviews are important, I come up with the same arguments most developers come up with (in order of importance):</p>
+
+<ol>
+<li>finding defects</li>
+<li>code quality improvement</li>
+<li>alternative Solutions</li>
+<li>knowledge Transfer</li>
+<li>shared code ownership</li>
+</ol>
+
+
+<p>However, research shows a different result:</p>
+
+<blockquote><p>Although the top motivation driving code reviews is still finding defects, the practice and the actual outcomes are less about finding errors than expected: Defect related comments comprise a small proportion and mainly cover small logical low-level issues</p></blockquote>
+
+<!--more-->
+
+
+<p>So what does research show us? Here&rsquo;s the overview of what developers indicate is their motivation for code reviews:</p>
+
+<p>{% img  /images/code-reviews-motivations.png 500 &lsquo;Motivations&rsquo; &lsquo;Source: &rsquo; %}</p>
+
+<p>By observing developers doing code reviews, Bacchelli has found quite a different outcome. In order of preference, the actual use of code reviews turns out to be:</p>
+
+<ol>
+<li><strong>Code improvements:</strong> Taking up 29% of the comments are things like better code practices, removing unnecessary code, and improving readability.</li>
+<li><strong>Understanding:</strong> Discussions about what the code does take up a little over 20%</li>
+<li><strong>Social communication:</strong> Messages such as thanking reviewers for a comment, and informing them that a proposed change has been implemented.</li>
+<li><strong>Defects:</strong> In contrast to what developers believe is the most important reason, defect finding comes fourth with 14% of the comments. These include logical issues, high-level issues, security issues and exception handling.</li>
+</ol>
+
+
+<h3>Code Reviewing Is Understanding</h3>
+
+<p>So why is finding defects in fourth place instead of first? The problem is that most of the code in a review is hard to understand if you are not the author. The study reports that most defects found in a review were not complicated errors:</p>
+
+<blockquote><p> …most of the comments on “defects” regard uncomplicated logical errors, e.g., corner cases, common configuration values, or operator precedence.</p></blockquote>
+
+<p>To this extend, the researchers asked the developers and testers what activities require most understanding when giving a code review. The majority votes for a <em>complete</em> or <em>high</em> understanding to find defects or offer alternative solutions. Sharing code ownership and knowledge require <em>low</em> or <em>high</em> understanding of the code. The lesson here is that when you ask for a code review, (1) make sure you ask the right person, and (2) don&rsquo;t assume the reviewer will find any bugs.</p>
+
+<h3>Can we improve the way we review?</h3>
+
+<p>Most of the code reviews I do go via GitHub pull requests. Although they give an excellent textual presentation of the diff, the code is ordered alphabetically and it isn&rsquo;t interactive. As far as I know, the same goes for the other review tools mentioned before. There are a couple of ways this could be improved in my opinion:</p>
+
+<ul>
+<li>By showing something like a class/module/file diagram diff. This would make it easier for a developer to see in which modules most changes occurred and how those propagate through the code.</li>
+<li>Allow method jumping in a diff. Especially in a large diff you quickly lose the overview of where methods lead to or come from. Being able to jump from the method you&rsquo;re reading to the method that is being called would be a huge improvement in code diff navigation.</li>
+<li>As mentioned in the research, it is best the review is performed by another author of the given file. It would be great if the review tool would choose the best reviewer for a given changeset based on the code history.</li>
+</ul>
+
+
+<h3>Conclusions</h3>
+
+<p>Code reviews are still very helpful however we should understand that their are not as useful for finding bugs as we might have thought. The tools we use for reviewing can still be improved. Until they do, make sure you appoint your reviews to the right person.</p>
+
+<p><em>N.B. Copyright notice: All data and graphs used in this post are from the <a href="http://www.inf.usi.ch/phd/bacchelli/publications/icse2013.pdf">original paper</a>.</em></p>
+]]></content>
+  </entry>
+  
+</feed>

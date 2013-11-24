@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Jersey | LexTech]]></title>
+  <link href="http://alex.nederlof.com/blog/categories/jersey/atom.xml" rel="self"/>
+  <link href="http://alex.nederlof.com/"/>
+  <updated>2013-11-24T09:36:46+08:00</updated>
+  <id>http://alex.nederlof.com/</id>
+  <author>
+    <name><![CDATA[Alex Nederlof]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Cache-Control using annotations with Jersey]]></title>
+    <link href="http://alex.nederlof.com/blog/2013/07/28/caching-using-annotations-with-jersey/"/>
+    <updated>2013-07-28T12:02:00+08:00</updated>
+    <id>http://alex.nederlof.com/blog/2013/07/28/caching-using-annotations-with-jersey</id>
+    <content type="html"><![CDATA[<p>Building RESTful services with Jax-RX is awesome, but there&rsquo;s no annotation based notation to set your <code>Cache-Control</code> headers. You can either set the Cache-Control headers using a filter based on a URL pattern and map your responses through there, or you can use the <a href="http://jersey.java.net/nonav/apidocs/1.12/jersey/javax/ws/rs/core/Response.ResponseBuilder.html">ResponseBuiler</a> with the <a href="http://jersey.java.net/nonav/apidocs/1.12/jersey/javax/ws/rs/core/CacheControl.html">CacheControl</a> class like this:</p>
+
+<p><code>java
+CacheControl control = new CacheControl();
+control.setMaxAge(60);
+Response.ok(myEntity).cacheControl(control).build();
+</code></p>
+
+<p>However, I would rather have something like this:</p>
+
+<p>```java
+@GET
+@CacheMaxAge(time = 10, unit = TimeUnit.MINUTES)
+@Path(&ldquo;/awesome&rdquo;)
+public String returnSomethingAwesome() {</p>
+
+<pre><code>...
+</code></pre>
+
+<p>}
+```</p>
+
+<p>It turns out that&rsquo;s pretty easy to set-up. I mostly use either no caching at all or caching for a certain period.</p>
+
+<!--more-->
+
+
+<p>First lets define those two annotations:</p>
+
+<p>{% gist 6098121 CacheAnnotations.java %}</p>
+
+<p>As you can see I can either set <code>@NoCache</code> or I can set <code>@CacheMaxAge</code> with a certain time.</p>
+
+<p>Now we need to configure these annotations using a &lsquo;ResourceFilterFactory&rsquo;:</p>
+
+<p>{% gist 6098121 CacheFilterFactory.java %}</p>
+
+<p>Finally we need to install these filters. Using the <code>web.xml</code> file you&rsquo;ll can add the class like so:</p>
+
+<p>```xml
+&lt;init-param></p>
+
+<pre><code>&lt;param-name&gt;com.sun.jersey.spi.container.ResourceFilters&lt;/param-name&gt;
+&lt;param-value&gt;package.name.CacheFilterFactory&lt;/param-value&gt;
+</code></pre>
+
+<p>&lt;/init-param>
+```</p>
+
+<p>&hellip;or if you are using Guice you can add it to the parameters like this:</p>
+
+<p><code>java
+Map&lt;String, String&gt; params = new HashMap&lt;&gt;();
+params.put(ResourceConfig.PROPERTY_RESOURCE_FILTER_FACTORIES, CacheFilterFactory.class.getName());
+filter("/api/*").through(GuiceContainer.class, params);
+</code></p>
+
+<p>You can no add these annotations to any resource method you like. As you can see it is easy to extend to add any other headers you like. With a little tweaking you might also be able to configure it so that it can use ETags by intercepting the content but that was outside the scope for me.</p>
+
+<p>This solution was inspired by <a href="http://stackoverflow.com/questions/10934316/jersey-default-cache-control-to-no-cache">this StackOverflow post</a>.</p>
+]]></content>
+  </entry>
+  
+</feed>

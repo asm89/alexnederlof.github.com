@@ -1,0 +1,556 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Java | LexTech]]></title>
+  <link href="http://alex.nederlof.com/blog/categories/java/atom.xml" rel="self"/>
+  <link href="http://alex.nederlof.com/"/>
+  <updated>2013-11-24T09:36:46+08:00</updated>
+  <id>http://alex.nederlof.com/</id>
+  <author>
+    <name><![CDATA[Alex Nederlof]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Cache-Control using annotations with Jersey]]></title>
+    <link href="http://alex.nederlof.com/blog/2013/07/28/caching-using-annotations-with-jersey/"/>
+    <updated>2013-07-28T12:02:00+08:00</updated>
+    <id>http://alex.nederlof.com/blog/2013/07/28/caching-using-annotations-with-jersey</id>
+    <content type="html"><![CDATA[<p>Building RESTful services with Jax-RX is awesome, but there&rsquo;s no annotation based notation to set your <code>Cache-Control</code> headers. You can either set the Cache-Control headers using a filter based on a URL pattern and map your responses through there, or you can use the <a href="http://jersey.java.net/nonav/apidocs/1.12/jersey/javax/ws/rs/core/Response.ResponseBuilder.html">ResponseBuiler</a> with the <a href="http://jersey.java.net/nonav/apidocs/1.12/jersey/javax/ws/rs/core/CacheControl.html">CacheControl</a> class like this:</p>
+
+<p><code>java
+CacheControl control = new CacheControl();
+control.setMaxAge(60);
+Response.ok(myEntity).cacheControl(control).build();
+</code></p>
+
+<p>However, I would rather have something like this:</p>
+
+<p>```java
+@GET
+@CacheMaxAge(time = 10, unit = TimeUnit.MINUTES)
+@Path(&ldquo;/awesome&rdquo;)
+public String returnSomethingAwesome() {</p>
+
+<pre><code>...
+</code></pre>
+
+<p>}
+```</p>
+
+<p>It turns out that&rsquo;s pretty easy to set-up. I mostly use either no caching at all or caching for a certain period.</p>
+
+<!--more-->
+
+
+<p>First lets define those two annotations:</p>
+
+<p>{% gist 6098121 CacheAnnotations.java %}</p>
+
+<p>As you can see I can either set <code>@NoCache</code> or I can set <code>@CacheMaxAge</code> with a certain time.</p>
+
+<p>Now we need to configure these annotations using a &lsquo;ResourceFilterFactory&rsquo;:</p>
+
+<p>{% gist 6098121 CacheFilterFactory.java %}</p>
+
+<p>Finally we need to install these filters. Using the <code>web.xml</code> file you&rsquo;ll can add the class like so:</p>
+
+<p>```xml
+&lt;init-param></p>
+
+<pre><code>&lt;param-name&gt;com.sun.jersey.spi.container.ResourceFilters&lt;/param-name&gt;
+&lt;param-value&gt;package.name.CacheFilterFactory&lt;/param-value&gt;
+</code></pre>
+
+<p>&lt;/init-param>
+```</p>
+
+<p>&hellip;or if you are using Guice you can add it to the parameters like this:</p>
+
+<p><code>java
+Map&lt;String, String&gt; params = new HashMap&lt;&gt;();
+params.put(ResourceConfig.PROPERTY_RESOURCE_FILTER_FACTORIES, CacheFilterFactory.class.getName());
+filter("/api/*").through(GuiceContainer.class, params);
+</code></p>
+
+<p>You can no add these annotations to any resource method you like. As you can see it is easy to extend to add any other headers you like. With a little tweaking you might also be able to configure it so that it can use ETags by intercepting the content but that was outside the scope for me.</p>
+
+<p>This solution was inspired by <a href="http://stackoverflow.com/questions/10934316/jersey-default-cache-control-to-no-cache">this StackOverflow post</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Using Git submodules for Maven artifacts not in central]]></title>
+    <link href="http://alex.nederlof.com/blog/2013/07/08/using-git-submodules-for-maven-artifacts-not-in-central/"/>
+    <updated>2013-07-08T12:04:00+08:00</updated>
+    <id>http://alex.nederlof.com/blog/2013/07/08/using-git-submodules-for-maven-artifacts-not-in-central</id>
+    <content type="html"><![CDATA[<p>Sometimes you come across a project (or a branch of a project) that you need and isn&rsquo;t in <a href="http://search.maven.org">Maven central</a>. If you own your own Maven repository that&rsquo;s no problem: you simply deploy the project to your own Maven repository and you are done. However, when you don&rsquo;t have your own Maven repository things get complicated.</p>
+
+<p>You could install the other project in you local Maven repository using <code>mvn install</code>. After that you tell other developers via the README that they need to do the same. However, this requires manual effort, which is always more error-prone. You&rsquo;d like to have Maven build that project automatically.</p>
+
+<p>An alternative is to copy/paste the code from that project into your project. This is also not the best idea: you&rsquo;ll loose track of the version you&rsquo;ve imported, you&rsquo;ll have code that doesn&rsquo;t belong to you in your repository, chances are that no one will update the code after that initial import because it might break, and finally there might be some licensing issues.</p>
+
+<p>There is a third option which is a bit more elegant (albeit not perfect). You can import the third party project as a <a href="http://git-scm.com/book/en/Git-Tools-Submodules">Git submodule</a> or using <a href="http://git-scm.com/book/ch6-7.html">Git subtree merging</a>. Here are the main differences:</p>
+
+<ul>
+<li>You can use <em>submodules</em> if you want to use the code but not import their repository in yours. This is useful if you want to contribute back to the original repository, or the original repository is very large and you don&rsquo;t want to bloat your repository. In other words: this will only link to the other repository.</li>
+<li>You can use <em>subtree merging</em> if you just want to import the code into your repository. This is useful if you just want read-only access to the other repository and you&rsquo;re not planning to contribute back to that repository.</li>
+</ul>
+
+
+<p>For more info about the differences read <a href="http://blogs.atlassian.com/2013/05/alternatives-to-git-submodule-git-subtree/">this blog</a> by Atlasssian.</p>
+
+<p>I&rsquo;m going to focus on using submodules, but you can do the same trick with Maven using subtree merging. I recommend <a href="http://nuclearsquid.com/writings/subtree-merging-and-you/">this excellent guide</a> for subtree merging if you decided to go that way. Here&rsquo;s how it works for <em>submodules</em>:</p>
+
+<!--more-->
+
+
+<h3>Setting it up</h3>
+
+<p><strong>1.</strong> You setup your Maven project to have a parent pom and your own project as a <a href="http://maven.apache.org/guides/mini/guide-multiple-modules.html">Maven module</a> of that project.</p>
+
+<p><strong>2.</strong> You import the project you want into your project. For example <a href="https://github.com/ravn/jsocks">this legacy jsocks project</a>.</p>
+
+<p><code>sh
+git submodule add -b master git@github.com:ravn/jsocks.git
+git submodule update --remote
+</code></p>
+
+<p>The <code>git submodule</code> command will now have cloned the master branch of the remote repository in a folder called <em>jsocks</em>. Git will have added a <code>.gitmodule</code> file which looks like this:</p>
+
+<p>```plain .gitmodule
+submodule [&ldquo;jsocks&rdquo;]</p>
+
+<pre><code>    path = jsocks
+    url = git@github.com:ravn/jsocks.git
+    branch = master
+</code></pre>
+
+<p>```</p>
+
+<p>You directory structure should look like this</p>
+
+<p><code>plain Directory layout
+yourParentProject
+- pom.xml
+- .git
+- .gitmodule
+- yourproject
+  \- pom.xml
+- jsocks
+  \- pom.xml
+</code></p>
+
+<p><strong>3.</strong> In you parent pom.xml you add the <em>jsocks</em> folder as a <a href="http://maven.apache.org/guides/mini/guide-multiple-modules.html">module</a>.</p>
+
+<p>```xml
+<modules></p>
+
+<pre><code>&lt;module&gt;yourproject&lt;/module&gt;
+&lt;module&gt;jsocks&lt;/module&gt;
+</code></pre>
+
+<p></modules>
+```</p>
+
+<p>And in your project, you add <em>jsocks</em> as a dependency:</p>
+
+<p><code>xml
+&lt;groupId&gt;com.github.ravn.jsocks&lt;/groupId&gt;
+&lt;artifactId&gt;jsocks&lt;/artifactId&gt;
+&lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+</code></p>
+
+<p><strong>4.</strong> Now everything is set-up. If you call <code>mvm test</code> on the parent project you will see that it first builds <em>jsocks</em> and then your project.</p>
+
+<h3>Using it</h3>
+
+<p>When other developers clone your project, they need to install the module as well using two git commands:</p>
+
+<p><code>sh
+git submodule init
+git submodule update --remote
+</code></p>
+
+<h3>Caveats</h3>
+
+<p>When the submodule changes everyone using the project has to manually do a <code>git submodule update --remote</code>. This means that it is not guaranteed that all developers are working with the same version of the submodule. Checking out a certain tag or commit is not possible at the moment as far as I know. This means that everyone either has to try to stay up to date, or you might have to reconsider using <em>subtree merging</em>.</p>
+
+<p><em>Inspired by <a href="http://www.vogella.com/articles/Git/article.html#submodules">this great tutorial @ vogella.com</a>. Read <a href="http://git-scm.com/book/en/Git-Tools-Submodules">the official documentation</a> for more details.</em></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Clean test classes using JUnit's rules]]></title>
+    <link href="http://alex.nederlof.com/blog/2012/12/19/clean-test-classes-using-junits-classrules/"/>
+    <updated>2012-12-19T21:23:00+08:00</updated>
+    <id>http://alex.nederlof.com/blog/2012/12/19/clean-test-classes-using-junits-classrules</id>
+    <content type="html"><![CDATA[<p>A couple of days ago I discovered the beauty of JUnit&rsquo;s <a href="http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/TestRule.html">TestRules</a> while searching for an easy way to set a time-out on all tests in a testcase. JUnit has a built-in rule for this called <a href="http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/Timeout.html"><code>Timeout</code></a>. You can set this rule for every test in your class by setting the timeout in a field like this:</p>
+
+<p>```java Setting a Timeout Rule <a href="http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/Timeout.html">http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/Timeout.html</a> View the Javadoc</p>
+
+<p>public class MyTest {</p>
+
+<pre><code>@Rule
+public MethodRule globalTimeout= new Timeout(20);
+
+@Test
+public void someTest() {
+    ...
+}
+</code></pre>
+
+<p><code>``
+Another gem is the</code>ExpectedException` rule, which allows you to inspect a thrown exception in several ways.</p>
+
+<p>```java Inspecting excptions <a href="http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/ExpectedException.html">http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/ExpectedException.html</a> View the Javadoc
+public static class HasExpectedException {</p>
+
+<pre><code>@Rule
+public ExpectedException thrown= ExpectedException.none();
+
+@Test
+public void throwsNothing() {
+// no exception expected, none thrown: passes.
+}
+
+@Test
+public void throwsNullPointerException() {
+    thrown.expect(NullPointerException.class);
+    throw new NullPointerException();
+}
+
+@Test
+public void throwsNullPointerExceptionWithMessage() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("happened?");
+    thrown.expectMessage(startsWith("What"));
+    throw new NullPointerException("What happened?");
+}
+</code></pre>
+
+<p> }
+```</p>
+
+<p>The great thing is, it&rsquo;s super easy to extend one of these rules.</p>
+
+<!--more-->
+
+
+<p>In <a href="https://github.com/crawljax/crawljax">Crawljax</a>, another project I&rsquo;m currently working on, I wanted a Jetty server to start before I the tests run, and to shut it down afterwards. I could do this using a <code>@BeforeClass</code> method and then clean it up in the <code>@AfterClass</code> method but that doesn&rsquo;t make it reusable in other classes. To make it reusable I could put it in an abstract class that just has the setup and teardown methods and inherit that class in the classes where I need the server. However, that can lead to weird class hierarchies that don&rsquo;t make any sense. Again, JUnit&rsquo;s rules come to the rescue. There&rsquo;s the <a href="http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/ExternalResource.html"><code>ExternalResource</code></a> that allows you to setup resources before tests, and tear them down afterwards. I inherited this class to provide my Jetty server.</p>
+
+<p>```java Rule to start a Jetty Server <a href="https://github.com/crawljax/crawljax/blob/4b3a3f44c946b32c1dee5fa14960764c90393666/src/test/java/com/crawljax/demo/RunWithWebServer.java">https://github.com/crawljax/crawljax/blob/4b3a3f44c946b32c1dee5fa14960764c90393666/src/test/java/com/crawljax/demo/RunWithWebServer.java</a> View on GitHub
+public class RunWithWebServer extends ExternalResource {</p>
+
+<pre><code>private final Resource resource;
+
+private int port;
+private URL demoSite;
+private Server server;
+private boolean started;
+
+/**
+ * @param classPathResource
+ *            The name of the resource. This resource must be on the test or regular classpath.
+ */
+public RunWithWebServer(String classPathResource) {
+    resource = Resource.newClassPathResource(classPathResource);
+}
+
+@Override
+protected void before() throws Throwable {
+    server = new Server(0);
+    ResourceHandler handler = new ResourceHandler();
+    handler.setBaseResource(resource);
+    server.setHandler(handler);
+    server.start();
+    this.port = server.getConnectors()[0].getLocalPort();
+    this.demoSite = new URL("http", "localhost", port, "/");
+    this.started = true;
+}
+
+@Override
+protected void after() {
+    try {
+        if (server != null) {
+            server.stop();
+        }
+    } catch (Exception e) {
+        throw new RuntimeException("Could not stop the server", e);
+    }
+}
+
+// Some getters for the fields
+</code></pre>
+
+<p>}
+```</p>
+
+<p>The class starts the Jetty server using the given resource as the web folder. Tests can then use this rule to obtain a real URL to test with:</p>
+
+<p>```java Using the webserver. <a href="https://github.com/crawljax/crawljax/blob/4b3a3f44c946b32c1dee5fa14960764c90393666/src/test/java/com/crawljax/core/CandidateElementExtractorTest.java">https://github.com/crawljax/crawljax/blob/4b3a3f44c946b32c1dee5fa14960764c90393666/src/test/java/com/crawljax/core/CandidateElementExtractorTest.java</a> Usage example
+public void SomeWebTest {</p>
+
+<pre><code>@ClassRule
+public static final RunWithWebServer SERVER = new RunWithWebServer("/site/crawler");
+
+@Test
+public void test() {
+    URL url = SERVER.getSiteUrl();
+    testStuffUsingThe(url); 
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>There are more built-in rules in JUnit like:</p>
+
+<ul>
+<li>The <a href="http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/TemporaryFolder.html">TemporaryFolder</a> That creates a temporary folder for you,</li>
+<li>the <a href="http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/Verifier.html">Verifier</a> that can verify some invariant after each test method,</li>
+<li>and more! Checkout the <a href="https://github.com/KentBeck/junit/wiki/Rules">JUnit wiki</a> to learn more of them.</li>
+</ul>
+
+
+<p>Have fun!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Integration testing with Jetty]]></title>
+    <link href="http://alex.nederlof.com/blog/2012/11/21/integration-testing-with-jetty/"/>
+    <updated>2012-11-21T16:23:00+08:00</updated>
+    <id>http://alex.nederlof.com/blog/2012/11/21/integration-testing-with-jetty</id>
+    <content type="html"><![CDATA[<p>This is a followup after <a href="/blog/2012/11/21/separating-the-fast-from-the-slow-junit-tests/">my previous post about separating JUnit tests into fast tests and integration tests</a>. The sample code is <a href="https://github.com/alexnederlof/integration-testing-example">available on GitHub</a>.</p>
+
+<p>When building a web application I like to have an integration test suite that resembles the real life situation as best as possible. The code should be able to run without too much effort from a build server like <a href="http://jenkins-ci.org/">Jenkins</a> and it should be fairly easy to maintain. In this post I will explain how I achieved these goals.</p>
+
+<p>To see what this example app does run the server by running the main method in <code>com.alexnederlof.inttesting.MyWebServer.java</code> and brows to <a href="">http://localhost:9090</a>. You can do this from your favorite IDE.</p>
+
+<!--more-->
+
+
+<h3>Installing Selenium server</h3>
+
+<p>Before we get started we need to install Selenium as a service on the build server. <a href="/blog/2012/11/19/installing-selenium-with-jenkins-on-ubuntu/">In a previous post I wrote</a> how to install Selenium on a headless Ubuntu server. To install Selenium for this example, follow that post until the part where you hook it onto Jenkins. We don’t need that here because we will use JUnit instead of the HTML scripts I used in that post. To start and stop Selenium we need a script to wrap the jar. You can find my version of this script <a href="https://gist.github.com/4120566">here</a>. Adopt the script to your settings and install it in <code>/etc/init.d/selenium</code>. Make sure the display port matches the one you defined in <code>/etc/init.d/xvfb</code>. Now start Selenium and check the log to see if it went without any errors.</p>
+
+<h3>Creating the tests</h3>
+
+<p>I created the tests for this example using the Firefox Selenium IDE. I exported them to Java and imported them in my project. They test two very simple pages included in the sample project that refer to each other. Here’s what the test looks like:</p>
+
+<p>```java A simple web test <a href="https://github.com/alexnederlof/integration-testing-example/blob/master/src/test/java/com/alexnederlof/inttesting/SimpleSeleniumTest.java">https://github.com/alexnederlof/integration-testing-example/blob/master/src/test/java/com/alexnederlof/inttesting/SimpleSeleniumTest.java</a> View on Github</p>
+
+<pre><code>@Test
+public void testTheWebApp() throws Exception {
+    Selenium selenium = getSelenium();
+    selenium.open("/");
+    assertThat(selenium.getText("css=h1"), is("This is the main page"));
+    assertThat(selenium.getTitle(), is("Welcome"));
+    selenium.click("id=otherLink");
+    selenium.waitForPageToLoad("30000");
+    assertThat(selenium.getTitle(), is("Other page"));
+    assertThat(selenium.getText("css=h1"), is("This is the other page"));
+    selenium.click("id=main");
+    selenium.waitForPageToLoad("30000");
+    assertThat(selenium.getTitle(), is("Welcome"));
+}
+</code></pre>
+
+<p>```</p>
+
+<p>I want my tests to run on multiple browsers. To do this I use one of JUnit’s latest cool features: <a href="http://junit.sourceforge.net/javadoc/org/junit/runners/Parameterized.html">@Parameterized</a>. In the superclass of all my Selenium tests (<code>MultiBrowserTest.java</code>) the @Parameterized passes the browser as an argument to the constructor. Selenium is then started using that browser. The name parameter gives a nice name to the individual tests instances. Here’s what the test’s superclass looks like:</p>
+
+<p>```java MultiBrowserTest <a href="https://github.com/alexnederlof/integration-testing-example/blob/master/src/test/java/com/alexnederlof/inttesting/MultiBrowserTest.java">https://github.com/alexnederlof/integration-testing-example/blob/master/src/test/java/com/alexnederlof/inttesting/MultiBrowserTest.java</a> View it on GitHub
+public abstract class MultiBrowserTest implements SlowTest {</p>
+
+<pre><code>private static final String BASE_URL = MyWebServer.BASE_URL;
+private static final String SELENIUM_HOST = "127.0.0.1";
+private static final int SELENIUM_PORT = 4443;
+
+@Parameters(name = "browser={0}")
+public static List&lt;Object[]&gt; data() {
+    return Arrays.asList(new Object[][] { { "*firefox" },
+            { "*googlechrome" } });
+}
+
+private final String browser;
+
+private Selenium selenium;
+
+public MultiBrowserTest(String browser) {
+    this.browser = browser;
+}
+
+@Before
+public void setUp() throws Exception {
+    selenium = new DefaultSelenium(SELENIUM_HOST, SELENIUM_PORT,
+            getBrowser(), BASE_URL);
+    selenium.start();
+}
+
+public String getBrowser() {
+    return browser;
+}
+
+public Selenium getSelenium() {
+    return selenium;
+}
+
+@After
+public void tearDown() throws Exception {
+    selenium.stop();
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>Now we need to setup the server to serve the pages Selenium will test. As shown in <a href="/blog/2012/11/21/separating-the-fast-from-the-slow-junit-tests/">the previous post</a>, I have a test suite that starts and stops  <code>MyServer.java</code>. This class wraps Jetty with the most basic configuration. It looks like this:</p>
+
+<p>```java Simple Jetty Wrapper</p>
+
+<pre><code>public static WebAppContext buildWebAppContext() {
+    WebAppContext webAppContext = new WebAppContext();
+    webAppContext.setWar(new File("src/main/webapp/").getAbsolutePath());
+    return webAppContext;
+}
+
+private final Server server;
+
+public MyWebServer() {
+    this.server = new Server(PORT);
+    server.setHandler(buildWebAppContext());
+}
+
+public void start() throws Exception {
+    server.start();
+}
+
+public void stop() throws Exception {
+    server.stop();
+}
+</code></pre>
+
+<p>```</p>
+
+<p>All in all this is what happens when you run <code>mvn test -P integrationtests</code>:</p>
+
+<ul>
+<li>The IntegrationTestSuit.java is run. This loads the Jetty server before it continues with the tests.</li>
+<li>SimpleSelenium test is loaded twice, once for Chrome and once for FireFox.</li>
+<li>The tests connect to the Selenium server running on localhost.</li>
+<li>After the tests have ran, either successful or not, the Suite shuts down the Jetty server.</li>
+<li>If you run this procedure from a continues integration server like Jenkins, you get nice statistics on tests. Hurray you have automated your integration tests!</li>
+</ul>
+
+
+<p>Even cooler is that if you have a pretty decent Selenium test suite, you can also check your code coverage to see how much code you reach with your integration tests.</p>
+
+<h3>Whats next?</h3>
+
+<p>I want to find out how Selenium Grid works and set it up on a Windows VM so I can also test Safari and Internet Explorer.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Separating the fast from the slow JUnit tests]]></title>
+    <link href="http://alex.nederlof.com/blog/2012/11/21/separating-the-fast-from-the-slow-junit-tests/"/>
+    <updated>2012-11-21T16:16:00+08:00</updated>
+    <id>http://alex.nederlof.com/blog/2012/11/21/separating-the-fast-from-the-slow-junit-tests</id>
+    <content type="html"><![CDATA[<p>For some time now I was looking for a good way to do real integration testing with JUnit. These tests tests tend to be slow because the whole stack has to be build up and shut down. Furthermore, some tests also need a specific environment like a database connection which is not available to any developer. That’s why you probably want to split up your test suite in fast and slow (or dependent) tests. JUnit has a technique to split up these tests using <a href="http://kentbeck.github.com/junit/javadoc/4.10/org/junit/experimental/categories/Categories.html">Categories</a>. This allows you to specify the category your tests belongs to and then skip those tests in your Suite like so:</p>
+
+<p>```java</p>
+
+<pre><code>@RunWith(Categories.class)
+@IncludeCategory(SlowTests.class)
+@SuiteClasses( { A.class, B.class })
+public static class SlowTestSuite { }
+</code></pre>
+
+<p>```</p>
+
+<p>The downside here is that you have to specify all the tests in the test suite. As far as I know, JUnit has no mechanism to do this for this for you. You can work with the <a href="http://maven.apache.org/plugins/maven-surefire-plugin/examples/junit.html#Using_JUnit_Categories">Maven Surefire plugin</a> to filter stuff in and out, but I think there’s a better way. A man by the name of <a href="http://www.johanneslink.net/">Johannes Link</a> built a <a href="http://www.johanneslink.net/projects/cpsuite.jsp">great little library</a> which does just what I want. I allows us to specify in a Suite to run all JUnit tests it can find. It can also exclude and include certain tests. Unfortunately  it doesn’t work with JUnit’s Categories system but it uses type inheritance. This makes it easy to filter out types of tests. For example I define all the fast tests like this:</p>
+
+<p><code>java
+@RunWith(ClasspathSuite.class) // Loads all unit tests it finds on the classpath
+@ExcludeBaseTypeFilter(SlowTest.class) // Excludes tests that inherit SlowTest
+public class FastTests {}
+</code></p>
+
+<!--more-->
+
+
+<p>This will run every test that doesn’t implement the SlowTest inferface. The slow test suite needs a tearing up of the server, and once the suite is done the server should be shut down. It could also be that you need to set up a database connection or connect to another server. In my case, the suite should only run subtypes of MultiBrowserTest. Here’s how that looks:</p>
+
+<p>```java
+@RunWith(ClasspathSuite.class)
+@BaseTypeFilter(MultiBrowserTest.class)
+public class IntegrationTestSuite {</p>
+
+<pre><code>private static MyWebServer server;
+
+@BeforeClass
+public static void startServer() throws Exception {
+    server = new MyWebServer();
+    server.start();
+}
+
+@AfterClass
+public static void shutDownServer() throws Exception {
+    server.stop();
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>Now that we’ve split up the tests we want Maven to run the fast tests always and do the integration tests only when we ask for it. This can easily be done using Maven profiles. I define two profiles default and integrationtests. They set the include property for the surefire plugin.</p>
+
+<p>``` xml
+<profiles></p>
+
+<pre><code>    &lt;profile&gt;
+        &lt;id&gt;default&lt;/id&gt;
+        &lt;activation&gt;
+            &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
+        &lt;/activation&gt;
+        &lt;properties&gt;
+            &lt;tests.include&gt;com/alexnederlof/seleniumtest/suites/FastTests.java&lt;/tests.include&gt;
+        &lt;/properties&gt;
+    &lt;/profile&gt;
+    &lt;profile&gt;
+        &lt;id&gt;integrationtests&lt;/id&gt;
+        &lt;properties&gt;
+            &lt;tests.include&gt;com/alexnederlof/seleniumtest/suites/*&lt;/tests.include&gt;
+        &lt;/properties&gt;
+    &lt;/profile&gt;
+&lt;/profiles&gt;
+
+&lt;build&gt;
+    &lt;plugins&gt;
+        &lt;plugin&gt;
+            &lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt;
+            &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+            &lt;version&gt;2.12.4&lt;/version&gt;
+            &lt;configuration&gt;
+                &lt;includes&gt;
+                    &lt;include&gt;${tests.include}&lt;/include&gt;
+                &lt;/includes&gt;
+            &lt;/configuration&gt;
+        &lt;/plugin&gt;
+    &lt;/plugins&gt;
+&lt;/build&gt;
+</code></pre>
+
+<p>```</p>
+
+<p>Now running <code>mvn test</code> will run only the FastTests and <code>mvn test -P integrationtests</code> will run all the tests.</p>
+
+<p>You can find the code for this example <a href="https://github.com/alexnederlof/integration-testing-example/">on GitHub</a>. This post is actually part of <a href="/blog/2012/11/21/integration-testing-with-jetty/">another blog post of mine</a> where I explain how to do integration testing using Jetty and Selenium.</p>
+]]></content>
+  </entry>
+  
+</feed>
