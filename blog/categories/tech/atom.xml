@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tech | LexTech]]></title>
   <link href="http://alex.nederlof.com/blog/categories/tech/atom.xml" rel="self"/>
   <link href="http://alex.nederlof.com/"/>
-  <updated>2013-11-24T09:36:46+08:00</updated>
+  <updated>2013-11-24T09:43:51+08:00</updated>
   <id>http://alex.nederlof.com/</id>
   <author>
     <name><![CDATA[Alex Nederlof]]></name>
@@ -47,13 +47,116 @@ public String returnSomethingAwesome() {</p>
 
 <p>First lets define those two annotations:</p>
 
-<p>{% gist 6098121 CacheAnnotations.java %}</p>
+<p><div><script src='https://gist.github.com/6098121.js?file=CacheAnnotations.java'></script>
+<noscript><pre><code>import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.util.concurrent.TimeUnit;
+
+public final class CacheAnnotations {
+
+	/**
+	 * Set the &quot;Max-age&quot; Cache header.
+	 * 
+	 * @see &lt;a href=&#39;http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.3&#39;&gt;W3C Header
+	 *      Field Definitions&lt;/a&gt;
+	 */
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target(ElementType.METHOD)
+	public @interface CacheMaxAge {
+		/**
+		 * @return The amount of time to cache this resource.
+		 */
+		long time();
+
+		/**
+		 * @return The {@link TimeUnit} for the given {@link #time()}.
+		 */
+		TimeUnit unit();
+	}
+
+	/**
+	 * Sets the cache header to the value &quot;no cache&quot;
+	 * 
+	 * @see &lt;a href=&#39;http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.1&#39;&gt;W3c Header
+	 *      Field Definitions&lt;/a&gt;
+	 */
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target(ElementType.METHOD)
+	public @interface NoCache {
+
+	}
+
+	private CacheAnnotations() {
+	}
+}</code></pre></noscript></div>
+</p>
 
 <p>As you can see I can either set <code>@NoCache</code> or I can set <code>@CacheMaxAge</code> with a certain time.</p>
 
 <p>Now we need to configure these annotations using a &lsquo;ResourceFilterFactory&rsquo;:</p>
 
-<p>{% gist 6098121 CacheFilterFactory.java %}</p>
+<p><div><script src='https://gist.github.com/6098121.js?file=CacheFilterFactory.java'></script>
+<noscript><pre><code>import java.util.Collections;
+import java.util.List;
+
+import javax.ws.rs.core.HttpHeaders;
+
+import com.alexnederlof.bigcrawl.server.web.CacheAnnotations.CacheMaxAge;
+import com.alexnederlof.bigcrawl.server.web.CacheAnnotations.NoCache;
+import com.sun.jersey.api.model.AbstractMethod;
+import com.sun.jersey.spi.container.ContainerRequest;
+import com.sun.jersey.spi.container.ContainerRequestFilter;
+import com.sun.jersey.spi.container.ContainerResponse;
+import com.sun.jersey.spi.container.ContainerResponseFilter;
+import com.sun.jersey.spi.container.ResourceFilter;
+import com.sun.jersey.spi.container.ResourceFilterFactory;
+
+public class CacheFilterFactory implements ResourceFilterFactory {
+
+	@Override
+	public List&lt;ResourceFilter&gt; create(AbstractMethod am) {
+		if (am.isAnnotationPresent(CacheMaxAge.class)) {
+			CacheMaxAge maxAge = am.getAnnotation(CacheMaxAge.class);
+			return newCacheFilter(&quot;max-age: &quot; + maxAge.unit().toSeconds(maxAge.time()));
+		} else if (am.isAnnotationPresent(NoCache.class)) {
+			return newCacheFilter(&quot;no-cache&quot;);
+		} else {
+			return Collections.emptyList();
+		}
+	}
+
+	private List&lt;ResourceFilter&gt; newCacheFilter(String content) {
+		return Collections
+		        .&lt;ResourceFilter&gt; singletonList(new CacheResponseFilter(content));
+	}
+
+	private static class CacheResponseFilter implements ResourceFilter, ContainerResponseFilter {
+		private final String headerValue;
+
+		CacheResponseFilter(String headerValue) {
+			this.headerValue = headerValue;
+		}
+
+		@Override
+		public ContainerRequestFilter getRequestFilter() {
+			return null;
+		}
+
+		@Override
+		public ContainerResponseFilter getResponseFilter() {
+			return this;
+		}
+
+		@Override
+		public ContainerResponse filter(ContainerRequest request, ContainerResponse response) {
+			response.getHttpHeaders().putSingle(HttpHeaders.CACHE_CONTROL, headerValue);
+			return response;
+		}
+	}
+}</code></pre></noscript></div>
+</p>
 
 <p>Finally we need to install these filters. Using the <code>web.xml</code> file you&rsquo;ll can add the class like so:</p>
 
@@ -100,7 +203,7 @@ filter("/api/*").through(GuiceContainer.class, params);
 
 <p>The end result is nice and simple listing of the PDF, diff and log in a folder that indicates the build date:</p>
 
-<p>{% img [End result] /images/latex-build.png End result %}</p>
+<p><img class="[End result]" src="/images/latex-build.png" title="End result" ></p>
 
 <!--more-->
 
@@ -109,7 +212,51 @@ filter("/api/*").through(GuiceContainer.class, params);
 
 <p>I host my own Git server so I hooked the script as a <code>post-receive</code> script in the Git hooks directory. If you are running elsewhere you could also do it via a WebHook I guess. You need a workspace folder to checkout the project and a web folder to dump the results in. Here is the script:</p>
 
-<p>{% gist 5015614  %}</p>
+<p><div><script src='https://gist.github.com/5015614.js'></script>
+<noscript><pre><code>#!/bin/sh
+
+WEBDIR=yourwebdir
+WORKSPACE=your/workspace
+TEX_FILE_NAME=your_file
+
+echo
+echo &quot;**** Pulling changes into Live [Hub&#39;s post-update hook]&quot;
+echo
+
+# Go to the checked-out version of repo
+cd $WORKSPACE || exit
+unset GIT_DIR
+
+# Save the current commit id so we can calculate the diff
+current=`git rev-parse HEAD`
+
+# Update the latest changes in master
+git pull origin master
+
+# Compile the LaTex stuff
+pdflatex -interaction=batchmode $TEX_FILE_NAME.tex &gt; /dev/null
+bibtex -terse $TEX_FILE_NAME
+pdflatex -interaction=batchmode $TEX_FILE_NAME.tex &gt; /dev/null
+pdflatex -interaction=batchmode $TEX_FILE_NAME.tex
+
+# Create a folder for the new build
+NOW=$(date +&quot;%m-%d-%Y-%H%M&quot;)
+OUT_DIR=$WEBDIR/$NOW
+mkdir $OUT_DIR 
+
+# Move the results to the output directory
+cp $TEX_FILE_NAME.pdf $OUT_DIR/$TEX_FILE_NAME-$NOW-.pdf
+
+# Make a syntax highlighted diff in the output directory
+git diff $current..HEAD | pygmentize -l diff -f html -O full &gt; $OUT_DIR/diff.html
+
+# Output the log messages to the output directory
+git log $current..HEAD &gt; $OUT_DIR/log.txt
+
+# And we&#39;re all done
+exec git update-server-info
+</code></pre></noscript></div>
+</p>
 
 <p>I use <a href="http://pygments.org/">Pygments</a> to format the diff file and <code>pdflatex</code> to parse the LaTeX. Make sure you have these packages installed on you system.</p>
 

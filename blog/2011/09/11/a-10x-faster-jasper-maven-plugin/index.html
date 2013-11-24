@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>A 10x faster Jasper maven plugin - LexTech</title>
+  <meta name="author" content="Alex Nederlof">
+
+  
+  <meta name="description" content="A 10x Faster Jasper Maven Plugin Sep 11th, 2011 For some months now I had to work with Java projects that use Jasper to generate PDF files. These &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://alex.nederlof.com/blog/2011/09/11/a-10x-faster-jasper-maven-plugin/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/css/blog.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="LexTech" type="application/atom+xml">
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<script defer src="/javascripts/jquery-2.0.3.min.js"></script>
+<script defer src="/javascripts/bootstrap.min.js"></script>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-19911045-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body>
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Lextech</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="/">Blog</a></li>
+		<li><a href="/about/">About</a></li>
+		<li><a href="/blog/archives">Archives</a></li>
+      </ul>
+
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="https://github.com/alexnederlof" title="GitHub: @alexnederlof"><i class="fa fa-github fa-2x"></i></a>
+			<li><a href="https://twitter.com/alexnederlof" title="Twitter: @alexnederlof"><i class="fa fa-twitter fa-2x"></i></a>
+			<li><a href="http://stackoverflow.com/users/679913/alex" title="Stack Exchange: @alexnederlof"><i class="fa fa-stack-overflow fa-2x"></i></a>
+			<li><a href="http://nl.linkedin.com/in/alexnederlof/" title="LinkedIn: @alexnederlof"><i class="fa fa-linkedin fa-2x"></i></a>
+		</ul>
+			
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container -->
+</nav>
+  <div class="container">
+	  <div class="row">
+			<div class="col-lg-8">
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">A 10x Faster Jasper Maven Plugin</h1>
+    
+    
+      <p class="meta"><i class="fa fa-clock-o"></i>
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-11T15:57:00+08:00" pubdate data-updated="true">Sep 11<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>For some months now I had to work with Java projects that use <a href="http://jasperforge.org/projects/jasperreports">Jasper</a> to generate PDF files. These reports have to be compiled from a kind xml-like document to a compiled ‘.jasper’ file. The <a href="http://mojo.codehaus.org/jasperreports-maven-plugin/">Jasperreports-maven-plug-in</a> does this for me whenever I make a release of the software or when I’m working on the reports. However, the plug-in takes considerable time to compile these reports. Compiling 52 reports takes about 49 seconds. That’s a bit too long for me if I have to make several builds. Since I wanted to learn how to make my own Maven plug-ins anyway I decided to try to make a faster plug-in on my own.</p>
+
+<p>The original plug-in is created in Java 4, works single-threaded and the last time any committed to the repo was (at time of writing) 31st of August, 2009. Not really an active project it seems. For that reason I decided to just create a new project on Github.</p>
+
+<p>I created the plug-in using Java 6, presuming most people will have Java 6 installed by now. Because the compiler has to read and write to a disk, doing so concurrently should make it faster. Finally, the code looks a better because the collections now have generics.</p>
+
+<p>It turned out my plug-in was indeed a lot faster. While the original plug-in takes 48 seconds to compile 52 files, my plug-in only takes 4.7 seconds. Almost ten times faster!</p>
+
+<p>Since it is my first Maven project there’s probably more work to be done. However it seems to work fine on Maven 2 and 3 on my Mac using Java 6.</p>
+
+<p>You can try it yourself and download the source from <a href="https://github.com/alexnederlof/Jasper-report-maven-plugin">the Github repo</a> I created. Issues can be filed there as well.</p>
+</div>
+
+<hr>
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Alex Nederlof</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-11T15:57:00+08:00" pubdate data-updated="true">Sep 11<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://alex.nederlof.com/blog/2011/09/11/a-10x-faster-jasper-maven-plugin/" data-via="alexnederlof" data-counturl="http://alex.nederlof.com/blog/2011/09/11/a-10x-faster-jasper-maven-plugin/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/08/28/installing-ssd-in-my-27-inch-imac/" title="Previous Post: Installing SSD in my 27" iMac">&laquo; Installing SSD in my 27" iMac</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/11/19/installing-selenium-with-jenkins-on-ubuntu/" title="Next Post: Installing Selenium with Jenkins on Ubuntu">Installing Selenium with Jenkins on Ubuntu &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar col-lg-4">
+  
+    
+<section class="well">
+	<h4>Blog Search</h4>   
+	<form action="http://google.com/search" method="get">
+  		<fieldset role="search">
+		   <div class="input-group">	
+    		<input type="hidden" name="q" value="site:alex.nederlof.com" />
+    		<input class="form-control" type="text" name="q" results="0" placeholder="Search"/>
+			<span class="input-group-btn">
+		        <button class="btn btn-default" type="button"><span class="fa fa-search"></span></button>
+		    </span>
+  </fieldset>
+</form>
+</section>
+
+<section class="well">
+  <h4>Recent Posts</h4>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/28/caching-using-annotations-with-jersey/">Cache-Control using annotations with Jersey</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/08/using-git-submodules-for-maven-artifacts-not-in-central/">Using Git submodules for Maven artifacts not in central</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/24/the-truth-about-code-reviews/">The truth about code reviews</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/18/visiting-github/">Visiting GitHub</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/22/latex-build-server/">LaTeX build server</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+	<p id="about">
+		<a href="https://github.com/alexnederlof" title="GitHub: @alexnederlof"><i class="fa fa-github fa-3x"></i></a>
+		<a href="https://twitter.com/alexnederlof" title="Twitter: @alexnederlof"><i class="fa fa-twitter fa-3x"></i></a>
+		<a href="http://stackoverflow.com/users/679913/alex" title="Stack Exchange: @alexnederlof"><i class="fa fa-stack-overflow fa-3x"></i></a>
+		<a href="http://nl.linkedin.com/in/alexnederlof/" title="LinkedIn: @alexnederlof"><i class="fa fa-linkedin fa-3x"></i></a>
+	</p>
+</section>
+  
+</aside>
+
+
+      </div>
+  	<footer><div class="row">
+  <div class="col-lg-12">
+	<p>
+  	Copyright &copy; 2013 - Alex Nederlof -
+  	<span class="credit">Powered by <a href="http://octopress.org">Octopress</a>. Theme by <a href="http://bootswatch.com">Bootswatch</a>.</span>
+	</p>
+  </div>
+</div>
+</footer>
+  	
+
+<script type="text/javascript">
+      var disqus_shortname = 'lextech';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://alex.nederlof.com/blog/2011/09/11/a-10x-faster-jasper-maven-plugin/';
+        var disqus_url = 'http://alex.nederlof.com/blog/2011/09/11/a-10x-faster-jasper-maven-plugin/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+  </div>
+</body>
+</html>
+

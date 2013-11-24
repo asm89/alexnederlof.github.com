@@ -1,0 +1,460 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Cache-Control using annotations with Jersey - LexTech</title>
+  <meta name="author" content="Alex Nederlof">
+
+  
+  <meta name="description" content="Cache-Control Using Annotations With Jersey Jul 28th, 2013 Building RESTful services with Jax-RX is awesome, but there&rsquo;s no annotation based &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://alex.nederlof.com/blog/2013/07/28/caching-using-annotations-with-jersey/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/css/blog.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="LexTech" type="application/atom+xml">
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<script defer src="/javascripts/jquery-2.0.3.min.js"></script>
+<script defer src="/javascripts/bootstrap.min.js"></script>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-19911045-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body>
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Lextech</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="/">Blog</a></li>
+		<li><a href="/about/">About</a></li>
+		<li><a href="/blog/archives">Archives</a></li>
+      </ul>
+
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="https://github.com/alexnederlof" title="GitHub: @alexnederlof"><i class="fa fa-github fa-2x"></i></a>
+			<li><a href="https://twitter.com/alexnederlof" title="Twitter: @alexnederlof"><i class="fa fa-twitter fa-2x"></i></a>
+			<li><a href="http://stackoverflow.com/users/679913/alex" title="Stack Exchange: @alexnederlof"><i class="fa fa-stack-overflow fa-2x"></i></a>
+			<li><a href="http://nl.linkedin.com/in/alexnederlof/" title="LinkedIn: @alexnederlof"><i class="fa fa-linkedin fa-2x"></i></a>
+		</ul>
+			
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container -->
+</nav>
+  <div class="container">
+	  <div class="row">
+			<div class="col-lg-8">
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Cache-Control Using Annotations With Jersey</h1>
+    
+    
+      <p class="meta"><i class="fa fa-clock-o"></i>
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-28T12:02:00+08:00" pubdate data-updated="true">Jul 28<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Building RESTful services with Jax-RX is awesome, but there&rsquo;s no annotation based notation to set your <code>Cache-Control</code> headers. You can either set the Cache-Control headers using a filter based on a URL pattern and map your responses through there, or you can use the <a href="http://jersey.java.net/nonav/apidocs/1.12/jersey/javax/ws/rs/core/Response.ResponseBuilder.html">ResponseBuiler</a> with the <a href="http://jersey.java.net/nonav/apidocs/1.12/jersey/javax/ws/rs/core/CacheControl.html">CacheControl</a> class like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">CacheControl</span> <span class="n">control</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CacheControl</span><span class="o">();</span>
+</span><span class='line'><span class="n">control</span><span class="o">.</span><span class="na">setMaxAge</span><span class="o">(</span><span class="mi">60</span><span class="o">);</span>
+</span><span class='line'><span class="n">Response</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">myEntity</span><span class="o">).</span><span class="na">cacheControl</span><span class="o">(</span><span class="n">control</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However, I would rather have something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@GET</span>
+</span><span class='line'><span class="nd">@CacheMaxAge</span><span class="o">(</span><span class="n">time</span> <span class="o">=</span> <span class="mi">10</span><span class="o">,</span> <span class="n">unit</span> <span class="o">=</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">MINUTES</span><span class="o">)</span>
+</span><span class='line'><span class="nd">@Path</span><span class="o">(</span><span class="s">&quot;/awesome&quot;</span><span class="o">)</span>
+</span><span class='line'><span class="kd">public</span> <span class="n">String</span> <span class="nf">returnSomethingAwesome</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="o">...</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It turns out that&rsquo;s pretty easy to set-up. I mostly use either no caching at all or caching for a certain period.</p>
+
+<!--more-->
+
+
+<p>First lets define those two annotations:</p>
+
+<div><script src='https://gist.github.com/6098121.js?file=CacheAnnotations.java'></script>
+<noscript><pre><code>import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.util.concurrent.TimeUnit;
+
+public final class CacheAnnotations {
+
+    /**
+     * Set the &quot;Max-age&quot; Cache header.
+     * 
+     * @see &lt;a href=&#39;http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.3&#39;&gt;W3C Header
+     *      Field Definitions&lt;/a&gt;
+     */
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.METHOD)
+    public @interface CacheMaxAge {
+        /**
+         * @return The amount of time to cache this resource.
+         */
+        long time();
+
+        /**
+         * @return The {@link TimeUnit} for the given {@link #time()}.
+         */
+        TimeUnit unit();
+    }
+
+    /**
+     * Sets the cache header to the value &quot;no cache&quot;
+     * 
+     * @see &lt;a href=&#39;http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.1&#39;&gt;W3c Header
+     *      Field Definitions&lt;/a&gt;
+     */
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.METHOD)
+    public @interface NoCache {
+
+    }
+
+    private CacheAnnotations() {
+    }
+}</code></pre></noscript></div>
+
+
+<p>As you can see I can either set <code>@NoCache</code> or I can set <code>@CacheMaxAge</code> with a certain time.</p>
+
+<p>Now we need to configure these annotations using a &lsquo;ResourceFilterFactory&rsquo;:</p>
+
+<div><script src='https://gist.github.com/6098121.js?file=CacheFilterFactory.java'></script>
+<noscript><pre><code>import java.util.Collections;
+import java.util.List;
+
+import javax.ws.rs.core.HttpHeaders;
+
+import com.alexnederlof.bigcrawl.server.web.CacheAnnotations.CacheMaxAge;
+import com.alexnederlof.bigcrawl.server.web.CacheAnnotations.NoCache;
+import com.sun.jersey.api.model.AbstractMethod;
+import com.sun.jersey.spi.container.ContainerRequest;
+import com.sun.jersey.spi.container.ContainerRequestFilter;
+import com.sun.jersey.spi.container.ContainerResponse;
+import com.sun.jersey.spi.container.ContainerResponseFilter;
+import com.sun.jersey.spi.container.ResourceFilter;
+import com.sun.jersey.spi.container.ResourceFilterFactory;
+
+public class CacheFilterFactory implements ResourceFilterFactory {
+
+    @Override
+    public List&lt;ResourceFilter&gt; create(AbstractMethod am) {
+        if (am.isAnnotationPresent(CacheMaxAge.class)) {
+            CacheMaxAge maxAge = am.getAnnotation(CacheMaxAge.class);
+            return newCacheFilter(&quot;max-age: &quot; + maxAge.unit().toSeconds(maxAge.time()));
+        } else if (am.isAnnotationPresent(NoCache.class)) {
+            return newCacheFilter(&quot;no-cache&quot;);
+        } else {
+            return Collections.emptyList();
+        }
+    }
+
+    private List&lt;ResourceFilter&gt; newCacheFilter(String content) {
+        return Collections
+                .&lt;ResourceFilter&gt; singletonList(new CacheResponseFilter(content));
+    }
+
+    private static class CacheResponseFilter implements ResourceFilter, ContainerResponseFilter {
+        private final String headerValue;
+
+        CacheResponseFilter(String headerValue) {
+            this.headerValue = headerValue;
+        }
+
+        @Override
+        public ContainerRequestFilter getRequestFilter() {
+            return null;
+        }
+
+        @Override
+        public ContainerResponseFilter getResponseFilter() {
+            return this;
+        }
+
+        @Override
+        public ContainerResponse filter(ContainerRequest request, ContainerResponse response) {
+            response.getHttpHeaders().putSingle(HttpHeaders.CACHE_CONTROL, headerValue);
+            return response;
+        }
+    }
+}</code></pre></noscript></div>
+
+
+<p>Finally we need to install these filters. Using the <code>web.xml</code> file you&rsquo;ll can add the class like so:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;init-param&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;param-name&gt;</span>com.sun.jersey.spi.container.ResourceFilters<span class="nt">&lt;/param-name&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;param-value&gt;</span>package.name.CacheFilterFactory<span class="nt">&lt;/param-value&gt;</span>
+</span><span class='line'><span class="nt">&lt;/init-param&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&hellip;or if you are using Guice you can add it to the parameters like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">params</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span><span class='line'><span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">ResourceConfig</span><span class="o">.</span><span class="na">PROPERTY_RESOURCE_FILTER_FACTORIES</span><span class="o">,</span> <span class="n">CacheFilterFactory</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span><span class='line'><span class="n">filter</span><span class="o">(</span><span class="s">&quot;/api/*&quot;</span><span class="o">).</span><span class="na">through</span><span class="o">(</span><span class="n">GuiceContainer</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">params</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can no add these annotations to any resource method you like. As you can see it is easy to extend to add any other headers you like. With a little tweaking you might also be able to configure it so that it can use ETags by intercepting the content but that was outside the scope for me.</p>
+
+<p>This solution was inspired by <a href="http://stackoverflow.com/questions/10934316/jersey-default-cache-control-to-no-cache">this StackOverflow post</a>.</p>
+</div>
+
+<hr>
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Alex Nederlof</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-28T12:02:00+08:00" pubdate data-updated="true">Jul 28<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/java/'>Java</a>, <a class='category' href='/blog/categories/jersey/'>Jersey</a>, <a class='category' href='/blog/categories/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://alex.nederlof.com/blog/2013/07/28/caching-using-annotations-with-jersey/" data-via="alexnederlof" data-counturl="http://alex.nederlof.com/blog/2013/07/28/caching-using-annotations-with-jersey/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/07/08/using-git-submodules-for-maven-artifacts-not-in-central/" title="Previous Post: Using Git submodules for Maven artifacts not in central">&laquo; Using Git submodules for Maven artifacts not in central</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar col-lg-4">
+  
+    
+<section class="well">
+	<h4>Blog Search</h4>   
+	<form action="http://google.com/search" method="get">
+  		<fieldset role="search">
+		   <div class="input-group">	
+    		<input type="hidden" name="q" value="site:alex.nederlof.com" />
+    		<input class="form-control" type="text" name="q" results="0" placeholder="Search"/>
+			<span class="input-group-btn">
+		        <button class="btn btn-default" type="button"><span class="fa fa-search"></span></button>
+		    </span>
+  </fieldset>
+</form>
+</section>
+
+<section class="well">
+  <h4>Recent Posts</h4>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/28/caching-using-annotations-with-jersey/">Cache-Control using annotations with Jersey</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/08/using-git-submodules-for-maven-artifacts-not-in-central/">Using Git submodules for Maven artifacts not in central</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/24/the-truth-about-code-reviews/">The truth about code reviews</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/18/visiting-github/">Visiting GitHub</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/22/latex-build-server/">LaTeX build server</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+	<p id="about">
+		<a href="https://github.com/alexnederlof" title="GitHub: @alexnederlof"><i class="fa fa-github fa-3x"></i></a>
+		<a href="https://twitter.com/alexnederlof" title="Twitter: @alexnederlof"><i class="fa fa-twitter fa-3x"></i></a>
+		<a href="http://stackoverflow.com/users/679913/alex" title="Stack Exchange: @alexnederlof"><i class="fa fa-stack-overflow fa-3x"></i></a>
+		<a href="http://nl.linkedin.com/in/alexnederlof/" title="LinkedIn: @alexnederlof"><i class="fa fa-linkedin fa-3x"></i></a>
+	</p>
+</section>
+  
+</aside>
+
+
+      </div>
+  	<footer><div class="row">
+  <div class="col-lg-12">
+	<p>
+  	Copyright &copy; 2013 - Alex Nederlof -
+  	<span class="credit">Powered by <a href="http://octopress.org">Octopress</a>. Theme by <a href="http://bootswatch.com">Bootswatch</a>.</span>
+	</p>
+  </div>
+</div>
+</footer>
+  	
+
+<script type="text/javascript">
+      var disqus_shortname = 'lextech';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://alex.nederlof.com/blog/2013/07/28/caching-using-annotations-with-jersey/';
+        var disqus_url = 'http://alex.nederlof.com/blog/2013/07/28/caching-using-annotations-with-jersey/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+  </div>
+</body>
+</html>
+
