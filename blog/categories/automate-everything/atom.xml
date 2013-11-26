@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Automate everything | LexTech]]></title>
   <link href="http://alex.nederlof.com/blog/categories/automate-everything/atom.xml" rel="self"/>
   <link href="http://alex.nederlof.com/"/>
-  <updated>2013-11-24T09:46:23+08:00</updated>
+  <updated>2013-11-26T15:37:55+01:00</updated>
   <id>http://alex.nederlof.com/</id>
   <author>
     <name><![CDATA[Alex Nederlof]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[LaTeX build server]]></title>
     <link href="http://alex.nederlof.com/blog/2013/02/22/latex-build-server/"/>
-    <updated>2013-02-22T10:58:00+08:00</updated>
+    <updated>2013-02-22T10:58:00+01:00</updated>
     <id>http://alex.nederlof.com/blog/2013/02/22/latex-build-server</id>
     <content type="html"><![CDATA[<p>I recently had to work with <a href="http://www.LaTeX-project.org/">LaTeX</a> again. Although LaTeX has its perks like a proper equation editor and BibTex I don&rsquo;t like working with it for several reasons:</p>
 

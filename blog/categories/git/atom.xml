@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | LexTech]]></title>
   <link href="http://alex.nederlof.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://alex.nederlof.com/"/>
-  <updated>2013-11-24T09:46:23+08:00</updated>
+  <updated>2013-11-26T15:37:55+01:00</updated>
   <id>http://alex.nederlof.com/</id>
   <author>
     <name><![CDATA[Alex Nederlof]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Using Git submodules for Maven artifacts not in central]]></title>
     <link href="http://alex.nederlof.com/blog/2013/07/08/using-git-submodules-for-maven-artifacts-not-in-central/"/>
-    <updated>2013-07-08T12:04:00+08:00</updated>
+    <updated>2013-07-08T12:04:00+02:00</updated>
     <id>http://alex.nederlof.com/blog/2013/07/08/using-git-submodules-for-maven-artifacts-not-in-central</id>
     <content type="html"><![CDATA[<p>Sometimes you come across a project (or a branch of a project) that you need and isn&rsquo;t in <a href="http://search.maven.org">Maven central</a>. If you own your own Maven repository that&rsquo;s no problem: you simply deploy the project to your own Maven repository and you are done. However, when you don&rsquo;t have your own Maven repository things get complicated.</p>
 

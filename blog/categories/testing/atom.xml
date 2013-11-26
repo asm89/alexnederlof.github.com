@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Testing | LexTech]]></title>
   <link href="http://alex.nederlof.com/blog/categories/testing/atom.xml" rel="self"/>
   <link href="http://alex.nederlof.com/"/>
-  <updated>2013-11-24T09:46:23+08:00</updated>
+  <updated>2013-11-26T15:37:55+01:00</updated>
   <id>http://alex.nederlof.com/</id>
   <author>
     <name><![CDATA[Alex Nederlof]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Clean test classes using JUnit's rules]]></title>
     <link href="http://alex.nederlof.com/blog/2012/12/19/clean-test-classes-using-junits-classrules/"/>
-    <updated>2012-12-19T21:23:00+08:00</updated>
+    <updated>2012-12-19T21:23:00+01:00</updated>
     <id>http://alex.nederlof.com/blog/2012/12/19/clean-test-classes-using-junits-classrules</id>
     <content type="html"><![CDATA[<p>A couple of days ago I discovered the beauty of JUnit&rsquo;s <a href="http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/TestRule.html">TestRules</a> while searching for an easy way to set a time-out on all tests in a testcase. JUnit has a built-in rule for this called <a href="http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/Timeout.html"><code>Timeout</code></a>. You can set this rule for every test in your class by setting the timeout in a field like this:</p>
 
@@ -153,7 +153,7 @@ public void test() {
   <entry>
     <title type="html"><![CDATA[Integration testing with Jetty]]></title>
     <link href="http://alex.nederlof.com/blog/2012/11/21/integration-testing-with-jetty/"/>
-    <updated>2012-11-21T16:23:00+08:00</updated>
+    <updated>2012-11-21T16:23:00+01:00</updated>
     <id>http://alex.nederlof.com/blog/2012/11/21/integration-testing-with-jetty</id>
     <content type="html"><![CDATA[<p>This is a followup after <a href="/blog/2012/11/21/separating-the-fast-from-the-slow-junit-tests/">my previous post about separating JUnit tests into fast tests and integration tests</a>. The sample code is <a href="https://github.com/alexnederlof/integration-testing-example">available on GitHub</a>.</p>
 
@@ -289,7 +289,7 @@ public void stop() throws Exception {
   <entry>
     <title type="html"><![CDATA[Separating the fast from the slow JUnit tests]]></title>
     <link href="http://alex.nederlof.com/blog/2012/11/21/separating-the-fast-from-the-slow-junit-tests/"/>
-    <updated>2012-11-21T16:16:00+08:00</updated>
+    <updated>2012-11-21T16:16:00+01:00</updated>
     <id>http://alex.nederlof.com/blog/2012/11/21/separating-the-fast-from-the-slow-junit-tests</id>
     <content type="html"><![CDATA[<p>For some time now I was looking for a good way to do real integration testing with JUnit. These tests tests tend to be slow because the whole stack has to be build up and shut down. Furthermore, some tests also need a specific environment like a database connection which is not available to any developer. That’s why you probably want to split up your test suite in fast and slow (or dependent) tests. JUnit has a technique to split up these tests using <a href="http://kentbeck.github.com/junit/javadoc/4.10/org/junit/experimental/categories/Categories.html">Categories</a>. This allows you to specify the category your tests belongs to and then skip those tests in your Suite like so:</p>
 
@@ -387,7 +387,7 @@ public static void shutDownServer() throws Exception {
   <entry>
     <title type="html"><![CDATA[Installing Selenium with Jenkins on Ubuntu]]></title>
     <link href="http://alex.nederlof.com/blog/2012/11/19/installing-selenium-with-jenkins-on-ubuntu/"/>
-    <updated>2012-11-19T16:01:00+08:00</updated>
+    <updated>2012-11-19T16:01:00+01:00</updated>
     <id>http://alex.nederlof.com/blog/2012/11/19/installing-selenium-with-jenkins-on-ubuntu</id>
     <content type="html"><![CDATA[<p>Last week I fell in love with <a href="http://seleniumhq.org/">Selenium</a> and started to create some tests using the <a href="http://seleniumhq.org/projects/ide/">Firefox Selenium IDE</a>. If you’ve never done this I highly recommend trying it out. It’s really easy and great fun.</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[LexTech]]></title>
   <link href="http://alex.nederlof.com/atom.xml" rel="self"/>
   <link href="http://alex.nederlof.com/"/>
-  <updated>2013-11-24T09:46:23+08:00</updated>
+  <updated>2013-11-26T15:37:55+01:00</updated>
   <id>http://alex.nederlof.com/</id>
   <author>
     <name><![CDATA[Alex Nederlof]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Cache-Control using annotations with Jersey]]></title>
     <link href="http://alex.nederlof.com/blog/2013/07/28/caching-using-annotations-with-jersey/"/>
-    <updated>2013-07-28T12:02:00+08:00</updated>
+    <updated>2013-07-28T12:02:00+02:00</updated>
     <id>http://alex.nederlof.com/blog/2013/07/28/caching-using-annotations-with-jersey</id>
     <content type="html"><![CDATA[<p>Building RESTful services with Jax-RX is awesome, but there&rsquo;s no annotation based notation to set your <code>Cache-Control</code> headers. You can either set the Cache-Control headers using a filter based on a URL pattern and map your responses through there, or you can use the <a href="http://jersey.java.net/nonav/apidocs/1.12/jersey/javax/ws/rs/core/Response.ResponseBuilder.html">ResponseBuiler</a> with the <a href="http://jersey.java.net/nonav/apidocs/1.12/jersey/javax/ws/rs/core/CacheControl.html">CacheControl</a> class like this:</p>
 
@@ -197,7 +197,7 @@ public class CacheFilterFactory implements ResourceFilterFactory {
   <entry>
     <title type="html"><![CDATA[Using Git submodules for Maven artifacts not in central]]></title>
     <link href="http://alex.nederlof.com/blog/2013/07/08/using-git-submodules-for-maven-artifacts-not-in-central/"/>
-    <updated>2013-07-08T12:04:00+08:00</updated>
+    <updated>2013-07-08T12:04:00+02:00</updated>
     <id>http://alex.nederlof.com/blog/2013/07/08/using-git-submodules-for-maven-artifacts-not-in-central</id>
     <content type="html"><![CDATA[<p>Sometimes you come across a project (or a branch of a project) that you need and isn&rsquo;t in <a href="http://search.maven.org">Maven central</a>. If you own your own Maven repository that&rsquo;s no problem: you simply deploy the project to your own Maven repository and you are done. However, when you don&rsquo;t have your own Maven repository things get complicated.</p>
 
@@ -315,7 +315,7 @@ public class CacheFilterFactory implements ResourceFilterFactory {
   <entry>
     <title type="html"><![CDATA[The truth about code reviews]]></title>
     <link href="http://alex.nederlof.com/blog/2013/05/24/the-truth-about-code-reviews/"/>
-    <updated>2013-05-24T16:31:00+08:00</updated>
+    <updated>2013-05-24T16:31:00+02:00</updated>
     <id>http://alex.nederlof.com/blog/2013/05/24/the-truth-about-code-reviews</id>
     <content type="html"><![CDATA[<p>During the <a href="http://2013.icse-conferences.org/">International Conference of Software Engineering 2013 </a> I visited a great talk by <a href="https://twitter.com/sback_">Alberto Bacchelli</a> on modern code reviews. It resonated with my experience with code reviews and I&rsquo;d like to share the highlights of <a href="http://www.inf.usi.ch/phd/bacchelli/publications/icse2013.pdf">his research</a> conducted among 17 developers from 16 different teams at Microsoft.</p>
 
@@ -381,7 +381,7 @@ public class CacheFilterFactory implements ResourceFilterFactory {
   <entry>
     <title type="html"><![CDATA[Visiting GitHub]]></title>
     <link href="http://alex.nederlof.com/blog/2013/05/18/visiting-github/"/>
-    <updated>2013-05-18T17:22:00+08:00</updated>
+    <updated>2013-05-18T17:22:00+02:00</updated>
     <id>http://alex.nederlof.com/blog/2013/05/18/visiting-github</id>
     <content type="html"><![CDATA[<p><img class="img-right" src="http://alex.nederlof.com/images/github/table.jpg" width="300" title="Employee finder" > After Tweeting some of the employees GitHub, the most popular online code hosting platform allowed us to visit one of their offices in San Francisco. GitHub was launched in 2008 and is truly a unique company. It has over 170 employees of which 60% work outside the office all over the world. Employees are encouraged to travel as much as they like. They have a big interactive table (photo) that shows where the employees are on a 3D map. Besides having complete freedom with your workplace and schedule, GitHub also doesn’t have any managers. Employees are expected to pick up work themselves and form their own teams. Everything happens distributively using online tools to form discussions and to arrange votes. From hiring new employees to choosing what kind of coffee mugs should be available in the kitchen; everything is democratic. Half the company looks like a Starbucks cafe for people who don’t care for a desk.</p>
 
@@ -394,7 +394,7 @@ public class CacheFilterFactory implements ResourceFilterFactory {
   <entry>
     <title type="html"><![CDATA[LaTeX build server]]></title>
     <link href="http://alex.nederlof.com/blog/2013/02/22/latex-build-server/"/>
-    <updated>2013-02-22T10:58:00+08:00</updated>
+    <updated>2013-02-22T10:58:00+01:00</updated>
     <id>http://alex.nederlof.com/blog/2013/02/22/latex-build-server</id>
     <content type="html"><![CDATA[<p>I recently had to work with <a href="http://www.LaTeX-project.org/">LaTeX</a> again. Although LaTeX has its perks like a proper equation editor and BibTex I don&rsquo;t like working with it for several reasons:</p>
 
@@ -483,7 +483,7 @@ exec git update-server-info
   <entry>
     <title type="html"><![CDATA[Clean test classes using JUnit's rules]]></title>
     <link href="http://alex.nederlof.com/blog/2012/12/19/clean-test-classes-using-junits-classrules/"/>
-    <updated>2012-12-19T21:23:00+08:00</updated>
+    <updated>2012-12-19T21:23:00+01:00</updated>
     <id>http://alex.nederlof.com/blog/2012/12/19/clean-test-classes-using-junits-classrules</id>
     <content type="html"><![CDATA[<p>A couple of days ago I discovered the beauty of JUnit&rsquo;s <a href="http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/TestRule.html">TestRules</a> while searching for an easy way to set a time-out on all tests in a testcase. JUnit has a built-in rule for this called <a href="http://kentbeck.github.com/junit/javadoc/4.10/org/junit/rules/Timeout.html"><code>Timeout</code></a>. You can set this rule for every test in your class by setting the timeout in a field like this:</p>
 
@@ -700,7 +700,7 @@ exec git update-server-info
   <entry>
     <title type="html"><![CDATA[Integration testing with Jetty]]></title>
     <link href="http://alex.nederlof.com/blog/2012/11/21/integration-testing-with-jetty/"/>
-    <updated>2012-11-21T16:23:00+08:00</updated>
+    <updated>2012-11-21T16:23:00+01:00</updated>
     <id>http://alex.nederlof.com/blog/2012/11/21/integration-testing-with-jetty</id>
     <content type="html"><![CDATA[<p>This is a followup after <a href="http://alex.nederlof.com/blog/2012/11/21/separating-the-fast-from-the-slow-junit-tests/">my previous post about separating JUnit tests into fast tests and integration tests</a>. The sample code is <a href="https://github.com/alexnederlof/integration-testing-example">available on GitHub</a>.</p>
 
@@ -902,7 +902,7 @@ exec git update-server-info
   <entry>
     <title type="html"><![CDATA[Separating the fast from the slow JUnit tests]]></title>
     <link href="http://alex.nederlof.com/blog/2012/11/21/separating-the-fast-from-the-slow-junit-tests/"/>
-    <updated>2012-11-21T16:16:00+08:00</updated>
+    <updated>2012-11-21T16:16:00+01:00</updated>
     <id>http://alex.nederlof.com/blog/2012/11/21/separating-the-fast-from-the-slow-junit-tests</id>
     <content type="html"><![CDATA[<p>For some time now I was looking for a good way to do real integration testing with JUnit. These tests tests tend to be slow because the whole stack has to be build up and shut down. Furthermore, some tests also need a specific environment like a database connection which is not available to any developer. That’s why you probably want to split up your test suite in fast and slow (or dependent) tests. JUnit has a technique to split up these tests using <a href="http://kentbeck.github.com/junit/javadoc/4.10/org/junit/experimental/categories/Categories.html">Categories</a>. This allows you to specify the category your tests belongs to and then skip those tests in your Suite like so:</p>
 
@@ -1050,7 +1050,7 @@ exec git update-server-info
   <entry>
     <title type="html"><![CDATA[Installing Selenium with Jenkins on Ubuntu]]></title>
     <link href="http://alex.nederlof.com/blog/2012/11/19/installing-selenium-with-jenkins-on-ubuntu/"/>
-    <updated>2012-11-19T16:01:00+08:00</updated>
+    <updated>2012-11-19T16:01:00+01:00</updated>
     <id>http://alex.nederlof.com/blog/2012/11/19/installing-selenium-with-jenkins-on-ubuntu</id>
     <content type="html"><![CDATA[<p>Last week I fell in love with <a href="http://seleniumhq.org/">Selenium</a> and started to create some tests using the <a href="http://seleniumhq.org/projects/ide/">Firefox Selenium IDE</a>. If you’ve never done this I highly recommend trying it out. It’s really easy and great fun.</p>
 
@@ -1167,7 +1167,7 @@ sudo sh -c 'echo deb http://dl.google.com/linux/chrome/deb/ stable main &gt; /et
   <entry>
     <title type="html"><![CDATA[A 10x faster Jasper maven plugin]]></title>
     <link href="http://alex.nederlof.com/blog/2011/09/11/a-10x-faster-jasper-maven-plugin/"/>
-    <updated>2011-09-11T15:57:00+08:00</updated>
+    <updated>2011-09-11T15:57:00+02:00</updated>
     <id>http://alex.nederlof.com/blog/2011/09/11/a-10x-faster-jasper-maven-plugin</id>
     <content type="html"><![CDATA[<p>For some months now I had to work with Java projects that use <a href="http://jasperforge.org/projects/jasperreports">Jasper</a> to generate PDF files. These reports have to be compiled from a kind xml-like document to a compiled ‘.jasper’ file. The <a href="http://mojo.codehaus.org/jasperreports-maven-plugin/">Jasperreports-maven-plug-in</a> does this for me whenever I make a release of the software or when I’m working on the reports. However, the plug-in takes considerable time to compile these reports. Compiling 52 reports takes about 49 seconds. That’s a bit too long for me if I have to make several builds. Since I wanted to learn how to make my own Maven plug-ins anyway I decided to try to make a faster plug-in on my own.</p>
 
@@ -1186,7 +1186,7 @@ sudo sh -c 'echo deb http://dl.google.com/linux/chrome/deb/ stable main &gt; /et
   <entry>
     <title type="html"><![CDATA[Installing SSD in my 27" iMac]]></title>
     <link href="http://alex.nederlof.com/blog/2011/08/28/installing-ssd-in-my-27-inch-imac/"/>
-    <updated>2011-08-28T13:16:00+08:00</updated>
+    <updated>2011-08-28T13:16:00+02:00</updated>
     <id>http://alex.nederlof.com/blog/2011/08/28/installing-ssd-in-my-27-inch-imac</id>
     <content type="html"><![CDATA[<p>I finally decided to install a SSD in my 27″ iMac. The iMac is a late 2009 model and it’s very fast. However, most of the time it’s just waiting for the hard disk and not using it’s full potential. After experiencing the speed of a SSD on my MacBook Air I was convinced my iMac should have that power as well.</p>
 

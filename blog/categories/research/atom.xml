@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Research | LexTech]]></title>
   <link href="http://alex.nederlof.com/blog/categories/research/atom.xml" rel="self"/>
   <link href="http://alex.nederlof.com/"/>
-  <updated>2013-11-24T09:46:23+08:00</updated>
+  <updated>2013-11-26T15:37:55+01:00</updated>
   <id>http://alex.nederlof.com/</id>
   <author>
     <name><![CDATA[Alex Nederlof]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[The truth about code reviews]]></title>
     <link href="http://alex.nederlof.com/blog/2013/05/24/the-truth-about-code-reviews/"/>
-    <updated>2013-05-24T16:31:00+08:00</updated>
+    <updated>2013-05-24T16:31:00+02:00</updated>
     <id>http://alex.nederlof.com/blog/2013/05/24/the-truth-about-code-reviews</id>
     <content type="html"><![CDATA[<p>During the <a href="http://2013.icse-conferences.org/">International Conference of Software Engineering 2013 </a> I visited a great talk by <a href="https://twitter.com/sback_">Alberto Bacchelli</a> on modern code reviews. It resonated with my experience with code reviews and I&rsquo;d like to share the highlights of <a href="http://www.inf.usi.ch/phd/bacchelli/publications/icse2013.pdf">his research</a> conducted among 17 developers from 16 different teams at Microsoft.</p>
 
