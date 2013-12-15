@@ -30,17 +30,15 @@
 <script defer src="/javascripts/jquery-2.0.3.min.js"></script>
 <script defer src="/javascripts/bootstrap.min.js"></script>
   
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-19911045-4']);
-    _gaq.push(['_trackPageview']);
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
+	  ga('create', 'UA-19911045-4', 'nederlof.com');
+	  ga('send', 'pageview');
+	</script>
 
 
 </head>
@@ -130,49 +128,7 @@
 <p>I host my own Git server so I hooked the script as a <code>post-receive</code> script in the Git hooks directory. If you are running elsewhere you could also do it via a WebHook I guess. You need a workspace folder to checkout the project and a web folder to dump the results in. Here is the script:</p>
 
 <div><script src='https://gist.github.com/5015614.js'></script>
-<noscript><pre><code>#!/bin/sh
-
-WEBDIR=yourwebdir
-WORKSPACE=your/workspace
-TEX_FILE_NAME=your_file
-
-echo
-echo &quot;**** Pulling changes into Live [Hub&#39;s post-update hook]&quot;
-echo
-
-# Go to the checked-out version of repo
-cd $WORKSPACE || exit
-unset GIT_DIR
-
-# Save the current commit id so we can calculate the diff
-current=`git rev-parse HEAD`
-
-# Update the latest changes in master
-git pull origin master
-
-# Compile the LaTex stuff
-pdflatex -interaction=batchmode $TEX_FILE_NAME.tex &gt; /dev/null
-bibtex -terse $TEX_FILE_NAME
-pdflatex -interaction=batchmode $TEX_FILE_NAME.tex &gt; /dev/null
-pdflatex -interaction=batchmode $TEX_FILE_NAME.tex
-
-# Create a folder for the new build
-NOW=$(date +&quot;%m-%d-%Y-%H%M&quot;)
-OUT_DIR=$WEBDIR/$NOW
-mkdir $OUT_DIR 
-
-# Move the results to the output directory
-cp $TEX_FILE_NAME.pdf $OUT_DIR/$TEX_FILE_NAME-$NOW-.pdf
-
-# Make a syntax highlighted diff in the output directory
-git diff $current..HEAD | pygmentize -l diff -f html -O full &gt; $OUT_DIR/diff.html
-
-# Output the log messages to the output directory
-git log $current..HEAD &gt; $OUT_DIR/log.txt
-
-# And we&#39;re all done
-exec git update-server-info
-</code></pre></noscript></div>
+<noscript><pre><code></code></pre></noscript></div>
 
 
 <p>I use <a href="http://pygments.org/">Pygments</a> to format the diff file and <code>pdflatex</code> to parse the LaTeX. Make sure you have these packages installed on you system.</p>

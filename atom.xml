@@ -4,7 +4,7 @@
   <title><![CDATA[LexTech]]></title>
   <link href="http://alex.nederlof.com/atom.xml" rel="self"/>
   <link href="http://alex.nederlof.com/"/>
-  <updated>2013-11-26T15:37:55+01:00</updated>
+  <updated>2013-12-15T16:44:33+01:00</updated>
   <id>http://alex.nederlof.com/</id>
   <author>
     <name><![CDATA[Alex Nederlof]]></name>
@@ -420,49 +420,7 @@ public class CacheFilterFactory implements ResourceFilterFactory {
 <p>I host my own Git server so I hooked the script as a <code>post-receive</code> script in the Git hooks directory. If you are running elsewhere you could also do it via a WebHook I guess. You need a workspace folder to checkout the project and a web folder to dump the results in. Here is the script:</p>
 
 <div><script src='https://gist.github.com/5015614.js'></script>
-<noscript><pre><code>#!/bin/sh
-
-WEBDIR=yourwebdir
-WORKSPACE=your/workspace
-TEX_FILE_NAME=your_file
-
-echo
-echo &quot;**** Pulling changes into Live [Hub&#39;s post-update hook]&quot;
-echo
-
-# Go to the checked-out version of repo
-cd $WORKSPACE || exit
-unset GIT_DIR
-
-# Save the current commit id so we can calculate the diff
-current=`git rev-parse HEAD`
-
-# Update the latest changes in master
-git pull origin master
-
-# Compile the LaTex stuff
-pdflatex -interaction=batchmode $TEX_FILE_NAME.tex &gt; /dev/null
-bibtex -terse $TEX_FILE_NAME
-pdflatex -interaction=batchmode $TEX_FILE_NAME.tex &gt; /dev/null
-pdflatex -interaction=batchmode $TEX_FILE_NAME.tex
-
-# Create a folder for the new build
-NOW=$(date +&quot;%m-%d-%Y-%H%M&quot;)
-OUT_DIR=$WEBDIR/$NOW
-mkdir $OUT_DIR 
-
-# Move the results to the output directory
-cp $TEX_FILE_NAME.pdf $OUT_DIR/$TEX_FILE_NAME-$NOW-.pdf
-
-# Make a syntax highlighted diff in the output directory
-git diff $current..HEAD | pygmentize -l diff -f html -O full &gt; $OUT_DIR/diff.html
-
-# Output the log messages to the output directory
-git log $current..HEAD &gt; $OUT_DIR/log.txt
-
-# And we&#39;re all done
-exec git update-server-info
-</code></pre></noscript></div>
+<noscript><pre><code></code></pre></noscript></div>
 
 
 <p>I use <a href="http://pygments.org/">Pygments</a> to format the diff file and <code>pdflatex</code> to parse the LaTeX. Make sure you have these packages installed on you system.</p>
@@ -799,7 +757,7 @@ exec git update-server-info
 </span><span class='line'>  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">SELENIUM_PORT</span> <span class="o">=</span> <span class="mi">4443</span><span class="o">;</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="nd">@Parameters</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;browser={0}&quot;</span><span class="o">)</span>
-</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">[]&gt;</span> <span class="nf">data</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">[]&gt;</span> <span class="n">data</span><span class="o">()</span> <span class="o">{</span>
 </span><span class='line'>      <span class="k">return</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="k">new</span> <span class="n">Object</span><span class="o">[][]</span> <span class="o">{</span> <span class="o">{</span> <span class="s">&quot;*firefox&quot;</span> <span class="o">},</span>
 </span><span class='line'>              <span class="o">{</span> <span class="s">&quot;*googlechrome&quot;</span> <span class="o">}</span> <span class="o">});</span>
 </span><span class='line'>  <span class="o">}</span>
