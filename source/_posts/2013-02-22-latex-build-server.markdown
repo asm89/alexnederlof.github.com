@@ -3,7 +3,7 @@ layout: post
 title: "LaTeX build server"
 date: 2013-02-22 10:58
 comments: true
-categories: [Tech, Automate everything]
+categories: [Automate everything, Research]
 ---
 I recently had to work with [LaTeX](http://www.LaTeX-project.org/) again. Although LaTeX has its perks like a proper equation editor and BibTex I don't like working with it for several reasons: 
 

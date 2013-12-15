@@ -3,7 +3,7 @@ layout: post
 title: "Separating the fast from the slow JUnit tests"
 date: 2012-11-21 16:16
 comments: true
-categories: [Tech, Testing, Java]
+categories: [Testing, Java]
 ---
 For some time now I was looking for a good way to do real integration testing with JUnit. These tests tests tend to be slow because the whole stack has to be build up and shut down. Furthermore, some tests also need a specific environment like a database connection which is not available to any developer. That’s why you probably want to split up your test suite in fast and slow (or dependent) tests. JUnit has a technique to split up these tests using [Categories](http://kentbeck.github.com/junit/javadoc/4.10/org/junit/experimental/categories/Categories.html). This allows you to specify the category your tests belongs to and then skip those tests in your Suite like so:
 

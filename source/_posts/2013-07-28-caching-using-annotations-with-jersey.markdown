@@ -3,7 +3,7 @@ layout: post
 title: "Cache-Control using annotations with Jersey"
 date: 2013-07-28 12:02
 comments: true
-categories: [Tech, Jersey, Java]
+categories: [Jersey, Java]
 ---
 Building RESTful services with Jax-RX is awesome, but there's no annotation based notation to set your `Cache-Control` headers. You can either set the Cache-Control headers using a filter based on a URL pattern and map your responses through there, or you can use the [ResponseBuiler](http://jersey.java.net/nonav/apidocs/1.12/jersey/javax/ws/rs/core/Response.ResponseBuilder.html) with the [CacheControl](http://jersey.java.net/nonav/apidocs/1.12/jersey/javax/ws/rs/core/CacheControl.html) class like this:
 

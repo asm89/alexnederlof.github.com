@@ -3,7 +3,7 @@ layout: post
 title: "Installing Selenium with Jenkins on Ubuntu"
 date: 2012-11-19 16:01
 comments: true
-categories: [Tech, Testing]
+categories: [Testing]
 ---
 Last week I fell in love with [Selenium](http://seleniumhq.org/) and started to create some tests using the [Firefox Selenium IDE](http://seleniumhq.org/projects/ide/). If you’ve never done this I highly recommend trying it out. It’s really easy and great fun.
 
