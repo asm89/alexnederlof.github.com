@@ -7,7 +7,7 @@ sharing: false
 footer: false
 ---
 
-{% img right http://www.gravatar.com/avatar/0ebb9e4a763c8416dda5e02529ea0157.png?s=250 %}Hi there! I'm Alex. Software Engineer and Msc student of Computer Science working on [Crawljax](http://crawljax.com). In this blog I share my experiences in the tech field in the hope that somebody else can benefit from it as I benefit from the many other tech blogs out there.
+{% img pull-right img-responsive col-md-4 http://www.gravatar.com/avatar/0ebb9e4a763c8416dda5e02529ea0157.png?s=250 %}Hi there! I'm Alex. Software Engineer and Msc student of Computer Science working on [Crawljax](http://crawljax.com). In this blog I share my experiences in the tech field in the hope that somebody else can benefit from it as I benefit from the many other tech blogs out ss.
 
 You can also read about me on my [Open Source report card](http://osrc.dfm.io/alexnederlof).
 
