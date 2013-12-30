@@ -128,7 +128,49 @@
 <p>I host my own Git server so I hooked the script as a <code>post-receive</code> script in the Git hooks directory. If you are running elsewhere you could also do it via a WebHook I guess. You need a workspace folder to checkout the project and a web folder to dump the results in. Here is the script:</p>
 
 <div><script src='https://gist.github.com/5015614.js'></script>
-<noscript><pre><code></code></pre></noscript></div>
+<noscript><pre><code>#!/bin/sh
+
+WEBDIR=yourwebdir
+WORKSPACE=your/workspace
+TEX_FILE_NAME=your_file
+
+echo
+echo &quot;**** Pulling changes into Live [Hub&#39;s post-update hook]&quot;
+echo
+
+# Go to the checked-out version of repo
+cd $WORKSPACE || exit
+unset GIT_DIR
+
+# Save the current commit id so we can calculate the diff
+current=`git rev-parse HEAD`
+
+# Update the latest changes in master
+git pull origin master
+
+# Compile the LaTex stuff
+pdflatex -interaction=batchmode $TEX_FILE_NAME.tex &gt; /dev/null
+bibtex -terse $TEX_FILE_NAME
+pdflatex -interaction=batchmode $TEX_FILE_NAME.tex &gt; /dev/null
+pdflatex -interaction=batchmode $TEX_FILE_NAME.tex
+
+# Create a folder for the new build
+NOW=$(date +&quot;%m-%d-%Y-%H%M&quot;)
+OUT_DIR=$WEBDIR/$NOW
+mkdir $OUT_DIR 
+
+# Move the results to the output directory
+cp $TEX_FILE_NAME.pdf $OUT_DIR/$TEX_FILE_NAME-$NOW-.pdf
+
+# Make a syntax highlighted diff in the output directory
+git diff $current..HEAD | pygmentize -l diff -f html -O full &gt; $OUT_DIR/diff.html
+
+# Output the log messages to the output directory
+git log $current..HEAD &gt; $OUT_DIR/log.txt
+
+# And we&#39;re all done
+exec git update-server-info
+</code></pre></noscript></div>
 
 
 <p>I use <a href="http://pygments.org/">Pygments</a> to format the diff file and <code>pdflatex</code> to parse the LaTeX. Make sure you have these packages installed on you system.</p>
@@ -171,7 +213,7 @@
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/automate-everything/'>Automate everything</a>, <a class='category' href='/blog/categories/tech/'>Tech</a>
+    <a class='category' href='/blog/categories/automate-everything/'>Automate everything</a>, <a class='category' href='/blog/categories/research/'>Research</a>
   
 </span>
 
@@ -230,6 +272,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/12/25/running-and-testing-puppet-master-locally/">Running and testing Puppet master locally</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/07/28/caching-using-annotations-with-jersey/">Cache-Control using annotations with Jersey</a>
       </li>
     
@@ -243,10 +289,6 @@
     
       <li class="post">
         <a href="/blog/2013/05/18/visiting-github/">Visiting GitHub</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/02/22/latex-build-server/">LaTeX build server</a>
       </li>
     
   </ul>

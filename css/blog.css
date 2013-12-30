@@ -6224,3 +6224,13 @@ pre code {
   float: right !important;
   margin: 10px;
 }
+pre {
+  overflow-x: auto;
+}
+pre code {
+  overflow-wrap: normal;
+  white-space: pre;
+}
+figure.code > figcaption {
+  font-style: italic;
+}

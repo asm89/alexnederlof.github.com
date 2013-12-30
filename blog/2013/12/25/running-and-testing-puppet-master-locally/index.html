@@ -1,0 +1,450 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Running and testing Puppet master locally - LexTech</title>
+  <meta name="author" content="Alex Nederlof">
+
+  
+  <meta name="description" content="Running and Testing Puppet Master Locally Dec 25th, 2013 About a month ago we started to use Puppet at Magnet.me. Puppet now automates all our &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://alex.nederlof.com/blog/2013/12/25/running-and-testing-puppet-master-locally/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/css/blog.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="LexTech" type="application/atom+xml">
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<script defer src="/javascripts/jquery-2.0.3.min.js"></script>
+<script defer src="/javascripts/bootstrap.min.js"></script>
+  
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-19911045-4', 'nederlof.com');
+	  ga('send', 'pageview');
+	</script>
+
+
+</head>
+
+<body>
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Lextech</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="/">Blog</a></li>
+		<li><a href="/about/">About</a></li>
+		<li><a href="/blog/archives">Archives</a></li>
+      </ul>
+
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="https://github.com/alexnederlof" title="GitHub: @alexnederlof"><i class="fa fa-github fa-2x"></i></a>
+			<li><a href="https://twitter.com/alexnederlof" title="Twitter: @alexnederlof"><i class="fa fa-twitter fa-2x"></i></a>
+			<li><a href="http://stackoverflow.com/users/679913/alex" title="Stack Exchange: @alexnederlof"><i class="fa fa-stack-overflow fa-2x"></i></a>
+			<li><a href="http://nl.linkedin.com/in/alexnederlof/" title="LinkedIn: @alexnederlof"><i class="fa fa-linkedin fa-2x"></i></a>
+		</ul>
+			
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container -->
+</nav>
+  <div class="container">
+	  <div class="row">
+			<div class="col-lg-8">
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Running and Testing Puppet Master Locally</h1>
+    
+    
+      <p class="meta"><i class="fa fa-clock-o"></i>
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-25T13:33:00+01:00" pubdate data-updated="true">Dec 25<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>About a month ago we started to use <a href="http://puppetlabs.com/">Puppet</a> at <a href="http://magnet.me">Magnet.me</a>. Puppet now automates all our server provisioning from our dev server, to the Raspberry Pi we have running at the office. While learning Puppet, we could not find any information about developing Puppet manifests locally and testing them on local copies of the machines. As a result, we ended up editing the Puppet manifests directly over an SSH connection. This prevented us from having a nice pull-request Git flow and often led to syntax errors in the manifests making it impossible for operational nodes to update. In this blog post, I will explain the solution we came up with to test our configurations on local VMs.</p>
+
+<!--more-->
+
+
+<p>This blog post assumes you have a Puppet configuration like in <code>/etc/puppet/</code> on your Puppet master which is also a Git repository. You should also have <a href="http://vagrantup.com">Vagrant</a> and <a href="https://www.virtualbox.org/">VirtualBox</a> installed. If you&rsquo;re trying to figure out how to set-up a Puppet master and some slaves I recommend reading the <a href="http://it-ebooks.info/book/730/" title="Pro Puppet book">Pro Puppet</a> book.</p>
+
+<h2>Setting up the Virtual Machine.</h2>
+
+<p>We do not actually require a running Puppet master but instead will use the <code>puppet apply</code> command. This will apply a given configuration from its local <code>/etc/puppet</code> directory depending on the VM&rsquo;s hostname.</p>
+
+<p>First we set-up our Vagrant file to start a machine (Ubuntu in this example), and we mount the <code>/etc/puppet</code> folder into place. Remember that your working directory (the Git repo) is that directory. To keep things tidy, we put the Vagrant file in a <code>test</code> folder in the repository. This means the directory structure of you Git repo will be something like:</p>
+
+<pre><code>- manifests
+    \- site.pp
+- modules
+    \- your modules (if any)
+- test
+    \- update-puppet.sh
+    \- Vagrantfile
+- puppet.conf
+</code></pre>
+
+<figure class='code'><figcaption><span>Vagrantfile </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># -*- mode: ruby -*-</span>
+</span><span class='line'><span class="c1"># vi: set ft=ruby :</span>
+</span><span class='line'><span class="no">Vagrant</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="s2">&quot;2&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span>     <span class="o">=</span> <span class="s2">&quot;precise32&quot;</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box_url</span> <span class="o">=</span> <span class="s2">&quot;http://files.vagrantup.com/precise64.box&quot;</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provider</span> <span class="ss">:virtualbox</span> <span class="k">do</span> <span class="o">|</span><span class="n">vb</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">vb</span><span class="o">.</span><span class="n">customize</span> <span class="o">[</span><span class="s2">&quot;modifyvm&quot;</span><span class="p">,</span> <span class="ss">:id</span><span class="p">,</span> <span class="s2">&quot;--memory&quot;</span><span class="p">,</span> <span class="mi">1028</span><span class="p">,</span> <span class="s2">&quot;--cpus&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Mount our repo onto /etc/puppet</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">synced_folder</span> <span class="s2">&quot;../&quot;</span><span class="p">,</span> <span class="s2">&quot;/etc/puppet&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Run our Puppet shell script  </span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="s2">&quot;shell&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">s</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;update-puppet.sh&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="s2">&quot;localdev.example.com&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you can see we are using the &ldquo;shell&rdquo; provisioner to run a special script <code>update-puppet</code> that runs <code>puppet apply</code>. The script first installs Puppet 3 and then runs <code>puppet apply</code>.</p>
+
+<figure class='code'><figcaption><span>update-puppet.sh</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Puppet version is $(puppet --version)&quot;</span>
+</span><span class='line'><span class="k">if</span> <span class="o">[</span> <span class="k">$(</span> puppet --version<span class="k">)</span> !<span class="o">=</span> <span class="s2">&quot;3.4.1&quot;</span> <span class="o">]</span>; <span class="k">then </span>
+</span><span class='line'><span class="k">  </span><span class="nb">echo</span> <span class="s2">&quot;Updating puppet&quot;</span>
+</span><span class='line'>  apt-get install --yes lsb-release
+</span><span class='line'>  <span class="nv">DISTRIB_CODENAME</span><span class="o">=</span><span class="k">$(</span>lsb_release --codename --short<span class="k">)</span>
+</span><span class='line'>  <span class="nv">DEB</span><span class="o">=</span><span class="s2">&quot;puppetlabs-release-${DISTRIB_CODENAME}.deb&quot;</span>
+</span><span class='line'>  <span class="nv">DEB_PROVIDES</span><span class="o">=</span><span class="s2">&quot;/etc/apt/sources.list.d/puppetlabs.list&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="o">[</span> ! -e <span class="nv">$DEB_PROVIDES</span> <span class="o">]</span>
+</span><span class='line'>  <span class="k">then</span>
+</span><span class='line'><span class="k">      </span>wget -q http://apt.puppetlabs.com/<span class="nv">$DEB</span>
+</span><span class='line'>      sudo dpkg -i <span class="nv">$DEB</span>
+</span><span class='line'>  <span class="k">fi</span>
+</span><span class='line'><span class="k">  </span>sudo apt-get update
+</span><span class='line'>  sudo apt-get install -o Dpkg::Options::<span class="o">=</span><span class="s2">&quot;--force-confold&quot;</span> --force-yes -y puppet
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'><span class="k">  </span><span class="nb">echo</span> <span class="s2">&quot;Puppet is up to date!&quot;</span>
+</span><span class='line'><span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Running puppet&quot;</span>
+</span><span class='line'>sudo puppet apply /etc/puppet/manifests/site.pp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Because the hostname of the machine is set to <code>localdev.example.com</code> Puppet will run that configuration from <code>manifests/site.pp</code>. The manifest installs some packages. For this example it just installs Git and vim. It looks like this:</p>
+
+<figure class='code'><figcaption><span>site.pp</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='puppet'><span class='line'><span class="c-Singleline"># -*- mode: ruby -*-</span>
+</span><span class='line'><span class="c-Singleline"># vi: set ft=ruby :</span>
+</span><span class='line'><span class="c-Singleline"># </span>
+</span><span class='line'><span class="kd">node</span> <span class="s1">&#39;localdev.example.com&#39;</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nc">package</span> <span class="p">{</span> <span class="p">[</span><span class="s1">&#39;vim&#39;</span><span class="p">,</span><span class="s1">&#39;git&#39;</span><span class="p">]</span> <span class="p">:</span>
+</span><span class='line'>      <span class="nt">ensure</span> <span class="p">=&gt;</span> <span class="ss">latest</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Once you have all these files in place you can visit your <code>test</code> folder and run <code>vagrant up</code>. This will load a new VM, install Puppet 3 using <code>update-puppet.sh</code> and then run puppet. You should see it installs vim and Git like in the output like so:</p>
+
+<pre><code>Notice: Compiled catalog for localdev.example.com in environment production in 0.09 seconds
+Notice: /Stage[main]/Main/Node[localdev.example.com]/Package[git]/ensure: created
+Notice: /Stage[main]/Main/Node[localdev.example.com]/Package[vim]/ensure: ensure changed 'purged' to 'latest'
+</code></pre>
+
+<h2>Configuring multiple machines</h2>
+
+<p>If you like us have multiple machines, we can easily adjust the files a little to test multiple machines. Lets say we also have the node <code>production.example.com</code>. First, we delete the previous VM we made by running <code>vagrant destroy -f</code> in the <code>test</code> folder. After that we adjust the Vagrant file to configure two hosts. First remove the old line <code>config.vm.hostname = "localdev.example.com"</code>, then add:</p>
+
+<pre><code>config.vm.define "localdev" do |localdev|
+    localdev.vm.hostname = "localdev.example.com"
+end
+
+config.vm.define "production" do |production|
+    production.vm.hostname = "app.magnet.me"
+end
+</code></pre>
+
+<p>Lets say our new production server should have <em>Curl</em> installed. We extend the <code>site.pp</code> with the new production server node:</p>
+
+<pre><code>node 'production.example.com' inherits 'localdev.example.com'  {
+  package { ['curl'] :
+      ensure =&gt; latest
+  }
+}
+</code></pre>
+
+<p>Now if we run <code>vagrant up</code> it will start botch machines. You can also run <code>vagrant up production</code> to just start the production machine. In the output, you should see that <em>production</em> installs <em>Curl</em>, but <em>localdev</em> does not. Congratulations, you can now develop Puppet on your local machine.</p>
+</div>
+
+<hr>
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Alex Nederlof</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-25T13:33:00+01:00" pubdate data-updated="true">Dec 25<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/automate-everything/'>Automate everything</a>, <a class='category' href='/blog/categories/puppet/'>Puppet</a>, <a class='category' href='/blog/categories/testing/'>Testing</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://alex.nederlof.com/blog/2013/12/25/running-and-testing-puppet-master-locally/" data-via="alexnederlof" data-counturl="http://alex.nederlof.com/blog/2013/12/25/running-and-testing-puppet-master-locally/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/07/28/caching-using-annotations-with-jersey/" title="Previous Post: Cache-Control using annotations with Jersey">&laquo; Cache-Control using annotations with Jersey</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar col-lg-4">
+  
+    
+<section class="well">
+	<h4>Blog Search</h4>   
+	<form action="http://google.com/search" method="get">
+  		<fieldset role="search">
+		   <div class="input-group">	
+    		<input type="hidden" name="q" value="site:alex.nederlof.com" />
+    		<input class="form-control" type="text" name="q" results="0" placeholder="Search"/>
+			<span class="input-group-btn">
+		        <button class="btn btn-default" type="button"><span class="fa fa-search"></span></button>
+		    </span>
+  </fieldset>
+</form>
+</section>
+
+<section class="well">
+  <h4>Recent Posts</h4>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/12/25/running-and-testing-puppet-master-locally/">Running and testing Puppet master locally</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/28/caching-using-annotations-with-jersey/">Cache-Control using annotations with Jersey</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/08/using-git-submodules-for-maven-artifacts-not-in-central/">Using Git submodules for Maven artifacts not in central</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/24/the-truth-about-code-reviews/">The truth about code reviews</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/18/visiting-github/">Visiting GitHub</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+	<p id="about">
+		<a href="https://github.com/alexnederlof" title="GitHub: @alexnederlof"><i class="fa fa-github fa-3x"></i></a>
+		<a href="https://twitter.com/alexnederlof" title="Twitter: @alexnederlof"><i class="fa fa-twitter fa-3x"></i></a>
+		<a href="http://stackoverflow.com/users/679913/alex" title="Stack Exchange: @alexnederlof"><i class="fa fa-stack-overflow fa-3x"></i></a>
+		<a href="http://nl.linkedin.com/in/alexnederlof/" title="LinkedIn: @alexnederlof"><i class="fa fa-linkedin fa-3x"></i></a>
+	</p>
+</section>
+  
+</aside>
+
+
+      </div>
+  	<footer><div class="row">
+  <div class="col-lg-12">
+	<p>
+  	Copyright &copy; 2013 - Alex Nederlof -
+  	<span class="credit">Powered by <a href="http://octopress.org">Octopress</a>. Theme by <a href="http://bootswatch.com">Bootswatch</a>.</span>
+	</p>
+  </div>
+</div>
+</footer>
+  	
+
+<script type="text/javascript">
+      var disqus_shortname = 'lextech';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://alex.nederlof.com/blog/2013/12/25/running-and-testing-puppet-master-locally/';
+        var disqus_url = 'http://alex.nederlof.com/blog/2013/12/25/running-and-testing-puppet-master-locally/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+  </div>
+</body>
+</html>
+

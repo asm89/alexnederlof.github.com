@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Research | LexTech]]></title>
   <link href="http://alex.nederlof.com/blog/categories/research/atom.xml" rel="self"/>
   <link href="http://alex.nederlof.com/"/>
-  <updated>2013-12-25T14:09:59+01:00</updated>
+  <updated>2013-12-30T11:25:31+01:00</updated>
   <id>http://alex.nederlof.com/</id>
   <author>
     <name><![CDATA[Alex Nederlof]]></name>
@@ -76,6 +76,95 @@
 <p>Code reviews are still very helpful however we should understand that their are not as useful for finding bugs as we might have thought. The tools we use for reviewing can still be improved. Until they do, make sure you appoint your reviews to the right person.</p>
 
 <p><em>N.B. Copyright notice: All data and graphs used in this post are from the <a href="http://www.inf.usi.ch/phd/bacchelli/publications/icse2013.pdf">original paper</a>.</em></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[LaTeX build server]]></title>
+    <link href="http://alex.nederlof.com/blog/2013/02/22/latex-build-server/"/>
+    <updated>2013-02-22T10:58:00+01:00</updated>
+    <id>http://alex.nederlof.com/blog/2013/02/22/latex-build-server</id>
+    <content type="html"><![CDATA[<p>I recently had to work with <a href="http://www.LaTeX-project.org/">LaTeX</a> again. Although LaTeX has its perks like a proper equation editor and BibTex I don&rsquo;t like working with it for several reasons:</p>
+
+<ol>
+<li>there is no proper <a href="http://en.wikipedia.org/wiki/WYSIWYG">WYSIWYG</a> editor that compiles while you type for OS X and the source files are hard to read by themselves</li>
+<li>you have to manually configure that it compiles LaTeX, then bibtex, and then LaTeX twice</li>
+<li>the horrors of positioning and loading images with all the different compilers, bounding boxes, etc.</li>
+<li>the fact that they have their own <a href="http://tex.stackexchange.com/">Stack exchange Q&amp;A</a> is an indication of how arcane it is.</li>
+</ol>
+
+
+<p>Because the source files are so unpleasant to read, you always have to make sure you send the compiled latest version of your document to the right people. What I like about some MarkDown related projects like <a href="https://github.com/mojombo/jekyll">Jekyll</a> and <a href="octopress.org">Octopress</a> is the way you can push the source to for example GitHub, and they build the site for you. I wanted that for LaTeX as well. Using a simple script I now have my own LaTeX build server. This way my colleagues and I can always see the latest version of the document in any browser so I don&rsquo;t have to think about distributing the latest version to the right people or devices.</p>
+
+<p>The end result is nice and simple listing of the PDF, diff and log in a folder that indicates the build date:</p>
+
+<p><img class="[End result]" src="/images/latex-build.png" title="End result" ></p>
+
+<!--more-->
+
+
+<h3>Setting it up</h3>
+
+<p>I host my own Git server so I hooked the script as a <code>post-receive</code> script in the Git hooks directory. If you are running elsewhere you could also do it via a WebHook I guess. You need a workspace folder to checkout the project and a web folder to dump the results in. Here is the script:</p>
+
+<p><div><script src='https://gist.github.com/5015614.js'></script>
+<noscript><pre><code>#!/bin/sh
+
+WEBDIR=yourwebdir
+WORKSPACE=your/workspace
+TEX_FILE_NAME=your_file
+
+echo
+echo &quot;**** Pulling changes into Live [Hub&#39;s post-update hook]&quot;
+echo
+
+# Go to the checked-out version of repo
+cd $WORKSPACE || exit
+unset GIT_DIR
+
+# Save the current commit id so we can calculate the diff
+current=`git rev-parse HEAD`
+
+# Update the latest changes in master
+git pull origin master
+
+# Compile the LaTex stuff
+pdflatex -interaction=batchmode $TEX_FILE_NAME.tex &gt; /dev/null
+bibtex -terse $TEX_FILE_NAME
+pdflatex -interaction=batchmode $TEX_FILE_NAME.tex &gt; /dev/null
+pdflatex -interaction=batchmode $TEX_FILE_NAME.tex
+
+# Create a folder for the new build
+NOW=$(date +&quot;%m-%d-%Y-%H%M&quot;)
+OUT_DIR=$WEBDIR/$NOW
+mkdir $OUT_DIR 
+
+# Move the results to the output directory
+cp $TEX_FILE_NAME.pdf $OUT_DIR/$TEX_FILE_NAME-$NOW-.pdf
+
+# Make a syntax highlighted diff in the output directory
+git diff $current..HEAD | pygmentize -l diff -f html -O full &gt; $OUT_DIR/diff.html
+
+# Output the log messages to the output directory
+git log $current..HEAD &gt; $OUT_DIR/log.txt
+
+# And we&#39;re all done
+exec git update-server-info
+</code></pre></noscript></div>
+</p>
+
+<p>I use <a href="http://pygments.org/">Pygments</a> to format the diff file and <code>pdflatex</code> to parse the LaTeX. Make sure you have these packages installed on you system.</p>
+
+<p>I&rsquo;m running Apache which gives a nice directory listing. However, it sorts the files in the wrong order. I want the most recent to be on top. Luckily this can be configured in Apache using the <code>IndexOrderDefault Descending Date</code> in your configuration.</p>
+
+<h3>Potential improvements:</h3>
+
+<ul>
+<li>I use a static location for the work folder but you could also create a temporary folder and delete it afterwards.</li>
+<li>This script only builds the master branch, you could also create a per-branch output folder system.</li>
+<li>Adding <a href="http://kernel.org/pub/software/scm/git/docs/git-describe.html">git-discribe</a> to the output would be nice.</li>
+</ul>
+
 ]]></content>
   </entry>
   
