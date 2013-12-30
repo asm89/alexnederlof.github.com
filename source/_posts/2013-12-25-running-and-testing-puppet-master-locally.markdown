@@ -53,7 +53,7 @@ As you can see we are using the "shell" provisioner to run a special script `upd
 ```bash update-puppet.sh
 #!/bin/bash
 echo "Puppet version is $(puppet --version)"
-if [ $( puppet --version) != "3.3.2" ]; then 
+if [ $( puppet --version) != "3.4.1" ]; then 
 	echo "Updating puppet"
 	apt-get install --yes lsb-release
 	DISTRIB_CODENAME=$(lsb_release --codename --short)
@@ -114,6 +114,6 @@ Lets say our new production server should have *Curl* installed. We extend the `
 	  }
 	}
 	
-Now if we run `vagrant up` it will start botch machines. You can also run `vagrant up production` to just start the production machine. In the output, you should see that *production* installs *Curl*, but *localdev* does not.
+Now if we run `vagrant up` it will start botch machines. You can also run `vagrant up production` to just start the production machine. In the output, you should see that *production* installs *Curl*, but *localdev* does not. Congratulations, you can now develop Puppet on your local machine.
 
 [pro-puppet]: http://it-ebooks.info/book/730/  "Pro Puppet book"
