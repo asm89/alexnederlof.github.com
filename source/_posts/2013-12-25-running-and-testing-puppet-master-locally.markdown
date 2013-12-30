@@ -98,15 +98,13 @@ Once you have all these files in place you can visit your `test` folder and run 
 
 If you like us have multiple machines, we can easily adjust the files a little to test multiple machines. Lets say we also have the node `production.example.com`. First, we delete the previous VM we made by running `vagrant destroy -f` in the `test` folder. After that we adjust the Vagrant file to configure two hosts. First remove the old line `config.vm.hostname = "localdev.example.com"`, then add: 
 
-```puppet linenos:false
-config.vm.define "localdev" do |localdev|
-	localdev.vm.hostname = "localdev.example.com"
-end
+	config.vm.define "localdev" do |localdev|
+		localdev.vm.hostname = "localdev.example.com"
+	end
 
-config.vm.define "production" do |production|
-	production.vm.hostname = "app.magnet.me"
-end
-```
+	config.vm.define "production" do |production|
+		production.vm.hostname = "app.magnet.me"
+	end
 
 Lets say our new production server should have *Curl* installed. We extend the `site.pp` with the new production server node:
 
